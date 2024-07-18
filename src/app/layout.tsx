@@ -3,6 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { cookieToInitialState } from "wagmi";
+import { config } from "@/config/wagmi";
+import Web3ModalProvider from "@/context/wagmi";
+import { headers } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,13 +20,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialState = cookieToInitialState(config, headers().get("cookie"));
   return (
     <html lang="en">
       <body className={inter.className}>
         <div className="min-h-screen flex flex-col gap-24 relative overflow-x-hidden">
-          <Header />
-          <div className="flex-1">{children}</div>
-          <Footer />
+          <Web3ModalProvider initialState={initialState}>
+            <Header />
+            <div className="flex-1">{children}</div>
+            <Footer />
+          </Web3ModalProvider>
         </div>
       </body>
     </html>
