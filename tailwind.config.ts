@@ -12,6 +12,10 @@ const config: Config = {
         500: "#5326EC",
       },
     },
+    container: {
+      center: true,
+      padding: "1rem",
+    },
     extend: {},
   },
   plugins: [],
