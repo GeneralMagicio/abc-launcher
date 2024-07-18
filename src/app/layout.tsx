@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
-        <div className="min-h-screen flex flex-col gap-24 relative overflow-x-hidden">
+        <div className="min-h-screen flex flex-col relative overflow-x-hidden">
           <Web3ModalProvider initialState={initialState}>
             <Header />
             <div className="flex-1">{children}</div>
