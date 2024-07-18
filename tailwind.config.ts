@@ -7,16 +7,20 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    colors: {
-      giv: {
-        500: "#5326EC",
-      },
-    },
     container: {
       center: true,
       padding: "1rem",
     },
-    extend: {},
+    extend: {
+      colors: {
+        giv: {
+          500: "#5326EC",
+        },
+        pink: {
+          500: "#E1458D",
+        },
+      },
+    },
   },
   plugins: [],
 };

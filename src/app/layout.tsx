@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Nunito_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -8,7 +8,7 @@ import { config } from "@/config/wagmi";
 import Web3ModalProvider from "@/context/wagmi";
 import { headers } from "next/headers";
 
-const inter = Inter({ subsets: ["latin"] });
+const nunito = Nunito_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,8 +23,8 @@ export default function RootLayout({
   const initialState = cookieToInitialState(config, headers().get("cookie"));
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="min-h-screen flex flex-col gap-24 relative overflow-x-hidden">
+      <body className={nunito.className}>
+        <div className="min-h-screen flex flex-col relative overflow-x-hidden">
           <Web3ModalProvider initialState={initialState}>
             <Header />
             <div className="flex-1">{children}</div>
