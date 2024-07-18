@@ -14,6 +14,12 @@ export default function Home() {
       </div>
       <div className="flex gap-4">
         <p className="text-2xl">Start the process by connecting your wallet</p>
+        <Image
+          src="/images/icons/arrow-right.svg"
+          alt="logo"
+          width={32}
+          height={32}
+        />
       </div>
       <Button>Launch Token</Button>
     </main>
