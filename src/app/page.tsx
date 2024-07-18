@@ -8,12 +8,14 @@ export default function Home() {
         <h1 className="text-5xl	font-bold leading-normal">
           Launch your token economy
         </h1>
-        <p className="font-bold text-2xl max-w-[620px]">
+        <p className="font-semibold text-2xl max-w-[620px]">
           Create your regenerative economy with Augmented Bonding Curves.
         </p>
       </div>
       <div className="flex gap-4">
-        <p className="text-2xl">Start the process by connecting your wallet</p>
+        <p className="text-2xl font-light">
+          Start the process by connecting your wallet
+        </p>
         <Image
           src="/images/icons/arrow-right.svg"
           alt="logo"
