@@ -3,25 +3,19 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="container text-center">
-      <div className="flex flex-col">
-        <div className="inline-block">
-          <h1 className="text-5xl font-bold leading-normal whitespace-nowrap">
-            Launch your token economy
-          </h1>
-          <p className="font-bold text-2xl mt-2">
-            Create your regenerative economy with Augmented Bonding Curves.
-          </p>
-        </div>
+    <main className="container text-center flex flex-col items-center gap-8">
+      <div className="flex flex-col items-center gap-6 py-10">
+        <h1 className="text-5xl	font-bold leading-normal">
+          Launch your token economy
+        </h1>
+        <p className="font-bold text-2xl max-w-[620px]">
+          Create your regenerative economy with Augmented Bonding Curves.
+        </p>
       </div>
-      <div className="flex flex-col items-center">
-        <div className="flex gap-4">
-          <p className="text-2xl">
-            Start the process by connecting your wallet
-          </p>
-        </div>
-        <Button>Launch Token</Button>
+      <div className="flex gap-4">
+        <p className="text-2xl">Start the process by connecting your wallet</p>
       </div>
+      <Button>Launch Token</Button>
     </main>
   );
 }
