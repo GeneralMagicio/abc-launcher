@@ -1,5 +1,7 @@
-import { Button } from "@/components/Button";
 import Image from "next/image";
+import { useAccount, useConnect } from "wagmi";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { ConnectButton } from "@/components/ConnectButton";
 
 export default function Home() {
   return (
@@ -23,7 +25,7 @@ export default function Home() {
           height={32}
         />
       </div>
-      <Button>Launch Token</Button>
+      <ConnectButton>Launch Token</ConnectButton>
     </main>
   );
 }
