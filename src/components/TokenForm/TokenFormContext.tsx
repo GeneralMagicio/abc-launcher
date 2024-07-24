@@ -7,6 +7,7 @@ interface FormData {
   projectAddress: string;
   agreedToTerms: boolean;
   agreedToPolicy: boolean;
+  addressConfirmed: boolean;
 }
 
 interface TokenFormContextType {
@@ -28,6 +29,7 @@ export const TokenFormProvider: React.FC<{ children: ReactNode }> = ({
     projectAddress: "",
     agreedToTerms: false,
     agreedToPolicy: false,
+    addressConfirmed: false,
   });
 
   const setFormData = (data: Partial<FormData>) => {
