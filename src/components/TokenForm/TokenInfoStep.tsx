@@ -41,11 +41,13 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
         <Input
           name="tokenName"
           label="Token Name"
+          placeholder="Enter the name of your Token"
           rules={{ required: "Token Name is required" }}
         />
         <Input
           name="tokenTicker"
           label="Token Ticker"
+          placeholder="Enter your Token Ticker"
           rules={{ required: "Token Ticker is required" }}
         />
 
@@ -60,6 +62,7 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           name="projectAddress"
           label="Project Address"
           rules={{ required: "Project Address is required" }}
+          placeholder="Enter project address"
         />
 
         <Checkbox
