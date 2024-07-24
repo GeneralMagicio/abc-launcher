@@ -70,12 +70,7 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           }}
         />
 
-        <StepNavigation
-          currentStep={1}
-          totalSteps={4}
-          onNext={onNext}
-          onBack={onBack}
-        />
+        <StepNavigation currentStep={1} totalSteps={4} onBack={onBack} />
       </form>
     </FormProvider>
   );

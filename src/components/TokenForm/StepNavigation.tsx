@@ -3,7 +3,7 @@ import React from "react";
 interface StepNavigationProps {
   currentStep: number;
   totalSteps: number;
-  onNext: () => void;
+  onNext?: () => void;
   onBack: () => void;
 }
 
@@ -24,8 +24,8 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
         Back
       </button>
       <button
-        type="button"
-        onClick={onNext}
+        type="submit"
+        onClick={() => onNext?.()}
         className={`btn btn-primary ${
           currentStep === totalSteps ? "invisible" : ""
         }`}
