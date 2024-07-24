@@ -1,21 +1,42 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+"use client";
 
-enum EFromSteps {
+import PolicyStep from "@/components/TokenForm/PolicyStep";
+import TermsStep from "@/components/TokenForm/TermStep";
+import { TokenFormProvider } from "@/components/TokenForm/TokenFormContext";
+import TokenInfoStep from "@/components/TokenForm/TokenInfoStep";
+import React, { useState } from "react";
+
+export enum FormSteps {
   TokenInfo = 1,
   Terms,
   Policy,
+  Confirm,
+  Success,
 }
 
 export default function TokenFormPage() {
   const [step, setStep] = useState(1);
+
+  const handleNext = () => {
+    setStep((prevStep) => prevStep + 1);
+  };
+
+  const handleSubmit = () => {
+    // Handle form submission
+    console.log("Form submitted");
+  };
+
   return (
-    <main className="container text-center">
-      <div className=" bg-white rounded-2xl flex flex-col items-center gap-24 max-w-3xl mx-auto">
-        <div className=" pt-20 flex gap-10 max-w-96">
-          <h1 className="text-5xl font-medium">Name your Token</h1>
+    <TokenFormProvider>
+      <main className="container">
+        <div className=" bg-white rounded-2xl flex flex-col items-center gap-24 max-w-3xl mx-auto">
+          {step === FormSteps.TokenInfo && (
+            <TokenInfoStep onNext={handleNext} />
+          )}
+          {step === FormSteps.Terms && <TermsStep onNext={handleNext} />}
+          {step === FormSteps.Policy && <PolicyStep onSubmit={handleSubmit} />}
         </div>
-      </div>
-    </main>
+      </main>
+    </TokenFormProvider>
   );
 }
