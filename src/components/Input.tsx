@@ -1,14 +1,19 @@
-import React from "react";
 import { useFormContext, RegisterOptions } from "react-hook-form";
+import type { InputHTMLAttributes } from "react";
 
-interface InputProps {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label: string;
   rules?: RegisterOptions;
-  type?: string;
 }
 
-const Input: React.FC<InputProps> = ({ name, label, rules, type = "text" }) => {
+const Input: React.FC<InputProps> = ({
+  name,
+  label,
+  rules,
+  type = "text",
+  ...props
+}) => {
   const {
     register,
     formState: { errors },
@@ -23,6 +28,7 @@ const Input: React.FC<InputProps> = ({ name, label, rules, type = "text" }) => {
         className={`px-4 py-4 mt-1 block w-full rounded-lg border-2 ${
           errors[name] ? "border-red-500" : "border-gray-200"
         } focus:outline-none focus:border-gray-300 focus:ring-0 text-base sm:text-sm`}
+        {...props}
       />
       {errors[name] && (
         <p className="text-red-500 text-xs mt-1">
