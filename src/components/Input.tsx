@@ -20,11 +20,13 @@ const Input: React.FC<InputProps> = ({ name, label, rules, type = "text" }) => {
       <input
         {...register(name, rules)}
         type={type}
-        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        className={`mt-1 block w-full rounded-md border-2 ${
+          errors[name] ? "border-red-500" : "border-gray-300"
+        } shadow-sm focus:border-gray-500 focus:ring-0 sm:text-sm`}
       />
       {errors[name] && (
         <p className="text-red-500 text-xs mt-1">
-          {errors[name]?.message as string}
+          {(errors[name]?.message as string) || "Error"}
         </p>
       )}
     </div>
