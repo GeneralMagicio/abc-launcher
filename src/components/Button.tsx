@@ -1,5 +1,5 @@
 import { FC, ButtonHTMLAttributes } from "react";
-import { Spinner } from "./loading/spinner";
+import { Spinner } from "./Loading/Spinner";
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
