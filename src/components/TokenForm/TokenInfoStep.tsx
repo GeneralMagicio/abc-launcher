@@ -48,7 +48,13 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           name="tokenTicker"
           label="Token Ticker"
           placeholder="Enter your Token Ticker"
-          rules={{ required: "Token Ticker is required" }}
+          rules={{
+            required: "Token Ticker is required",
+            maxLength: {
+              value: 4,
+              message: "Token Ticker cannot exceed 4 characters",
+            },
+          }}
         />
 
         <div>
