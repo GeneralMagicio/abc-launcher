@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm, FormProvider as RHFProvider } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import Input from "@/components/Input";
 import { Dropzone } from "@/components/Dropzone";
 import { useTokenFormContext } from "./TokenFormContext";
@@ -28,7 +28,7 @@ const TokenInfoStep: React.FC<{ onNext: () => void }> = ({ onNext }) => {
   };
 
   return (
-    <RHFProvider {...methods}>
+    <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <Input
           name="tokenName"
@@ -58,7 +58,7 @@ const TokenInfoStep: React.FC<{ onNext: () => void }> = ({ onNext }) => {
           Next
         </button>
       </form>
-    </RHFProvider>
+    </FormProvider>
   );
 };
 
