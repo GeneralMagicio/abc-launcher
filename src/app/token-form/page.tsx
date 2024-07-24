@@ -15,7 +15,7 @@ export enum FormSteps {
 }
 
 export default function TokenFormPage() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(FormSteps.TokenInfo);
 
   const handleNext = () => {
     setStep((prevStep) => prevStep + 1);
