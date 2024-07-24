@@ -1,7 +1,11 @@
 import React from "react";
+import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
 
-const PolicyStep: React.FC<{ onSubmit: () => void }> = ({ onSubmit }) => {
+const PolicyStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
+  onNext,
+  onBack,
+}) => {
   const { formData, setFormData } = useTokenFormContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -11,7 +15,7 @@ const PolicyStep: React.FC<{ onSubmit: () => void }> = ({ onSubmit }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.agreedToPolicy) {
-      onSubmit();
+      onNext();
     }
   };
 
@@ -28,9 +32,12 @@ const PolicyStep: React.FC<{ onSubmit: () => void }> = ({ onSubmit }) => {
           <span className="ml-2">I agree to the Privacy Policy</span>
         </label>
       </div>
-      <button type="submit" className="btn btn-primary">
-        Submit
-      </button>
+      <StepNavigation
+        currentStep={3}
+        totalSteps={4}
+        onNext={onNext}
+        onBack={onBack}
+      />
     </form>
   );
 };
