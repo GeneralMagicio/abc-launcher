@@ -3,6 +3,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import Input from "@/components/Input";
 import { Dropzone } from "@/components/Dropzone";
 import { useTokenFormContext } from "./TokenFormContext";
+import Checkbox from "../Checkbox";
 
 interface FormData {
   tokenName: string;
@@ -52,6 +53,14 @@ const TokenInfoStep: React.FC<{ onNext: () => void }> = ({ onNext }) => {
           name="projectAddress"
           label="Project Address"
           rules={{ required: "Project Address is required" }}
+        />
+
+        <Checkbox
+          name="addressConfirmed"
+          label="I confirm I have access to this address."
+          rules={{
+            required: "You must confirm you have access to this address.",
+          }}
         />
 
         <button type="submit" className="btn btn-primary">
