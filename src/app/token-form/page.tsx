@@ -21,6 +21,10 @@ export default function TokenFormPage() {
     setStep((prevStep) => prevStep + 1);
   };
 
+  const handleBack = () => {
+    setStep((prevStep) => prevStep - 1);
+  };
+
   const handleSubmit = () => {
     // Handle form submission
     console.log("Form submitted");
@@ -31,10 +35,14 @@ export default function TokenFormPage() {
       <main className="container">
         <div className=" bg-white rounded-2xl flex flex-col items-center gap-24 max-w-3xl mx-auto">
           {step === FormSteps.TokenInfo && (
-            <TokenInfoStep onNext={handleNext} />
+            <TokenInfoStep onNext={handleNext} onBack={handleBack} />
           )}
-          {step === FormSteps.Terms && <TermsStep onNext={handleNext} />}
-          {step === FormSteps.Policy && <PolicyStep onSubmit={handleSubmit} />}
+          {step === FormSteps.Terms && (
+            <TermsStep onNext={handleNext} onBack={handleBack} />
+          )}
+          {step === FormSteps.Policy && (
+            <PolicyStep onNext={handleSubmit} onBack={handleBack} />
+          )}
         </div>
       </main>
     </TokenFormProvider>

@@ -1,20 +1,27 @@
 import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import Input from "@/components/Input";
+import Checkbox from "@/components/Checkbox";
 import { Dropzone } from "@/components/Dropzone";
+import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
-import Checkbox from "../Checkbox";
 
 interface FormData {
   tokenName: string;
   tokenTicker: string;
   tokenIcon: File | null;
   projectAddress: string;
+  addressConfirmed: boolean;
 }
 
-const TokenInfoStep: React.FC<{ onNext: () => void }> = ({ onNext }) => {
-  const { setFormData } = useTokenFormContext();
-  const methods = useForm<FormData>();
+const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
+  onNext,
+  onBack,
+}) => {
+  const { formData, setFormData } = useTokenFormContext();
+  const methods = useForm<FormData>({
+    defaultValues: formData,
+  });
   const { handleSubmit, setValue } = methods;
 
   const handleDrop = (acceptedFiles: File[]) => {
@@ -63,9 +70,12 @@ const TokenInfoStep: React.FC<{ onNext: () => void }> = ({ onNext }) => {
           }}
         />
 
-        <button type="submit" className="btn btn-primary">
-          Next
-        </button>
+        <StepNavigation
+          currentStep={1}
+          totalSteps={4}
+          onNext={onNext}
+          onBack={onBack}
+        />
       </form>
     </FormProvider>
   );
