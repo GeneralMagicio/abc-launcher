@@ -1,7 +1,11 @@
 import React from "react";
+import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
 
-const TermsStep: React.FC<{ onNext: () => void }> = ({ onNext }) => {
+const TermsStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
+  onNext,
+  onBack,
+}) => {
   const { formData, setFormData } = useTokenFormContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,9 +32,12 @@ const TermsStep: React.FC<{ onNext: () => void }> = ({ onNext }) => {
           <span className="ml-2">I agree to the Terms and Conditions</span>
         </label>
       </div>
-      <button type="submit" className="btn btn-primary">
-        Next
-      </button>
+      <StepNavigation
+        currentStep={2}
+        totalSteps={4}
+        onNext={onNext}
+        onBack={onBack}
+      />
     </form>
   );
 };
