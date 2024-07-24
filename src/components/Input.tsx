@@ -22,7 +22,7 @@ const Input: React.FC<InputProps> = ({ name, label, rules, type = "text" }) => {
         type={type}
         className={`mt-1 block w-full rounded-md border-2 ${
           errors[name] ? "border-red-500" : "border-gray-300"
-        } shadow-sm focus:border-gray-500 focus:ring-0 sm:text-sm`}
+        } shadow-sm focus:outline-none focus:border-gray-500 focus:ring-0 sm:text-sm`}
       />
       {errors[name] && (
         <p className="text-red-500 text-xs mt-1">
