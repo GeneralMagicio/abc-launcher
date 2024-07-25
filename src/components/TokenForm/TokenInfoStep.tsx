@@ -39,9 +39,9 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-4 flex flex-col gap-24 pt-20"
+        className="flex flex-col gap-24 pt-20 w-full"
       >
-        <section className="flex flex-col gap-4">
+        <section className="flex flex-col gap-4 w-2/4 mx-auto">
           <h1 className="text-4xl font-bold text-gray-800 text-center mb-7">
             Name your Token
           </h1>
@@ -65,14 +65,14 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           />
         </section>
 
-        <section className="flex flex-col gap-4">
+        <section className="flex flex-col gap-4 w-2/4 mx-auto">
           <label className="text-4xl font-bold text-gray-800 text-center mb-7">
             Upload Token icon
           </label>
           <Dropzone onDrop={handleDrop} />
         </section>
 
-        <section className="flex flex-col gap-4">
+        <section className="flex flex-col gap-4 w-2/4 mx-auto">
           <h1 className="text-4xl font-bold text-gray-800 text-center mb-7">
             Enter Project Address
           </h1>
