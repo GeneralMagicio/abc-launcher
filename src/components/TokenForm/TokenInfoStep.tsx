@@ -2,9 +2,9 @@ import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import Input from "@/components/Input";
 import Checkbox from "@/components/Checkbox";
-import { Dropzone } from "@/components/Dropzone";
 import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
+import { Dropzone } from "@/components/DropZone";
 
 interface FormData {
   tokenName: string;
