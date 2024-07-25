@@ -10,9 +10,9 @@ export const ConnectButton: React.FC = () => {
     open();
   };
 
-  const buttonLabel = isDisconnected
-    ? "Connect Wallet"
-    : `${address?.slice(0, 6)}...${address?.slice(-4)}`;
+  const buttonLabel = address
+    ? `${address?.slice(0, 6)}...${address?.slice(-4)}`
+    : "Connect Wallet";
 
   return (
     <div className="relative">
@@ -21,9 +21,9 @@ export const ConnectButton: React.FC = () => {
         disabled={isConnecting}
         className={`px-4 py-3 font-bold rounded-full transition-colors duration-300 flex items-center justify-center gap-2
           ${
-            isDisconnected
-              ? "bg-pink-500 text-white hover:bg-pink-600"
-              : "bg-white text-gray-400 shadow-sm hover:shadow-md"
+            address
+              ? "bg-white text-gray-400 shadow-sm hover:shadow-md"
+              : "bg-pink-500 text-white hover:bg-pink-600"
           }
         `}
       >
