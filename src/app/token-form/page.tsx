@@ -1,5 +1,6 @@
 "use client";
 
+import ConfirmStep from "@/components/TokenForm/ConfirmStep";
 import PolicyStep from "@/components/TokenForm/PolicyStep";
 import TermsStep from "@/components/TokenForm/TermStep";
 import { TokenFormProvider } from "@/components/TokenForm/TokenFormContext";
@@ -41,7 +42,10 @@ export default function TokenFormPage() {
             <TermsStep onNext={handleNext} onBack={handleBack} />
           )}
           {step === FormSteps.Policy && (
-            <PolicyStep onNext={handleSubmit} onBack={handleBack} />
+            <PolicyStep onNext={handleNext} onBack={handleBack} />
+          )}
+          {step === FormSteps.Confirm && (
+            <ConfirmStep onNext={handleNext} onBack={handleBack} />
           )}
         </div>
       </main>
