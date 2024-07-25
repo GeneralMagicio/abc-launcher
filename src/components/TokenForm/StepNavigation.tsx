@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, ButtonColor, ButtonStyle } from "../Button";
 
 interface StepNavigationProps {
   currentStep: number;
@@ -14,16 +15,18 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
   onBack,
 }) => {
   return (
-    <div className="flex justify-between mt-4">
-      <button
+    <div className="py-8 px-10 flex justify-between mt-4 border-t-2">
+      <Button
         type="button"
         onClick={onBack}
         className={`btn btn-secondary ${currentStep === 1 ? "invisible" : ""}`}
         disabled={currentStep === 1}
+        styleType={ButtonStyle.Text}
+        color={ButtonColor.Giv}
       >
         Back
-      </button>
-      <button
+      </Button>
+      <Button
         type="submit"
         onClick={() => onNext?.()}
         className={`btn btn-primary ${
@@ -32,7 +35,7 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
         disabled={currentStep === totalSteps}
       >
         Next
-      </button>
+      </Button>
     </div>
   );
 };
