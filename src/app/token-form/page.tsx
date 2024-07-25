@@ -6,7 +6,7 @@ import { TokenFormProvider } from "@/components/TokenForm/TokenFormContext";
 import TokenInfoStep from "@/components/TokenForm/TokenInfoStep";
 import React, { useState } from "react";
 
-export enum FormSteps {
+enum FormSteps {
   TokenInfo = 1,
   Terms,
   Policy,
