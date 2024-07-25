@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
 import Checkbox from "../Checkbox";
@@ -8,12 +8,32 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
   onBack,
 }) => {
+  const { formData } = useTokenFormContext();
   const methods = useForm<FormData>();
   const { handleSubmit, setValue } = methods;
 
   const onSubmit = (data: FormData) => {
     onNext();
   };
+
+  const info = [
+    {
+      label: "Token Full Name",
+      value: formData.tokenName,
+    },
+    {
+      label: "Token Ticker",
+      value: formData.tokenTicker,
+    },
+    {
+      label: "Token Icon",
+      value: formData.tokenIcon,
+    },
+    {
+      label: "Project Address",
+      value: formData.projectAddress,
+    },
+  ];
 
   return (
     <FormProvider {...methods}>
@@ -25,6 +45,14 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           <h1 className="text-4xl font-bold text-gray-800 text-center mb-7">
             Final Confirmation
           </h1>
+          <div className="grid grid-cols-2 gap-y-4">
+            {info.map((item) => (
+              <Fragment key={item.label}>
+                <p className="text-lg text-gray-600">{item.label}</p>
+                <p className="text-lg text-gray-600">{item.value}</p>
+              </Fragment>
+            ))}
+          </div>
           <Checkbox
             name="acceptTerms"
             label="I reviewed all parameters and I accept them.."
