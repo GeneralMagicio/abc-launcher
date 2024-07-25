@@ -20,18 +20,18 @@ const Input: React.FC<InputProps> = ({
   } = useFormContext();
 
   return (
-    <div>
+    <div className="relative">
       <label className="block text-sm font-medium text-gray-700">{label}</label>
       <input
         {...register(name, rules)}
         type={type}
         className={`px-4 py-4 mt-1 block w-full rounded-lg border-2 ${
           errors[name] ? "border-red-500" : "border-gray-200"
-        } focus:outline-none focus:border-gray-300 focus:ring-0 text-base sm:text-sm`}
+        } focus:outline-none focus:border-gray-300 focus:ring-0 text-base sm:text-sm mb-4`}
         {...props}
       />
       {errors[name] && (
-        <p className="text-red-500 text-xs mt-1">
+        <p className="absolute text-red-500 text-xs mt-1 -bottom-1">
           {(errors[name]?.message as string) || "Error"}
         </p>
       )}
