@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 interface FormData {
   tokenName: string;
   tokenTicker: string;
-  tokenIcon: File | null;
+  tokenIcon: string | null;
   projectAddress: string;
   agreedToTerms: boolean;
   agreedToPolicy: boolean;

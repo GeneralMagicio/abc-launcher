@@ -2,15 +2,24 @@ import React from "react";
 import StepNavigation from "./StepNavigation";
 import { useForm, FormProvider } from "react-hook-form";
 import Checkbox from "../Checkbox";
+import { useTokenFormContext } from "./TokenFormContext";
+
+interface FormData {
+  agreedToPolicy: boolean;
+}
 
 const PolicyStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
   onBack,
 }) => {
-  const methods = useForm<FormData>();
-  const { handleSubmit, setValue } = methods;
+  const { formData, setFormData } = useTokenFormContext();
+  const methods = useForm<FormData>({
+    defaultValues: formData,
+  });
+  const { handleSubmit } = methods;
 
   const onSubmit = (data: FormData) => {
+    setFormData(data);
     onNext();
   };
 
@@ -39,14 +48,14 @@ const PolicyStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             use on this website.
           </p>
           <Checkbox
-            name="acceptPolicy"
+            name="agreedToPolicy"
             label="I have read and agree to the Privacy Policy."
             rules={{
               required: "You must agree to the Privacy Policy to continue",
             }}
           />
         </section>
-        <StepNavigation currentStep={2} totalSteps={4} onBack={onBack} />
+        <StepNavigation currentStep={3} totalSteps={4} onBack={onBack} />
       </form>
     </FormProvider>
   );

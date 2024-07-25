@@ -2,13 +2,13 @@ import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
 interface DropzoneProps {
-  onDrop: (acceptedFiles: File[]) => void;
+  onDrop: (acceptedFiles: string) => void;
 }
 
 export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
   const onDropCallback = useCallback(
     (acceptedFiles: File[]) => {
-      onDrop(acceptedFiles);
+      onDrop(acceptedFiles[0].name);
     },
     [onDrop]
   );
