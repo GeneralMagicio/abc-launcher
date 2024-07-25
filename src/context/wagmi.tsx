@@ -3,7 +3,7 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import { config, projectId } from "@/config/wagmi";
+import { wagmiConfig, projectId } from "@/config/wagmi";
 
 import { createWeb3Modal } from "@web3modal/wagmi/react";
 
@@ -18,7 +18,7 @@ if (!projectId) throw new Error("Project ID is not defined");
 
 // Create modal
 createWeb3Modal({
-  wagmiConfig: config,
+  wagmiConfig: wagmiConfig,
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
   enableOnramp: true, // Optional - false as default
@@ -32,7 +32,7 @@ export default function Web3ModalProvider({
   initialState?: State;
 }) {
   return (
-    <WagmiProvider config={config} initialState={initialState}>
+    <WagmiProvider config={wagmiConfig} initialState={initialState}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </WagmiProvider>
   );

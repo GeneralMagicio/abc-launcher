@@ -1,12 +1,19 @@
-import { type FC } from "react";
+import { FC, ButtonHTMLAttributes } from "react";
+import { Spinner } from "./Loading/Spinner";
 
-interface IButtonProps {
+interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
+  loading?: boolean;
 }
 
-export const Button: FC<IButtonProps> = ({ children }) => {
+export const Button: FC<IButtonProps> = ({ children, loading, ...props }) => {
   return (
-    <button className="inline-block text-white font-bold text-xs border-none rounded-full bg-pink-500 py-4 px-10">
+    <button
+      {...props}
+      className="text-white font-bold text-xs border-none rounded-full bg-pink-500 py-4 px-10 flex gap-2"
+      disabled={loading || props.disabled}
+    >
+      {loading && <Spinner size={16} />}
       {children}
     </button>
   );

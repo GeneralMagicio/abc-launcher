@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export const Header = () => {
   return (
-    <div className="p-6 flex gap-4 items-center">
+    <div className="p-6 flex gap-4 items-center bg-white">
       <Image
         src="/images/icons/logomark-dark.svg"
         alt="logo"
