@@ -19,6 +19,11 @@ const config: Config = {
         pink: {
           500: "#E1458D",
         },
+        success: {
+          100: "#D2FFFB",
+          600: "#2EA096",
+          700: "#1B8C82",
+        },
       },
     },
   },
