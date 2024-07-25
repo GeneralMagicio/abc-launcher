@@ -3,6 +3,7 @@ import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
 import Checkbox from "../Checkbox";
 import { FormProvider, useForm } from "react-hook-form";
+import Image from "next/image";
 
 const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
@@ -49,10 +50,18 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             <h2 className="text-2xl font-light text-center">
               Please review everything before Launch
             </h2>
-            <div className="grid grid-cols-2 gap-y-4 px-5 py-4 border-t-[1px] border-b-[1px]">
+            <div className="grid grid-cols-[auto_24px_auto] gap-y-4 gap-x-6 px-5 py-4 border-t-[1px] border-b-[1px]">
               {info.map((item) => (
                 <Fragment key={item.label}>
                   <p className="text-lg text-gray-600">{item.label}</p>
+                  <div className="flex items-center justify-center">
+                    <Image
+                      src="/images/icons/arrow-right.svg"
+                      alt="logo"
+                      width={24}
+                      height={24}
+                    />
+                  </div>
                   <p className="text-lg text-gray-600">{item.value}</p>
                 </Fragment>
               ))}
