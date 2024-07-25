@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   // Perform your logic here, e.g., save the address to a database or process it as needed
   console.log("Received address:", address);
 
-  let isWhiteListed = false;
+  let isWhiteListed = true;
   // Check if the address is whitelisted
   if (
     address.toLowerCase() ===
