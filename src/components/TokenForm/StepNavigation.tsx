@@ -6,6 +6,8 @@ interface StepNavigationProps {
   totalSteps: number;
   onNext?: () => void;
   onBack: () => void;
+  nextLabel?: string;
+  backLabel?: string;
 }
 
 const StepNavigation: React.FC<StepNavigationProps> = ({
@@ -13,6 +15,8 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
   totalSteps,
   onNext,
   onBack,
+  nextLabel,
+  backLabel,
 }) => {
   return (
     <div className="py-8 px-10 flex justify-between mt-4 border-t-2">
@@ -24,7 +28,7 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
         styleType={ButtonStyle.Text}
         color={ButtonColor.Giv}
       >
-        Back
+        {backLabel || "Back"}
       </Button>
       <Button
         type="submit"
@@ -34,7 +38,7 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
         }`}
         disabled={currentStep === totalSteps}
       >
-        Next
+        {nextLabel || "Next"}
       </Button>
     </div>
   );

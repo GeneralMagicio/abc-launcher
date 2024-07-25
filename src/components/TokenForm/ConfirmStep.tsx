@@ -61,7 +61,12 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             }}
           />
         </section>
-        <StepNavigation currentStep={2} totalSteps={4} onBack={onBack} />
+        <StepNavigation
+          currentStep={2}
+          totalSteps={4}
+          onBack={onBack}
+          nextLabel="Launch my token"
+        />
       </form>
     </FormProvider>
   );

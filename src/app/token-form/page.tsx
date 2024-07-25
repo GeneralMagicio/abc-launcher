@@ -45,7 +45,7 @@ export default function TokenFormPage() {
             <PolicyStep onNext={handleNext} onBack={handleBack} />
           )}
           {step === FormSteps.Confirm && (
-            <ConfirmStep onNext={handleNext} onBack={handleBack} />
+            <ConfirmStep onNext={handleSubmit} onBack={handleBack} />
           )}
         </div>
       </main>
