@@ -23,15 +23,17 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
   return (
     <div
       {...getRootProps()}
-      className={`border-2 border-dashed p-4 rounded-md text-center ${
-        isDragActive ? "border-blue-500" : "border-gray-300"
-      }`}
+      className={`py-14 border-[1px] border-dashed border-giv-500 p-4 rounded-2xl text-center bg-gray-100 text-gray-400`}
     >
       <input {...getInputProps()} />
       {isDragActive ? (
-        <p>Drop the files here ...</p>
+        <p>Drop the icon here ...</p>
       ) : (
-        <p>Drag &apos;n&apos; drop an image here, or click to select one</p>
+        <>
+          <p>Drop your Token icon here</p>
+          <p>or</p>
+          <p className="font-bold">Browse Files</p>
+        </>
       )}
     </div>
   );
