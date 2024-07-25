@@ -33,7 +33,7 @@ export default function TokenFormPage() {
   return (
     <TokenFormProvider>
       <main className="container">
-        <div className=" bg-white rounded-2xl flex flex-col items-center gap-24 max-w-3xl mx-auto">
+        <div className="my-20 bg-white rounded-2xl flex flex-col items-center gap-24 max-w-3xl mx-auto">
           {step === FormSteps.TokenInfo && (
             <TokenInfoStep onNext={handleNext} onBack={handleBack} />
           )}
