@@ -4,14 +4,22 @@ import { useTokenFormContext } from "./TokenFormContext";
 import Checkbox from "../Checkbox";
 import { FormProvider, useForm } from "react-hook-form";
 
+interface FormData {
+  agreedToTerms: boolean;
+}
+
 const TermsStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
   onBack,
 }) => {
-  const methods = useForm<FormData>();
+  const { formData, setFormData } = useTokenFormContext();
+  const methods = useForm<FormData>({
+    defaultValues: formData,
+  });
   const { handleSubmit, setValue } = methods;
 
   const onSubmit = (data: FormData) => {
+    setFormData(data);
     onNext();
   };
 
@@ -40,7 +48,7 @@ const TermsStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             use on this website.
           </p>
           <Checkbox
-            name="acceptTerms"
+            name="agreedToTerms"
             label="I have read and agree to the Terms of Service."
             rules={{
               required: "You must agree to the Terms of Service to continue",
