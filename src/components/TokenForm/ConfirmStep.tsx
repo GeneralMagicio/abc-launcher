@@ -45,21 +45,27 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           <h1 className="text-4xl font-bold text-gray-800 text-center mb-7">
             Final Confirmation
           </h1>
-          <div className="grid grid-cols-2 gap-y-4">
-            {info.map((item) => (
-              <Fragment key={item.label}>
-                <p className="text-lg text-gray-600">{item.label}</p>
-                <p className="text-lg text-gray-600">{item.value}</p>
-              </Fragment>
-            ))}
+          <div className="flex flex-col gap-4">
+            <h2 className="text-2xl font-light text-center">
+              Please review everything before Launch
+            </h2>
+            <div className="grid grid-cols-2 gap-y-4 px-5 py-4 border-t-[1px] border-b-[1px]">
+              {info.map((item) => (
+                <Fragment key={item.label}>
+                  <p className="text-lg text-gray-600">{item.label}</p>
+                  <p className="text-lg text-gray-600">{item.value}</p>
+                </Fragment>
+              ))}
+            </div>
+            <Checkbox
+              name="acceptTerms"
+              label="I reviewed all parameters and I accept them."
+              rules={{
+                required:
+                  "You must review and accept the parameters to continue",
+              }}
+            />
           </div>
-          <Checkbox
-            name="acceptTerms"
-            label="I reviewed all parameters and I accept them.."
-            rules={{
-              required: "You must review and accept the parameters to continue",
-            }}
-          />
         </section>
         <StepNavigation
           currentStep={2}
