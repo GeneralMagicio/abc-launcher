@@ -15,8 +15,9 @@ const TermsStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const { formData, setFormData } = useTokenFormContext();
   const methods = useForm<FormData>({
     defaultValues: formData,
+    mode: "onChange", // This enables validation on change
   });
-  const { handleSubmit, setValue } = methods;
+  const { handleSubmit, formState } = methods;
 
   const onSubmit = (data: FormData) => {
     setFormData(data);
@@ -55,7 +56,12 @@ const TermsStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             }}
           />
         </section>
-        <StepNavigation currentStep={2} totalSteps={4} onBack={onBack} />
+        <StepNavigation
+          currentStep={2}
+          totalSteps={4}
+          onBack={onBack}
+          isFormValid={formState.isValid}
+        />
       </form>
     </FormProvider>
   );
