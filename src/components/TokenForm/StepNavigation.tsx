@@ -8,6 +8,7 @@ interface StepNavigationProps {
   onBack: () => void;
   nextLabel?: string;
   backLabel?: string;
+  isFormValid?: boolean;
 }
 
 const StepNavigation: React.FC<StepNavigationProps> = ({
@@ -17,6 +18,7 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
   onBack,
   nextLabel,
   backLabel,
+  isFormValid,
 }) => {
   return (
     <div className="py-8 px-10 flex justify-between mt-4 border-t-2">
@@ -36,7 +38,7 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
         className={`btn btn-primary ${
           currentStep === totalSteps ? "invisible" : ""
         }`}
-        disabled={currentStep === totalSteps}
+        disabled={currentStep === totalSteps || !isFormValid}
       >
         {nextLabel || "Next"}
       </Button>
