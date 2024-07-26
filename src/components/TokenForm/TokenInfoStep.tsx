@@ -21,8 +21,9 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const { formData, setFormData } = useTokenFormContext();
   const methods = useForm<FormData>({
     defaultValues: formData,
+    mode: "onChange", // This enables validation on change
   });
-  const { handleSubmit, setValue } = methods;
+  const { handleSubmit, setValue, formState } = methods;
 
   const handleDrop = (path: string) => {
     if (path) {
@@ -92,7 +93,12 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           />
         </section>
 
-        <StepNavigation currentStep={1} totalSteps={4} onBack={onBack} />
+        <StepNavigation
+          currentStep={1}
+          totalSteps={4}
+          onBack={onBack}
+          isFormValid={formState.isValid}
+        />
       </form>
     </FormProvider>
   );
