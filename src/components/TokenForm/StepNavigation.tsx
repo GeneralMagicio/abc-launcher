@@ -35,10 +35,8 @@ const StepNavigation: React.FC<StepNavigationProps> = ({
       <Button
         type="submit"
         onClick={() => onNext?.()}
-        className={`btn btn-primary ${
-          currentStep === totalSteps ? "invisible" : ""
-        }`}
-        disabled={currentStep === totalSteps || !isFormValid}
+        className={`btn btn-primary`}
+        disabled={!isFormValid}
       >
         {nextLabel || "Next"}
       </Button>

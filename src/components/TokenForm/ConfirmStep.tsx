@@ -11,7 +11,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
 }) => {
   const { formData } = useTokenFormContext();
   const methods = useForm<FormData>();
-  const { handleSubmit, setValue } = methods;
+  const { handleSubmit, formState } = methods;
 
   const onSubmit = (data: FormData) => {
     onNext();
@@ -88,10 +88,11 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           </div>
         </section>
         <StepNavigation
-          currentStep={2}
+          currentStep={4}
           totalSteps={4}
           onBack={onBack}
           nextLabel="Launch my token"
+          isFormValid={formState.isValid}
         />
       </form>
     </FormProvider>
