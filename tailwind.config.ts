@@ -15,6 +15,7 @@ const config: Config = {
       colors: {
         giv: {
           500: "#5326EC",
+          800: "#1B1657",
         },
         pink: {
           500: "#E1458D",
