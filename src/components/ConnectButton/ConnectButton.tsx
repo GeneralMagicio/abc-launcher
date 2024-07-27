@@ -75,8 +75,8 @@ export const ConnectButton: React.FC = () => {
             />
             <div className="flex flex-col items-start">
               <div className="text-sm">{shortAddress}</div>
-              <div className="text-[0.6rem] text-giv-800">
-                Connect to {chain?.name}
+              <div className="text-[0.6rem] text-giv-800 max-w-32 whitespace-nowrap overflow-hidden text-ellipsis">
+                Connected to {chain?.name}
               </div>
             </div>
           </div>
