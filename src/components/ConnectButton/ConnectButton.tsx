@@ -65,7 +65,7 @@ export const ConnectButton: React.FC = () => {
             ></path>
           </svg>
         ) : address ? (
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <Image
               src={user?.avatar || "/images/placeholders/profile.svg"}
               alt="Profile Pic"
@@ -75,7 +75,9 @@ export const ConnectButton: React.FC = () => {
             />
             <div className="flex flex-col items-start">
               <div className="text-sm">{shortAddress}</div>
-              <div className="text-[0.6rem]">Connect to {chain?.name}</div>
+              <div className="text-[0.6rem] text-giv-800">
+                Connect to {chain?.name}
+              </div>
             </div>
           </div>
         ) : (
