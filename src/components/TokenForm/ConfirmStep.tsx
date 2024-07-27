@@ -73,7 +73,9 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
                       height={24}
                     />
                   </div>
-                  <p className="text-lg text-gray-600">{item.value}</p>
+                  <p className="text-lg text-gray-600 overflow-hidden text-ellipsis">
+                    {item.value}
+                  </p>
                 </Fragment>
               ))}
             </div>
