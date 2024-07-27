@@ -1,23 +1,34 @@
 "use client";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
+import { fetchUserInfo } from "./service";
+import type { Address } from "viem";
+import Image from "next/image";
 
 export const ConnectButton: React.FC = () => {
+  const [user, setUser] = useState<IUser>();
   const { open } = useWeb3Modal();
   const { address, isConnecting, isDisconnected } = useAccount();
 
   useEffect(() => {
     if (!address) return;
+    const fetchUser = async (address: Address) => {
+      const data = await fetchUserInfo(address);
+      if (data) {
+        setUser(data);
+      }
+    };
+    fetchUser(address);
   }, [address]);
 
   const handleConnect = () => {
     open();
   };
 
-  const buttonLabel = address
+  const shortAddress = address
     ? `${address?.slice(0, 6)}...${address?.slice(-4)}`
-    : "Connect Wallet";
+    : "";
 
   return (
     <div className="relative">
@@ -32,7 +43,7 @@ export const ConnectButton: React.FC = () => {
           }
         `}
       >
-        {isConnecting && (
+        {isConnecting ? (
           <svg
             className="animate-spin h-5 w-5 text-white"
             xmlns="http://www.w3.org/2000/svg"
@@ -53,8 +64,20 @@ export const ConnectButton: React.FC = () => {
               d="M4 12a8 8 0 018-8v8H4z"
             ></path>
           </svg>
+        ) : address ? (
+          <div className="flex gap-2">
+            <Image
+              src={user?.avatar || "/images/placeholders/profile.svg"}
+              alt="Profile Pic"
+              width={24}
+              height={24}
+              className="rounded-full"
+            />
+            <div>{shortAddress}</div>
+          </div>
+        ) : (
+          <div>Connect Wallet</div>
         )}
-        {!isConnecting && buttonLabel}
       </button>
     </div>
   );
