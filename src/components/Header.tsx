@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ConnectButton } from "./ConnectButton";
+import { ConnectButton } from "./ConnectButton/ConnectButton";
 
 export const Header = () => {
   return (

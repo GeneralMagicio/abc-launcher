@@ -1,10 +1,15 @@
 "use client";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useEffect } from "react";
 import { useAccount } from "wagmi";
 
 export const ConnectButton: React.FC = () => {
   const { open } = useWeb3Modal();
   const { address, isConnecting, isDisconnected } = useAccount();
+
+  useEffect(() => {
+    if (!address) return;
+  }, [address]);
 
   const handleConnect = () => {
     open();
