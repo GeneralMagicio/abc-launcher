@@ -9,7 +9,7 @@ import Image from "next/image";
 export const ConnectButton: React.FC = () => {
   const [user, setUser] = useState<IUser>();
   const { open } = useWeb3Modal();
-  const { address, isConnecting, isDisconnected } = useAccount();
+  const { address, isConnecting, chain } = useAccount();
 
   useEffect(() => {
     if (!address) return;
@@ -35,11 +35,11 @@ export const ConnectButton: React.FC = () => {
       <button
         onClick={handleConnect}
         disabled={isConnecting}
-        className={`px-4 py-3 font-bold rounded-full transition-colors duration-300 flex items-center justify-center gap-2
+        className={`px-4 py-3  rounded-full transition-colors duration-300 flex items-center justify-center gap-2
           ${
             address
-              ? "bg-white text-gray-400 shadow-sm hover:shadow-md"
-              : "bg-pink-500 text-white hover:bg-pink-600"
+              ? "bg-white text-gray-900 shadow-sm hover:shadow-md"
+              : "bg-pink-500 font-bold text-white hover:bg-pink-600"
           }
         `}
       >
@@ -73,7 +73,10 @@ export const ConnectButton: React.FC = () => {
               height={24}
               className="rounded-full"
             />
-            <div>{shortAddress}</div>
+            <div className="flex flex-col items-start">
+              <div className="text-sm">{shortAddress}</div>
+              <div className="text-[0.6rem]">Connect to {chain?.name}</div>
+            </div>
           </div>
         ) : (
           <div>Connect Wallet</div>
