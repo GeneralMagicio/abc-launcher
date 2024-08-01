@@ -22,6 +22,7 @@ const config: Config = {
         },
         success: {
           100: "#D2FFFB",
+          500: "#37B4A9",
           600: "#2EA096",
           700: "#1B8C82",
         },
