@@ -4,6 +4,7 @@ import { useTokenFormContext } from "./TokenFormContext";
 import Checkbox from "../Checkbox";
 import { FormProvider, useForm } from "react-hook-form";
 import Image from "next/image";
+import config from "@/config/configuration";
 
 const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
@@ -82,6 +83,21 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
                         height={32}
                       />
                     </div>
+                  ) : item.label === "Project Address" ? (
+                    <a
+                      href={`${config.SCAN_URL}address/${item.value}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex gap-2 items-center text-lg text-giv-blue text-pink-500"
+                    >
+                      <span>Open in a new tab</span>
+                      <Image
+                        src="/images/icons/external-link.svg"
+                        alt="external link"
+                        width={16}
+                        height={16}
+                      />
+                    </a>
                   ) : (
                     <p className="text-lg text-gray-600 overflow-hidden text-ellipsis">
                       {item.value}
