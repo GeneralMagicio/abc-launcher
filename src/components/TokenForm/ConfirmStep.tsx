@@ -5,6 +5,7 @@ import Checkbox from "../Checkbox";
 import { FormProvider, useForm } from "react-hook-form";
 import Image from "next/image";
 import config from "@/config/configuration";
+import InfoItem, { InfoType } from "./InfoItem";
 
 const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
@@ -22,18 +23,22 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     {
       label: "Token Full Name",
       value: formData.tokenName,
+      type: InfoType.TEXT,
     },
     {
       label: "Token Ticker",
       value: formData.tokenTicker,
+      type: InfoType.TEXT,
     },
     {
       label: "Token Icon",
       value: formData.tokenIcon ? URL.createObjectURL(formData.tokenIcon) : "",
+      type: InfoType.IMAGE,
     },
     {
       label: "Project Address",
       value: formData.projectAddress,
+      type: InfoType.LINK,
     },
   ];
 
@@ -64,46 +69,12 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
                 <p className="text-xs">$50,000</p>
               </div>
               {info.map((item) => (
-                <Fragment key={item.label}>
-                  <p className="text-lg text-gray-600">{item.label}</p>
-                  <div className="flex items-center justify-center">
-                    <Image
-                      src="/images/icons/arrow-right.svg"
-                      alt="logo"
-                      width={24}
-                      height={24}
-                    />
-                  </div>
-                  {item.label === "Token Icon" ? (
-                    <div className="flex items-center gap-4">
-                      <Image
-                        src={item.value}
-                        alt="token icon"
-                        width={32}
-                        height={32}
-                      />
-                    </div>
-                  ) : item.label === "Project Address" ? (
-                    <a
-                      href={`${config.SCAN_URL}address/${item.value}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex gap-2 items-center text-lg text-giv-blue text-pink-500"
-                    >
-                      <span>Open in a new tab</span>
-                      <Image
-                        src="/images/icons/external-link.svg"
-                        alt="external link"
-                        width={16}
-                        height={16}
-                      />
-                    </a>
-                  ) : (
-                    <p className="text-lg text-gray-600 overflow-hidden text-ellipsis">
-                      {item.value}
-                    </p>
-                  )}
-                </Fragment>
+                <InfoItem
+                  key={item.label}
+                  label={item.label}
+                  value={item.value}
+                  type={item.type}
+                />
               ))}
             </div>
             <Checkbox
