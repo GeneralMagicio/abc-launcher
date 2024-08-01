@@ -9,7 +9,7 @@ import { Dropzone } from "@/components/DropZone";
 interface FormData {
   tokenName: string;
   tokenTicker: string;
-  tokenIcon: string | null;
+  tokenIcon: File | null;
   projectAddress: string;
   addressConfirmed: boolean;
 }
@@ -25,9 +25,9 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   });
   const { handleSubmit, setValue, formState } = methods;
 
-  const handleDrop = (path: string) => {
-    if (path) {
-      setValue("tokenIcon", path);
+  const handleDrop = (file: File) => {
+    if (file) {
+      setValue("tokenIcon", file);
     }
   };
 
