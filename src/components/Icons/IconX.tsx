@@ -14,7 +14,7 @@ export const IconX: FC<IIcon> = ({ size = 16, color = "currentColor" }) => {
         id="Vector"
         d="M1.48488 0.928955L15.627 15.0711M0.777771 15.0711L14.9199 0.928963"
         stroke="currentColor"
-        stroke-width="2"
+        strokeWidth="2"
       />
     </svg>
   );

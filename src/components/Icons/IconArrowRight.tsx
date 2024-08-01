@@ -18,9 +18,9 @@ export const IconArrowRight: FC<IIcon> = ({
           id="Vector"
           d="M17.25 7L26.25 16L17.25 25M25 16H6.75"
           stroke={color}
-          stroke-width="2"
-          stroke-miterlimit="10"
-          stroke-linecap="square"
+          strokeWidth="2"
+          strokeMiterlimit="10"
+          strokeLinecap="square"
         />
       </g>
     </svg>
