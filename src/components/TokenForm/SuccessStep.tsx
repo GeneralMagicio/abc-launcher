@@ -6,11 +6,10 @@ import { FormProvider, useForm } from "react-hook-form";
 import Image from "next/image";
 import config from "@/config/configuration";
 import InfoItem, { InfoType } from "./InfoItem";
+import { Button } from "../Button";
 
 const SuccessStep: React.FC<{}> = () => {
   const { formData } = useTokenFormContext();
-  const methods = useForm<FormData>();
-  const { handleSubmit, formState } = methods;
 
   const info = [
     {
@@ -69,6 +68,17 @@ const SuccessStep: React.FC<{}> = () => {
               type={item.type}
             />
           ))}
+        </div>
+        <div className="mx-auto">
+          <Button>
+            <span>Go to My Dashboard</span>
+            <Image
+              src="/images/icons/arrow-right-white.svg"
+              alt="logo"
+              width={16}
+              height={16}
+            />
+          </Button>
         </div>
       </div>
     </section>
