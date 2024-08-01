@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
+import { IconX } from "../Icons/IconX";
 
 interface DropzoneProps {
   onDrop: (acceptedFile: File, ipfsHash: string) => void;
@@ -100,18 +101,22 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
       </div>
       {selectedImage && (
         <div>
-          <p>{selectedImage.name}</p>
-          <progress
-            value={uploadProgress}
-            max="100"
-            className="w-full mb-4"
-          ></progress>
-          <button
-            onClick={cancelUpload}
-            className="px-4 py-2 bg-red-500 text-white rounded"
-          >
-            Cancel Upload
-          </button>
+          <div className="flex justify-between overflow-hidden">
+            <p>{selectedImage.name}</p>
+            <button
+              onClick={cancelUpload}
+              className="px-2 text-xs text-pink-500 rounded border-none flex gap-1 items-center"
+            >
+              <IconX size={8} />
+              <span>Cancel Upload</span>
+            </button>
+          </div>
+          <div className="relative w-full bg-gray-200 h-2 rounded-lg overflow-hidden mb-4">
+            <div
+              className="absolute top-0 left-0 h-full bg-giv-500 transition-all"
+              style={{ width: `${uploadProgress}%` }}
+            ></div>
+          </div>
         </div>
       )}
     </>
