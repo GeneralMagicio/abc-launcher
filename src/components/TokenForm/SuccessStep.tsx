@@ -69,7 +69,7 @@ const SuccessStep: React.FC<{}> = () => {
             />
           ))}
         </div>
-        <div className="mx-auto">
+        <div className="mx-auto py-4">
           <Button>
             <span>Go to My Dashboard</span>
             <Image
