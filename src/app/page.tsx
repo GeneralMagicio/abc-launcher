@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/Button";
+import { IconArrowRight } from "@/components/Icons/IconArrowRight";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -63,12 +64,7 @@ export default function Home() {
         <p className="text-2xl font-light">
           Start the process by connecting your wallet
         </p>
-        <Image
-          src="/images/icons/arrow-right.svg"
-          alt="logo"
-          width={32}
-          height={32}
-        />
+        <IconArrowRight size={32} />
       </div>
       <Button onClick={handleLaunchToken} loading={loading}>
         Launch Token
