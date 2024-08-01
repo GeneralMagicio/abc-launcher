@@ -9,15 +9,19 @@ interface DropzoneProps {
 export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [abortController, setAbortController] =
+    useState<AbortController | null>(null);
 
   const uploadToIPFS = async (file: File) => {
+    const controller = new AbortController();
+    setAbortController(controller);
     try {
       const formData = new FormData();
       formData.append("file", file);
 
       const response = await axios.post("/api/upload", formData, {
+        signal: controller.signal, // Attach the abort controller signal
         onUploadProgress: (progressEvent) => {
-          console.log("progressEvent", progressEvent);
           if (!progressEvent?.total) return;
           const progress = Math.round(
             (progressEvent.loaded * 100) / progressEvent.total
@@ -28,7 +32,11 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
 
       return response.data.ipfsHash;
     } catch (error) {
-      console.error("Error uploading to IPFS", error);
+      if (axios.isCancel(error)) {
+        console.log("Upload canceled");
+      } else {
+        console.error("Error uploading to IPFS", error);
+      }
       return null;
     }
   };
@@ -41,9 +49,18 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
       if (ipfsHash) {
         onDrop(file, ipfsHash);
       }
+      setAbortController(null); // Reset abort controller after upload is complete
     },
     [onDrop]
   );
+
+  const cancelUpload = () => {
+    if (abortController) {
+      abortController.abort();
+      setUploadProgress(0);
+      setSelectedImage(null);
+    }
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: onDropCallback,
@@ -70,11 +87,6 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
                   alt="Selected Icon"
                   className="mb-4"
                 />
-                <progress
-                  value={uploadProgress}
-                  max="100"
-                  className="w-full mb-4"
-                ></progress>
               </>
             ) : (
               <>
@@ -86,7 +98,22 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
           </>
         )}
       </div>
-      {selectedImage && <p>{selectedImage.name}</p>}
+      {selectedImage && (
+        <div>
+          <p>{selectedImage.name}</p>
+          <progress
+            value={uploadProgress}
+            max="100"
+            className="w-full mb-4"
+          ></progress>
+          <button
+            onClick={cancelUpload}
+            className="px-4 py-2 bg-red-500 text-white rounded"
+          >
+            Cancel Upload
+          </button>
+        </div>
+      )}
     </>
   );
 };
