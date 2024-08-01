@@ -5,24 +5,28 @@ import { IconX } from "../Icons/IconX";
 
 interface DropzoneProps {
   onDrop: (acceptedFile: File, ipfsHash: string) => void;
+  name: string;
 }
 
-export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
+export const Dropzone: React.FC<DropzoneProps> = ({ name, onDrop }) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [ipfsHash, setIpfsHash] = useState<string | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [abortController, setAbortController] =
     useState<AbortController | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const uploadToIPFS = async (file: File) => {
     const controller = new AbortController();
     setAbortController(controller);
+    setIsLoading(true);
+
     try {
       const formData = new FormData();
       formData.append("file", file);
 
       const response = await axios.post("/api/ipfs", formData, {
-        signal: controller.signal, // Attach the abort controller signal
+        signal: controller.signal,
         onUploadProgress: (progressEvent) => {
           if (!progressEvent?.total) return;
           const progress = Math.round(
@@ -32,6 +36,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
         },
       });
 
+      setIsLoading(false);
       return response.data.ipfsHash;
     } catch (error) {
       if (axios.isCancel(error)) {
@@ -39,6 +44,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
       } else {
         console.error("Error uploading to IPFS", error);
       }
+      setIsLoading(false);
       return null;
     }
   };
@@ -50,7 +56,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
       const ipfsHash = await uploadToIPFS(file);
       if (ipfsHash) {
         onDrop(file, ipfsHash);
-        setIpfsHash(ipfsHash); // Track the IPFS hash
+        setIpfsHash(ipfsHash);
       }
       setAbortController(null);
     },
@@ -62,6 +68,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
       abortController.abort();
       setUploadProgress(0);
       setSelectedImage(null);
+      setIsLoading(false);
     }
   };
 
@@ -71,6 +78,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
         await axios.delete("/api/ipfs", { data: { ipfsHash } });
         setUploadProgress(0);
         setSelectedImage(null);
+        // setIsLoading(false);
       } catch (error) {
         console.error("Error deleting from IPFS", error);
       }
@@ -88,7 +96,9 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
     <>
       <div
         {...getRootProps()}
-        className={`py-14 border-[1px] border-dashed border-giv-500 p-4 rounded-2xl text-center bg-gray-100 text-gray-400 cursor-pointer`}
+        className={`py-14 border-[1px] border-dashed border-giv-500 p-4 rounded-2xl text-center bg-gray-100 text-gray-400 cursor-pointer ${
+          isLoading ? "cursor-not-allowed opacity-50" : ""
+        }`}
       >
         <input {...getInputProps()} />
         {isDragActive ? (
@@ -110,6 +120,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
                 <p className="font-bold">Browse Files</p>
               </>
             )}
+            {isLoading && <p className="text-blue-500 mt-2">Uploading...</p>}
           </>
         )}
       </div>
@@ -118,6 +129,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
           <div className="flex justify-between overflow-hidden">
             <p>{selectedImage.name}</p>
             <button
+              type="button"
               onClick={ipfsHash ? deleteUploadedImage : cancelUpload}
               className="px-2 text-xs text-pink-500 rounded border-none flex gap-1 items-center"
             >
