@@ -9,6 +9,7 @@ interface DropzoneProps {
 
 export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [ipfsHash, setIpfsHash] = useState<string | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [abortController, setAbortController] =
     useState<AbortController | null>(null);
@@ -20,7 +21,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await axios.post("/api/upload", formData, {
+      const response = await axios.post("/api/ipfs", formData, {
         signal: controller.signal, // Attach the abort controller signal
         onUploadProgress: (progressEvent) => {
           if (!progressEvent?.total) return;
@@ -49,8 +50,9 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
       const ipfsHash = await uploadToIPFS(file);
       if (ipfsHash) {
         onDrop(file, ipfsHash);
+        setIpfsHash(ipfsHash); // Track the IPFS hash
       }
-      setAbortController(null); // Reset abort controller after upload is complete
+      setAbortController(null);
     },
     [onDrop]
   );
@@ -63,10 +65,16 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
     }
   };
 
-  const deleteUploadedImage = () => {
-    // TODO: Implement delete from IPFS
-    setUploadProgress(0);
-    setSelectedImage(null);
+  const deleteUploadedImage = async () => {
+    if (ipfsHash) {
+      try {
+        await axios.delete("/api/ipfs", { data: { ipfsHash } });
+        setUploadProgress(0);
+        setSelectedImage(null);
+      } catch (error) {
+        console.error("Error deleting from IPFS", error);
+      }
+    }
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -110,17 +118,11 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
           <div className="flex justify-between overflow-hidden">
             <p>{selectedImage.name}</p>
             <button
-              onClick={
-                uploadProgress === 100 ? deleteUploadedImage : cancelUpload
-              }
+              onClick={ipfsHash ? deleteUploadedImage : cancelUpload}
               className="px-2 text-xs text-pink-500 rounded border-none flex gap-1 items-center"
             >
               <IconX size={8} />
-              {uploadProgress === 100 ? (
-                <span>Delete</span>
-              ) : (
-                <span>Cancel Upload</span>
-              )}
+              {ipfsHash ? <span>Delete</span> : <span>Cancel Upload</span>}
             </button>
           </div>
           <div className="relative w-full bg-gray-200 h-2 rounded-lg overflow-hidden mb-4">
