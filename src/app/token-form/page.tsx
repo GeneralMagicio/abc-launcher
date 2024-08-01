@@ -2,6 +2,7 @@
 
 import ConfirmStep from "@/components/TokenForm/ConfirmStep";
 import PolicyStep from "@/components/TokenForm/PolicyStep";
+import SuccessStep from "@/components/TokenForm/SuccessStep";
 import TermsStep from "@/components/TokenForm/TermStep";
 import { TokenFormProvider } from "@/components/TokenForm/TokenFormContext";
 import TokenInfoStep from "@/components/TokenForm/TokenInfoStep";
@@ -29,6 +30,7 @@ export default function TokenFormPage() {
   const handleSubmit = () => {
     // Handle form submission
     console.log("Form submitted");
+    handleNext();
   };
 
   return (
@@ -47,6 +49,7 @@ export default function TokenFormPage() {
           {step === FormSteps.Confirm && (
             <ConfirmStep onNext={handleSubmit} onBack={handleBack} />
           )}
+          {step === FormSteps.Success && <SuccessStep />}
         </div>
       </main>
     </TokenFormProvider>
