@@ -28,7 +28,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     },
     {
       label: "Token Icon",
-      value: formData.tokenIcon,
+      value: formData.tokenIcon ? URL.createObjectURL(formData.tokenIcon) : "",
     },
     {
       label: "Project Address",
@@ -73,9 +73,20 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
                       height={24}
                     />
                   </div>
-                  <p className="text-lg text-gray-600 overflow-hidden text-ellipsis">
-                    {item.value}
-                  </p>
+                  {item.label === "Token Icon" ? (
+                    <div className="flex items-center gap-4">
+                      <Image
+                        src={item.value}
+                        alt="token icon"
+                        width={32}
+                        height={32}
+                      />
+                    </div>
+                  ) : (
+                    <p className="text-lg text-gray-600 overflow-hidden text-ellipsis">
+                      {item.value}
+                    </p>
+                  )}
                 </Fragment>
               ))}
             </div>
