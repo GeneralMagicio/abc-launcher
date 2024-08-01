@@ -1,18 +1,46 @@
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import axios from "axios";
 
 interface DropzoneProps {
-  onDrop: (acceptedFile: File) => void;
+  onDrop: (acceptedFile: File, ipfsHash: string) => void;
 }
 
 export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+
+  const uploadToIPFS = async (file: File) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await axios.post("/api/upload", formData, {
+        onUploadProgress: (progressEvent) => {
+          console.log("progressEvent", progressEvent);
+          if (!progressEvent?.total) return;
+          const progress = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgress(progress);
+        },
+      });
+
+      return response.data.ipfsHash;
+    } catch (error) {
+      console.error("Error uploading to IPFS", error);
+      return null;
+    }
+  };
 
   const onDropCallback = useCallback(
-    (acceptedFiles: File[]) => {
+    async (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
-      setSelectedImage(file); // Create a URL for the selected image
-      onDrop(file);
+      setSelectedImage(file);
+      const ipfsHash = await uploadToIPFS(file);
+      if (ipfsHash) {
+        onDrop(file, ipfsHash);
+      }
     },
     [onDrop]
   );
@@ -36,11 +64,18 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop }) => {
         ) : (
           <>
             {selectedImage ? (
-              <img
-                src={URL.createObjectURL(selectedImage)}
-                alt="Selected Icon"
-                className="mb-4"
-              />
+              <>
+                <img
+                  src={URL.createObjectURL(selectedImage)}
+                  alt="Selected Icon"
+                  className="mb-4"
+                />
+                <progress
+                  value={uploadProgress}
+                  max="100"
+                  className="w-full mb-4"
+                ></progress>
+              </>
             ) : (
               <>
                 <p>Drop your Token icon here</p>
