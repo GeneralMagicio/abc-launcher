@@ -66,8 +66,11 @@ export default function Home() {
         </p>
         <IconArrowRight size={32} />
       </div>
-      <Button onClick={handleLaunchToken} loading={loading}>
-        Launch Token
+      <Button
+        onClick={() => (address ? handleLaunchToken() : openWeb3Modal())}
+        loading={loading}
+      >
+        {address ? "Launch Token" : "Connect Wallet"}
       </Button>
     </main>
   );
