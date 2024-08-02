@@ -133,10 +133,13 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
         )}
       </div>
       {selectedImage && (
-        <div>
+        <div className="flex flex-col gap-1">
+          <p className="text-sm text-nowrap max-w-full overflow-hidden text-ellipsis">
+            {selectedImage.name}
+          </p>
           <div className="flex justify-between overflow-hidden max-w-full">
-            <p className="text-sm text-nowrap max-w-full overflow-hidden text-ellipsis">
-              {selectedImage.name}
+            <p className="text-xs text-nowrap max-w-full overflow-hidden text-ellipsis">
+              {isLoading ? "Uploading..." : "Uploaded"}
             </p>
             <button
               type="button"
