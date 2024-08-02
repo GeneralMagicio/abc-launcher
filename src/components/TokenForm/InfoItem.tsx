@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import Image from "next/image";
 import config from "@/config/configuration";
+import { IconArrowRight } from "../Icons/IconArrowRight";
 
 interface InfoItemProps {
   label: string;
@@ -19,12 +20,7 @@ const InfoItem: React.FC<InfoItemProps> = ({ label, value, type }) => {
     <Fragment>
       <p className="text-lg text-gray-600">{label}</p>
       <div className="flex items-center justify-center">
-        <Image
-          src="/images/icons/arrow-right.svg"
-          alt="logo"
-          width={24}
-          height={24}
-        />
+        <IconArrowRight size={24} />
       </div>
       {type === InfoType.IMAGE ? (
         <div className="flex items-center gap-4">
