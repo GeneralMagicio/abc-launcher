@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ConnectButton } from "./ConnectButton/ConnectButton";
+import { IconX } from "./Icons/IconX";
 
 export const Header = () => {
   return (
@@ -11,7 +12,7 @@ export const Header = () => {
           width={87}
           height={40}
         />
-        <Image src="/images/icons/x.svg" alt="x" height={14} width={14} />
+        <IconX size={14} />
         <Image
           src="/images/icons/giveth.svg"
           alt="giveth-logo"
