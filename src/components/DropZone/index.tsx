@@ -134,8 +134,10 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
       </div>
       {selectedImage && (
         <div>
-          <div className="flex justify-between overflow-hidden">
-            <p>{selectedImage.name}</p>
+          <div className="flex justify-between overflow-hidden max-w-full">
+            <p className="text-sm text-nowrap max-w-full overflow-hidden text-ellipsis">
+              {selectedImage.name}
+            </p>
             <button
               type="button"
               onClick={ipfsHash ? deleteUploadedImage : cancelUpload}
