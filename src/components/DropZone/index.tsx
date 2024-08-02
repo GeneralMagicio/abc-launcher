@@ -118,7 +118,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
                 <img
                   src={URL.createObjectURL(selectedImage)}
                   alt="Selected Icon"
-                  className="mb-4"
+                  className="block mb-4 mx-auto"
                 />
               </>
             ) : (
