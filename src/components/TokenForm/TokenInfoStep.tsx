@@ -5,6 +5,7 @@ import Checkbox from "@/components/Checkbox";
 import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
 import { Dropzone } from "@/components/DropZone";
+import { isAddress } from "viem";
 
 interface FormData {
   tokenName: string;
@@ -80,8 +81,13 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           <Input
             name="projectAddress"
             label="Project Address"
-            rules={{ required: "Project Address is required" }}
             placeholder="Enter project address"
+            rules={{
+              required: "Project Address is required",
+              validate: (value) => {
+                return isAddress(value) ? true : "Address in not valid"; // Add your validation logic here
+              },
+            }}
           />
 
           <Checkbox
