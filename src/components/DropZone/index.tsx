@@ -2,13 +2,15 @@ import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import { IconX } from "../Icons/IconX";
+import { RegisterOptions, useFormContext } from "react-hook-form";
 
 interface DropzoneProps {
   onDrop: (acceptedFile: File, ipfsHash: string) => void;
   name: string;
+  rules?: RegisterOptions;
 }
 
-export const Dropzone: React.FC<DropzoneProps> = ({ name, onDrop }) => {
+export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [ipfsHash, setIpfsHash] = useState<string | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
@@ -16,10 +18,20 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, onDrop }) => {
     useState<AbortController | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const {
+    register,
+    formState: { errors },
+    setError,
+    clearErrors,
+  } = useFormContext();
+
+  console.log("errors", errors);
+
   const uploadToIPFS = async (file: File) => {
     const controller = new AbortController();
     setAbortController(controller);
     setIsLoading(true);
+    setError(name, { type: "manual", message: "Uploading..." });
 
     try {
       const formData = new FormData();
@@ -37,6 +49,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, onDrop }) => {
       });
 
       setIsLoading(false);
+      clearErrors(name);
       return response.data.ipfsHash;
     } catch (error) {
       if (axios.isCancel(error)) {
@@ -45,6 +58,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, onDrop }) => {
         console.error("Error uploading to IPFS", error);
       }
       setIsLoading(false);
+      clearErrors(name);
       return null;
     }
   };
@@ -69,6 +83,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, onDrop }) => {
       setUploadProgress(0);
       setSelectedImage(null);
       setIsLoading(false);
+      clearErrors(name);
     }
   };
 
@@ -78,7 +93,8 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, onDrop }) => {
         await axios.delete("/api/ipfs", { data: { ipfsHash } });
         setUploadProgress(0);
         setSelectedImage(null);
-        // setIsLoading(false);
+        setIsLoading(false);
+        clearErrors(name);
       } catch (error) {
         console.error("Error deleting from IPFS", error);
       }
@@ -101,6 +117,11 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, onDrop }) => {
         }`}
       >
         <input {...getInputProps()} />
+        <input
+          {...register(name, rules)}
+          value={isLoading ? "Uploading..." : ""}
+          className="hidden"
+        />
         {isDragActive ? (
           <p>Drop the icon here ...</p>
         ) : (
