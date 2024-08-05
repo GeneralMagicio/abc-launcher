@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import Image from "next/image";
 import config from "@/config/configuration";
 import { IconArrowRight } from "../Icons/IconArrowRight";
+import { getIpfsAddress } from "@/helpers/image";
 
 interface InfoItemProps {
   label: string;
@@ -11,6 +12,7 @@ interface InfoItemProps {
 
 export enum InfoType {
   IMAGE = "image",
+  IPFS_IMAGE = "ipfs_image",
   TEXT = "text",
   LINK = "link",
 }
@@ -25,6 +27,15 @@ const InfoItem: React.FC<InfoItemProps> = ({ label, value, type }) => {
       {type === InfoType.IMAGE ? (
         <div className="flex items-center gap-4">
           <Image src={value} alt="token icon" width={32} height={32} />
+        </div>
+      ) : type === InfoType.IPFS_IMAGE ? (
+        <div className="flex items-center gap-4">
+          <Image
+            src={getIpfsAddress(value)}
+            alt="token icon"
+            width={32}
+            height={32}
+          />
         </div>
       ) : type === InfoType.LINK ? (
         <a
