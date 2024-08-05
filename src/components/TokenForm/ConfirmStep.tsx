@@ -33,8 +33,8 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     },
     {
       label: "Token Icon",
-      value: formData.tokenIcon ? URL.createObjectURL(formData.tokenIcon) : "",
-      type: InfoType.IMAGE,
+      value: formData.tokenIcon?.ipfsHash || "",
+      type: InfoType.IPFS_IMAGE,
     },
     {
       label: "Project Address",

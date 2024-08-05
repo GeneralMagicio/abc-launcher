@@ -139,7 +139,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
           </p>
           <div className="flex justify-between overflow-hidden max-w-full">
             <p className="text-xs text-nowrap max-w-full overflow-hidden text-ellipsis">
-              {isLoading ? "Uploading..." : "Uploaded"}
+              {ipfsHash ? "Uploading..." : "Uploaded"}
             </p>
             <button
               type="button"
