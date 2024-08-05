@@ -10,7 +10,7 @@ import { isAddress } from "viem";
 interface FormData {
   tokenName: string;
   tokenTicker: string;
-  tokenIcon: File | null;
+  tokenIcon: { file: File; ipfsHash: string } | null;
   projectAddress: string;
   addressConfirmed: boolean;
 }
@@ -26,9 +26,9 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   });
   const { handleSubmit, setValue, formState } = methods;
 
-  const handleDrop = (file: File) => {
+  const handleDrop = (file: File, ipfsHash: string) => {
     if (file) {
-      setValue("tokenIcon", file);
+      setValue("tokenIcon", { file, ipfsHash });
     }
   };
 

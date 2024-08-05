@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { IconX } from "../Icons/IconX";
 import { RegisterOptions, useFormContext } from "react-hook-form";
 import { uploadToIPFS } from "./service"; // Import the service
 import axios from "axios";
+import { useTokenFormContext } from "../TokenForm/TokenFormContext";
 
 interface DropzoneProps {
   onDrop: (acceptedFile: File, ipfsHash: string) => void;
@@ -19,6 +20,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
     useState<AbortController | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const { formData } = useTokenFormContext();
   const { register, setError, clearErrors, trigger } = useFormContext();
 
   const onDropCallback = useCallback(
@@ -94,6 +96,14 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
     },
   });
 
+  useEffect(() => {
+    if (formData?.tokenIcon) {
+      setSelectedImage(formData.tokenIcon.file);
+      setIpfsHash(formData.tokenIcon.ipfsHash);
+      setUploadProgress(100);
+    }
+  }, [formData]);
+
   return (
     <>
       <div
@@ -139,7 +149,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
           </p>
           <div className="flex justify-between overflow-hidden max-w-full">
             <p className="text-xs text-nowrap max-w-full overflow-hidden text-ellipsis">
-              {isLoading ? "Uploading..." : "Uploaded"}
+              {ipfsHash ? "Uploaded" : "Uploading..."}
             </p>
             <button
               type="button"
