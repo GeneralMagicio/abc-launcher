@@ -1,13 +1,16 @@
 "use client";
 
 import { ConnectModal } from "@/components/ConnectModal";
+import { HoldModal } from "@/components/HoldModal";
 import ConfirmStep from "@/components/TokenForm/ConfirmStep";
 import PolicyStep from "@/components/TokenForm/PolicyStep";
 import SuccessStep from "@/components/TokenForm/SuccessStep";
 import TermsStep from "@/components/TokenForm/TermStep";
 import { TokenFormProvider } from "@/components/TokenForm/TokenFormContext";
 import TokenInfoStep from "@/components/TokenForm/TokenInfoStep";
+import { checkWhiteList } from "@/services/check-white-list";
 import React, { use, useEffect, useState } from "react";
+import { Address } from "viem";
 import { useAccount } from "wagmi";
 
 enum FormSteps {
@@ -40,12 +43,20 @@ export default function TokenFormPage() {
   };
 
   useEffect(() => {
+    async function checkAddress(address: Address) {
+      const isWhiteListed = await checkWhiteList(address);
+      if (isWhiteListed) {
+        setShowHoldModal(false);
+      } else {
+        setShowHoldModal(true);
+      }
+    }
     if (!address) {
       setShowConnectModal(true);
       setShowHoldModal(false);
     } else {
       setShowConnectModal(false);
-      setShowHoldModal(true);
+      checkAddress(address);
     }
   }, [address]);
 
@@ -74,6 +85,12 @@ export default function TokenFormPage() {
         <ConnectModal
           isOpen={showConnectModal}
           onClose={() => setShowConnectModal(false)}
+        />
+      )}
+      {showHoldModal && (
+        <HoldModal
+          isOpen={showHoldModal}
+          onClose={() => setShowHoldModal(false)}
         />
       )}
     </>
