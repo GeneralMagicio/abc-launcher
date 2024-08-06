@@ -24,7 +24,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
 
   return createPortal(
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-white bg-opacity-50 backdrop-blur">
-      <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative">
+      <div className="bg-white rounded-xl shadow-lg max-w-lg w-full p-6 relative">
         {/* <button
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
           onClick={onClose}
