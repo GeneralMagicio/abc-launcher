@@ -104,6 +104,7 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           totalSteps={4}
           onBack={onBack}
           isFormValid={formState.isValid}
+          isNextLoading={formState.isValidating}
         />
       </form>
     </FormProvider>
