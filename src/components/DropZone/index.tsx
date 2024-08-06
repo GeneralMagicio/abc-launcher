@@ -107,7 +107,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
               if (isLoading) {
                 return "Upload in progress...";
               }
-              return value ? true : "File is required";
+              return true;
             },
           })}
           value={ipfsHash || ""}
