@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
 import Checkbox from "../Checkbox";
@@ -7,17 +7,34 @@ import Image from "next/image";
 import config from "@/config/configuration";
 import InfoItem, { InfoType } from "./InfoItem";
 import { IconArrowRight } from "../Icons/IconArrowRight";
+import { addProject } from "@/app/actions/add-project";
 
 const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
   onBack,
 }) => {
+  const [loading, setLoading] = useState(false);
   const { formData } = useTokenFormContext();
   const methods = useForm<FormData>();
   const { handleSubmit, formState } = methods;
 
-  const onSubmit = (data: FormData) => {
-    onNext();
+  const onSubmit = async (data: FormData) => {
+    try {
+      setLoading(true);
+      const res = await addProject(
+        formData.tokenName,
+        formData.tokenTicker,
+        formData.tokenIcon?.ipfsHash || "",
+        formData.projectAddress
+      );
+      setLoading(false);
+      if (res.insertedId) {
+        onNext();
+      }
+    } catch (error: any) {
+      console.log("error", error.message);
+      setLoading(false);
+    }
   };
 
   const info = [
