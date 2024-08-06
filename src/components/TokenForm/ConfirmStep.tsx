@@ -18,7 +18,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const methods = useForm<FormData>();
   const { handleSubmit, formState } = methods;
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async () => {
     try {
       setLoading(true);
       const res = await addProject(
@@ -106,6 +106,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           onBack={onBack}
           nextLabel="Launch my token"
           isFormValid={formState.isValid}
+          isNextLoading={loading}
         />
       </form>
     </FormProvider>
