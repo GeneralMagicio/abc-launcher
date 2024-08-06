@@ -2,17 +2,20 @@
 
 import { Button } from "@/components/Button";
 import { IconArrowRight } from "@/components/Icons/IconArrowRight";
+import config from "@/config/configuration";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useSwitchChain } from "wagmi";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const { open: openWeb3Modal } = useWeb3Modal();
-  const { address } = useAccount();
+  const { address, chainId, isConnected } = useAccount();
+  const { switchChainAsync } = useSwitchChain();
+
   const router = useRouter();
+  const targetChain = config.SUPPORTED_CHAINS[0].id;
 
   const handleLaunchToken = async () => {
     setLoading(true);
@@ -20,6 +23,14 @@ export default function Home() {
       if (!address) {
         await openWeb3Modal();
       }
+
+      if (chainId !== targetChain) {
+        const swicthChangeResponse = await switchChainAsync({
+          chainId: targetChain,
+        });
+        if (swicthChangeResponse.id !== targetChain) return;
+      }
+
       if (address) {
         console.log("Launching Token for address:", address);
         // Send the address to your endpoint

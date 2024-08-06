@@ -3,8 +3,6 @@ import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
 import Checkbox from "../Checkbox";
 import { FormProvider, useForm } from "react-hook-form";
-import Image from "next/image";
-import config from "@/config/configuration";
 import InfoItem, { InfoType } from "./InfoItem";
 import { IconArrowRight } from "../Icons/IconArrowRight";
 
