@@ -4,7 +4,7 @@ import { IconX } from "./Icons/IconX";
 
 export const Header = () => {
   return (
-    <nav className="bg-white flex items-center justify-between p-6 gap-4">
+    <nav className="bg-white flex items-center justify-between p-6 gap-4 z-50 relative">
       <div className="flex gap-4 items-center">
         <Image
           src="/images/icons/logomark-dark.svg"
