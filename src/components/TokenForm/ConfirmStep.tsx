@@ -5,6 +5,8 @@ import Checkbox from "../Checkbox";
 import { FormProvider, useForm } from "react-hook-form";
 import InfoItem, { InfoType } from "./InfoItem";
 import { IconArrowRight } from "../Icons/IconArrowRight";
+import { useDeploy } from "@/hooks/useDeploy";
+import config from "@/config/configuration";
 
 const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
@@ -13,8 +15,36 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const { formData } = useTokenFormContext();
   const methods = useForm<FormData>();
   const { handleSubmit, formState } = methods;
+  const { deploy, prep } = useDeploy();
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
+    const prepData = await prep.mutateAsync();
+
+    const { transactionHash, orchestratorAddress } = await deploy.mutateAsync({
+      prepData,
+      userArgs: {
+        fundingManager: {
+          bondingCurveParams: config.bondingCurveParams,
+          issuanceToken: {
+            name: formData.tokenName,
+            symbol: formData.tokenTicker,
+            decimals: "18",
+            maxSupply: config.tokenIssueMaxSupply,
+          },
+          tokenAdmin: formData.projectAddress,
+          collateralToken: config.COLATERAL_TOKEN,
+        },
+        authorizer: {
+          initialAdmin: formData.projectAddress, // should correspond to your deployer EOA for ease of configuration initially and represents the orchestrator admin
+        },
+      },
+    });
+    // TODO: save in db
+    console.log({
+      transactionHash,
+      orchestratorAddress,
+    });
+
     onNext();
   };
 

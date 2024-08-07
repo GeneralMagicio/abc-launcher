@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import { Address } from "viem";
 
 interface FormData {
   tokenName: string;
   tokenTicker: string;
   tokenIcon: { file: File; ipfsHash: string } | null;
-  projectAddress: string;
+  projectAddress: Address;
   agreedToTerms: boolean;
   agreedToPolicy: boolean;
   addressConfirmed: boolean;
