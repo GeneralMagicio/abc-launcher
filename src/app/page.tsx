@@ -3,6 +3,7 @@
 import { Button } from "@/components/Button";
 import { IconArrowRight } from "@/components/Icons/IconArrowRight";
 import config from "@/config/configuration";
+import { checkWhiteList } from "@/services/check-white-list";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -33,26 +34,12 @@ export default function Home() {
 
       if (address) {
         console.log("Launching Token for address:", address);
-        // Send the address to your endpoint
-        fetch("/api/whitelist", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ address }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Success:", data);
-            if (data.isWhiteListed) {
-              router.push("/token-form");
-            } else {
-              router.push("/not-whitelisted");
-            }
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
+        const isWhiteListed = await checkWhiteList(address);
+        if (isWhiteListed) {
+          router.push("/token-form");
+        } else {
+          router.push("/not-whitelisted");
+        }
       }
     } catch (error) {
       console.error("Error:", error);

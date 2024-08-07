@@ -53,7 +53,7 @@ const SuccessStep: React.FC<{}> = () => {
           <p className="text-lg text-gray-600">Grant size</p>
           <IconArrowRight size={24} />
           <div className="border-2 rounded-md border-success-600 bg-success-100 text-success-700 flex items-start gap-4 px-4 py-1">
-            <p className="text-lg">65,000 POL</p>
+            <p className="text-lg font-bold">65,000 MATIC</p>
             <p className="text-xs">$50,000</p>
           </div>
           {info.map((item) => (

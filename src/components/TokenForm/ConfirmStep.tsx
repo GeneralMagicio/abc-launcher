@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
 import Checkbox from "../Checkbox";
@@ -7,11 +7,14 @@ import InfoItem, { InfoType } from "./InfoItem";
 import { IconArrowRight } from "../Icons/IconArrowRight";
 import { useDeploy } from "@/hooks/useDeploy";
 import config from "@/config/configuration";
+import { addProject } from "@/app/actions/add-project";
+
 
 const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
   onBack,
 }) => {
+  const [loading, setLoading] = useState(false);
   const { formData } = useTokenFormContext();
   const methods = useForm<FormData>();
   const { handleSubmit, formState } = methods;
@@ -45,7 +48,22 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
       orchestratorAddress,
     });
 
-    onNext();
+    try {
+      setLoading(true);
+      const res = await addProject(
+        formData.tokenName,
+        formData.tokenTicker,
+        formData.tokenIcon?.ipfsHash || "",
+        formData.projectAddress
+      );
+      setLoading(false);
+      if (res.insertedId) {
+        onNext();
+      }
+    } catch (error: any) {
+      console.log("error", error.message);
+      setLoading(false);
+    }
   };
 
   const info = [
@@ -89,7 +107,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
               <p className="text-lg text-gray-600">Grant size</p>
               <IconArrowRight size={24} />
               <div className="border-2 rounded-md border-success-600 bg-success-100 text-success-700 flex items-start gap-4 px-4 py-1">
-                <p className="text-lg">65,000 POL</p>
+                <p className="text-lg  font-bold">65,000 MATIC</p>
                 <p className="text-xs">$50,000</p>
               </div>
               {info.map((item) => (
@@ -117,6 +135,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           onBack={onBack}
           nextLabel="Launch my token"
           isFormValid={formState.isValid}
+          isNextLoading={loading}
         />
       </form>
     </FormProvider>

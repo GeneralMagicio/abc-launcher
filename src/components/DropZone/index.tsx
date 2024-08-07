@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useDropzone } from "react-dropzone";
-import { IconX } from "../Icons/IconX";
-import { RegisterOptions, useFormContext } from "react-hook-form";
-import { uploadToIPFS } from "./service"; // Import the service
+import { useFormContext, RegisterOptions } from "react-hook-form";
+import { uploadToIPFS } from "./service";
 import axios from "axios";
-import { useTokenFormContext } from "../TokenForm/TokenFormContext";
+import { IconX } from "../Icons/IconX";
 
 interface DropzoneProps {
   onDrop: (acceptedFile: File, ipfsHash: string) => void;
@@ -16,23 +15,21 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [ipfsHash, setIpfsHash] = useState<string | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const { formData } = useTokenFormContext();
-  const { register, setError, clearErrors, trigger } = useFormContext();
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  const { register, setValue, trigger } = useFormContext();
 
   const onDropCallback = useCallback(
     async (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
       setSelectedImage(file);
       setIpfsHash(null);
+      setIsLoading(true);
 
       const controller = new AbortController();
-      setAbortController(controller);
-      setIsLoading(true);
-      setError(name, { type: "manual", message: "Uploading..." });
+      abortControllerRef.current = controller;
 
       const ipfsHash = await uploadToIPFS(
         file,
@@ -44,32 +41,27 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
             setUploadProgress(progress);
           }
         },
-        controller.signal
+        controller.signal // Pass the AbortController signal for cancellation
       );
 
       setIsLoading(false);
-      setAbortController(null);
+      abortControllerRef.current = null;
 
       if (ipfsHash) {
         onDrop(file, ipfsHash);
         setIpfsHash(ipfsHash);
-        clearErrors(name);
-        await trigger(name); // Revalidate after setting the value
-      } else {
-        setError(name, { type: "manual", message: "Upload failed" });
+        setValue(name, ipfsHash, { shouldValidate: true }); // Set value and trigger validation
       }
     },
-    [onDrop, trigger, name, setError, clearErrors]
+    [onDrop, setValue, name]
   );
 
   const cancelUpload = () => {
-    if (abortController) {
-      abortController.abort();
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
       setUploadProgress(0);
       setSelectedImage(null);
       setIsLoading(false);
-      clearErrors(name);
-      trigger(name); // Revalidate after clearing the error
     }
   };
 
@@ -81,8 +73,6 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
         setSelectedImage(null);
         setIpfsHash(null);
         setIsLoading(false);
-        clearErrors(name);
-        trigger(name); // Revalidate after clearing the error
       } catch (error) {
         console.error("Error deleting from IPFS", error);
       }
@@ -97,12 +87,9 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
   });
 
   useEffect(() => {
-    if (formData?.tokenIcon) {
-      setSelectedImage(formData.tokenIcon.file);
-      setIpfsHash(formData.tokenIcon.ipfsHash);
-      setUploadProgress(100);
-    }
-  }, [formData]);
+    // Set validation state when image is selected
+    trigger(name);
+  }, [selectedImage, trigger, name, ipfsHash, isLoading]);
 
   return (
     <>
@@ -114,7 +101,15 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
       >
         <input {...getInputProps()} />
         <input
-          {...register(name, rules)}
+          {...register(name, {
+            ...rules,
+            validate: (value) => {
+              if (isLoading) {
+                return "Upload in progress...";
+              }
+              return true;
+            },
+          })}
           value={ipfsHash || ""}
           className="hidden"
           readOnly
@@ -124,13 +119,11 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
         ) : (
           <>
             {selectedImage ? (
-              <>
-                <img
-                  src={URL.createObjectURL(selectedImage)}
-                  alt="Selected Icon"
-                  className="block mb-4 mx-auto"
-                />
-              </>
+              <img
+                src={URL.createObjectURL(selectedImage)}
+                alt="Selected Icon"
+                className="block mb-4 mx-auto"
+              />
             ) : (
               <>
                 <p>Drop your Token icon here</p>
