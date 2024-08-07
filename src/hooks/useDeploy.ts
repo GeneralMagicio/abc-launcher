@@ -4,7 +4,6 @@ import { useMutation } from "@tanstack/react-query";
 import { GetUserArgs, RequestedModules } from "@inverter-network/sdk";
 import { useInverter } from "./useInverter";
 import { toast } from "sonner";
-import { on } from "events";
 
 export const requestedModules = {
   fundingManager: "FM_BC_Restricted_Bancor_Redeeming_VirtualSupply_v1",

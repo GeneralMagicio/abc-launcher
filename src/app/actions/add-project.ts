@@ -4,7 +4,9 @@ export async function addProject(
   tokenName: string,
   tokenTicker: string,
   iconHash: string,
-  projectAddress: string
+  projectAddress: string,
+  transactionHash: string,
+  orchestratorAddress: string
 ) {
   // Add project to database
   console.log("Adding token to database...");
@@ -15,7 +17,7 @@ export async function addProject(
       "api-key": process.env.MONGODB_API_KEY || "",
     },
     body: JSON.stringify({
-      dataSource: "giveth",
+      dataSource: process.env.MONGO_DATA_SOURCE || "giveth",
       database: "abc-launcher",
       collection: "project",
       document: {
@@ -23,6 +25,8 @@ export async function addProject(
         tokenTicker,
         iconHash,
         projectAddress,
+        transactionHash,
+        orchestratorAddress,
       },
     }),
   });

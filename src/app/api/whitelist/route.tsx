@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 const whiteListedAddresses = [
   "0x8F48094a12c8F99d616AE8F3305D5eC73cBAA6b6",
   "0xa8514833884e0C076C0650e0cAEe7a3C3c65B770",
+  "0xF23eA0b5F14afcbe532A1df273F7B233EBe41C78",
 ];
 
 export async function POST(request: Request) {

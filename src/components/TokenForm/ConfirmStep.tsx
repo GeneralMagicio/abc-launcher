@@ -9,7 +9,6 @@ import { useDeploy } from "@/hooks/useDeploy";
 import config from "@/config/configuration";
 import { addProject } from "@/app/actions/add-project";
 
-
 const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
   onBack,
@@ -54,7 +53,9 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
         formData.tokenName,
         formData.tokenTicker,
         formData.tokenIcon?.ipfsHash || "",
-        formData.projectAddress
+        formData.projectAddress,
+        transactionHash,
+        orchestratorAddress
       );
       setLoading(false);
       if (res.insertedId) {

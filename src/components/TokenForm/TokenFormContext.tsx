@@ -27,7 +27,7 @@ export const TokenFormProvider: React.FC<{ children: ReactNode }> = ({
     tokenName: "",
     tokenTicker: "",
     tokenIcon: null,
-    projectAddress: "",
+    projectAddress: "" as Address,
     agreedToTerms: false,
     agreedToPolicy: false,
     addressConfirmed: false,
