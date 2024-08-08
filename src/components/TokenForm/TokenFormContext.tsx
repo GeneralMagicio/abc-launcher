@@ -9,6 +9,7 @@ interface FormData {
   agreedToTerms: boolean;
   agreedToPolicy: boolean;
   addressConfirmed: boolean;
+  issuanceTokenAddress?: Address;
 }
 
 interface TokenFormContextType {

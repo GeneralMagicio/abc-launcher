@@ -1,16 +1,12 @@
-import React, { Fragment } from "react";
-import StepNavigation from "./StepNavigation";
+import React from "react";
 import { useTokenFormContext } from "./TokenFormContext";
-import Checkbox from "../Checkbox";
-import { FormProvider, useForm } from "react-hook-form";
-import Image from "next/image";
-import config from "@/config/configuration";
 import InfoItem, { InfoType } from "./InfoItem";
 import { Button } from "../Button";
 import { IconArrowRight } from "../Icons/IconArrowRight";
 
 const SuccessStep: React.FC<{}> = () => {
   const { formData } = useTokenFormContext();
+  console.log(formData);
 
   const info = [
     {
@@ -35,7 +31,7 @@ const SuccessStep: React.FC<{}> = () => {
     },
     {
       label: "Token Contract Address",
-      value: formData.projectAddress,
+      value: formData.issuanceTokenAddress,
       type: InfoType.LINK,
     },
   ];
