@@ -3,10 +3,10 @@ import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
 import Checkbox from "../Checkbox";
 import { FormProvider, useForm } from "react-hook-form";
-import Image from "next/image";
-import config from "@/config/configuration";
 import InfoItem, { InfoType } from "./InfoItem";
 import { IconArrowRight } from "../Icons/IconArrowRight";
+import { useDeploy } from "@/hooks/useDeploy";
+import config from "@/config/configuration";
 import { addProject } from "@/app/actions/add-project";
 
 const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
@@ -17,15 +17,45 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const { formData } = useTokenFormContext();
   const methods = useForm<FormData>();
   const { handleSubmit, formState } = methods;
+  const { deploy, prep } = useDeploy();
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: FormData) => {
+    const prepData = await prep.mutateAsync();
+
+    const { transactionHash, orchestratorAddress } = await deploy.mutateAsync({
+      prepData,
+      userArgs: {
+        fundingManager: {
+          bondingCurveParams: config.bondingCurveParams,
+          issuanceToken: {
+            name: formData.tokenName,
+            symbol: formData.tokenTicker,
+            decimals: "18",
+            maxSupply: config.tokenIssueMaxSupply,
+          },
+          tokenAdmin: formData.projectAddress,
+          collateralToken: config.COLATERAL_TOKEN,
+        },
+        authorizer: {
+          initialAdmin: formData.projectAddress, // should correspond to your deployer EOA for ease of configuration initially and represents the orchestrator admin
+        },
+      },
+    });
+    // TODO: save in db
+    console.log({
+      transactionHash,
+      orchestratorAddress,
+    });
+
     try {
       setLoading(true);
       const res = await addProject(
         formData.tokenName,
         formData.tokenTicker,
         formData.tokenIcon?.ipfsHash || "",
-        formData.projectAddress
+        formData.projectAddress,
+        transactionHash,
+        orchestratorAddress
       );
       setLoading(false);
       if (res.insertedId) {

@@ -5,13 +5,13 @@ import Checkbox from "@/components/Checkbox";
 import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
 import { Dropzone } from "@/components/DropZone";
-import { isAddress } from "viem";
+import { Address, isAddress } from "viem";
 
 interface FormData {
   tokenName: string;
   tokenTicker: string;
   tokenIcon: { file: File; ipfsHash: string } | null;
-  projectAddress: string;
+  projectAddress: Address;
   addressConfirmed: boolean;
 }
 

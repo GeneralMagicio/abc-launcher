@@ -6,6 +6,7 @@ import { cookieToInitialState } from "wagmi";
 import { wagmiConfig } from "@/config/wagmi";
 import Web3ModalProvider from "@/context/wagmi";
 import { headers } from "next/headers";
+import { Toaster } from "sonner";
 
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={nunito.className}>
         <div className="min-h-screen flex flex-col relative overflow-x-hidden">
+          <Toaster />
           <Web3ModalProvider initialState={initialState}>
             <Header />
             <div className="flex-1 flex items-center">{children}</div>
