@@ -3,6 +3,7 @@ import { useTokenFormContext } from "./TokenFormContext";
 import InfoItem, { InfoType } from "./InfoItem";
 import { Button } from "../Button";
 import { IconArrowRight } from "../Icons/IconArrowRight";
+import { Address } from "viem";
 
 const SuccessStep: React.FC<{}> = () => {
   const { formData } = useTokenFormContext();
@@ -31,7 +32,7 @@ const SuccessStep: React.FC<{}> = () => {
     },
     {
       label: "Token Contract Address",
-      value: formData.issuanceTokenAddress,
+      value: formData.issuanceTokenAddress as Address,
       type: InfoType.LINK,
     },
   ];
