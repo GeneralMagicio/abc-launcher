@@ -14,10 +14,10 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onBack,
 }) => {
   const [loading, setLoading] = useState(false);
-  const { formData } = useTokenFormContext();
+  const { formData, setFormData } = useTokenFormContext();
   const methods = useForm<FormData>();
   const { handleSubmit, formState } = methods;
-  const { deploy, prep } = useDeploy();
+  const { deploy, prep, requestedModules, inverter } = useDeploy();
 
   const onSubmit = async (data: FormData) => {
     const prepData = await prep.mutateAsync();
@@ -33,7 +33,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             decimals: "18",
             maxSupply: config.tokenIssueMaxSupply,
           },
-          tokenAdmin: formData.projectAddress,
+          tokenAdmin: formData.projectAddress, // TODO: maybe a hardcoded address
           collateralToken: config.COLATERAL_TOKEN,
         },
         authorizer: {
@@ -41,6 +41,20 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
         },
       },
     });
+
+    if (!inverter) throw new Error("Inverter instance not found");
+
+    await inverter.publicClient.waitForTransactionReceipt({
+      hash: transactionHash,
+    });
+    const workflow = await inverter.getWorkflow(
+      orchestratorAddress,
+      requestedModules
+    );
+
+    const issuanceTokenAddress =
+      await workflow.fundingManager.read.getIssuanceToken.run();
+
     // TODO: save in db
     console.log({
       transactionHash,
@@ -59,6 +73,10 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
       );
       setLoading(false);
       if (res.insertedId) {
+        setFormData({
+          ...data,
+          issuanceTokenAddress,
+        });
         onNext();
       }
     } catch (error: any) {
