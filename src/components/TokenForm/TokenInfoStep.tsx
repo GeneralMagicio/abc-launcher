@@ -81,7 +81,8 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           <Input
             name="projectAddress"
             label="Project Address"
-            placeholder="Enter project address"
+            placeholder="0x..."
+            description="The grant is being sent to this address."
             rules={{
               required: "Project Address is required",
               validate: (value) => {
