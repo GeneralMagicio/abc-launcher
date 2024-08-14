@@ -6,7 +6,8 @@ export async function addProject(
   iconHash: string,
   projectAddress: string,
   transactionHash: string,
-  orchestratorAddress: string
+  orchestratorAddress: string,
+  userAddress: string
 ) {
   // Add project to database
   console.log("Adding token to database...");
@@ -27,6 +28,7 @@ export async function addProject(
         projectAddress,
         transactionHash,
         orchestratorAddress,
+        userAddress: userAddress.toLocaleLowerCase(),
       },
     }),
   });
