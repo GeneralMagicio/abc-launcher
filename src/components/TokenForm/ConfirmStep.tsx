@@ -70,15 +70,16 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
 
     try {
       setLoading(true);
-      const res = await addProject(
-        formData.tokenName,
-        formData.tokenTicker,
-        formData.tokenIcon?.ipfsHash || "",
-        formData.projectAddress,
-        transactionHash,
-        orchestratorAddress,
-        address
-      );
+      const res = await addProject({
+        tokenName: formData.tokenName,
+        tokenTicker: formData.tokenTicker,
+        iconHash: formData.tokenIcon?.ipfsHash || "",
+        projectAddress: formData.projectAddress,
+        transactionHash: transactionHash,
+        orchestratorAddress: orchestratorAddress,
+        userAddress: address,
+        issuanceTokenAddress,
+      });
       setLoading(false);
       if (res.insertedId) {
         setFormData({
