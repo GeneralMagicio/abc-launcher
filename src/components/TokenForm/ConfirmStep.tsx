@@ -8,6 +8,8 @@ import { IconArrowRight } from "../Icons/IconArrowRight";
 import { useDeploy } from "@/hooks/useDeploy";
 import config from "@/config/configuration";
 import { addProject } from "@/app/actions/add-project";
+import { useAccount } from "wagmi";
+import { checkWhiteList } from "@/services/check-white-list";
 
 const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
@@ -16,11 +18,16 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const [loading, setLoading] = useState(false);
   const { formData, setFormData } = useTokenFormContext();
   const methods = useForm<FormData>();
+  const { address } = useAccount();
   const { handleSubmit, formState } = methods;
   const { deploy, prep, requestedModules, inverter } = useDeploy();
 
   const onSubmit = async (data: FormData) => {
     const prepData = await prep.mutateAsync();
+
+    if (!address) throw new Error("Address not found");
+    const isWhiteListed = await checkWhiteList(address);
+    if (!isWhiteListed) throw new Error("Address not whitelisted");
 
     const { transactionHash, orchestratorAddress } = await deploy.mutateAsync({
       prepData,
@@ -63,14 +70,16 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
 
     try {
       setLoading(true);
-      const res = await addProject(
-        formData.tokenName,
-        formData.tokenTicker,
-        formData.tokenIcon?.ipfsHash || "",
-        formData.projectAddress,
-        transactionHash,
-        orchestratorAddress
-      );
+      const res = await addProject({
+        tokenName: formData.tokenName,
+        tokenTicker: formData.tokenTicker,
+        iconHash: formData.tokenIcon?.ipfsHash || "",
+        projectAddress: formData.projectAddress,
+        transactionHash: transactionHash,
+        orchestratorAddress: orchestratorAddress,
+        userAddress: address,
+        issuanceTokenAddress,
+      });
       setLoading(false);
       if (res.insertedId) {
         setFormData({
