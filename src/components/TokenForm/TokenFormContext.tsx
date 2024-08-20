@@ -10,6 +10,7 @@ interface FormData {
   agreedToPolicy: boolean;
   addressConfirmed: boolean;
   issuanceTokenAddress?: Address;
+  nftContractAddress?: Address;
 }
 
 interface TokenFormContextType {

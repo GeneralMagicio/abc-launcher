@@ -10,6 +10,8 @@ import config from "@/config/configuration";
 import { addProject } from "@/app/actions/add-project";
 import { useAccount } from "wagmi";
 import { checkWhiteList } from "@/services/check-white-list";
+import { useNFT } from "@/hooks/useNFT";
+import { toast } from "sonner";
 
 const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
@@ -21,6 +23,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const { address } = useAccount();
   const { handleSubmit, formState } = methods;
   const { deploy, prep, requestedModules, inverter } = useDeploy();
+  const { deploy: deployNFT } = useNFT();
 
   const onSubmit = async (data: FormData) => {
     const prepData = await prep.mutateAsync();
@@ -28,6 +31,15 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     if (!address) throw new Error("Address not found");
     const isWhiteListed = await checkWhiteList(address);
     if (!isWhiteListed) throw new Error("Address not whitelisted");
+
+    const nftName = formData.tokenName.trim() + " NFT";
+    const nftSymbol = formData.tokenTicker.trim() + "NFT";
+    const nftContractAddress = await deployNFT.mutateAsync({
+      name: nftName,
+      symbol: nftSymbol,
+    });
+
+    if (!nftContractAddress) throw new Error("NFT not deployed");
 
     const { transactionHash, orchestratorAddress } = await deploy.mutateAsync({
       prepData,
@@ -79,17 +91,19 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
         orchestratorAddress: orchestratorAddress,
         userAddress: address,
         issuanceTokenAddress,
+        nftContractAddress,
       });
       setLoading(false);
       if (res.insertedId) {
         setFormData({
           ...data,
           issuanceTokenAddress,
+          nftContractAddress,
         });
         onNext();
       }
     } catch (error: any) {
-      console.log("error", error.message);
+      toast.error(error.message);
       setLoading(false);
     }
   };

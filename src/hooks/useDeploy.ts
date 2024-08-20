@@ -37,7 +37,6 @@ export const useDeploy = () => {
         paymentProcessor: "PP_Simple_v1";
       }>;
     }) => {
-      const a = 3;
       if (!prepData) throw new Error("No deploy data found");
 
       return prepData.run(userArgs);
