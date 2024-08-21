@@ -26,62 +26,64 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const { deploy: deployNFT } = useNFT();
 
   const onSubmit = async (data: FormData) => {
-    const prepData = await prep.mutateAsync();
-
-    if (!address) throw new Error("Address not found");
-    const isWhiteListed = await checkWhiteList(address);
-    if (!isWhiteListed) throw new Error("Address not whitelisted");
-
-    const nftName = formData.tokenName.trim() + " NFT";
-    const nftSymbol = formData.tokenTicker.trim() + "NFT";
-    const nftContractAddress = await deployNFT.mutateAsync({
-      name: nftName,
-      symbol: nftSymbol,
-    });
-
-    if (!nftContractAddress) throw new Error("NFT not deployed");
-
-    const { transactionHash, orchestratorAddress } = await deploy.mutateAsync({
-      prepData,
-      userArgs: {
-        fundingManager: {
-          bondingCurveParams: config.bondingCurveParams,
-          issuanceToken: {
-            name: formData.tokenName,
-            symbol: formData.tokenTicker,
-            decimals: "18",
-            maxSupply: config.tokenIssueMaxSupply,
-          },
-          tokenAdmin: formData.projectAddress, // TODO: maybe a hardcoded address
-          collateralToken: config.COLATERAL_TOKEN,
-        },
-        authorizer: {
-          initialAdmin: formData.projectAddress, // should correspond to your deployer EOA for ease of configuration initially and represents the orchestrator admin
-        },
-      },
-    });
-
-    if (!inverter) throw new Error("Inverter instance not found");
-
-    await inverter.publicClient.waitForTransactionReceipt({
-      hash: transactionHash,
-    });
-    const workflow = await inverter.getWorkflow(
-      orchestratorAddress,
-      requestedModules
-    );
-
-    const issuanceTokenAddress =
-      await workflow.fundingManager.read.getIssuanceToken.run();
-
-    // TODO: save in db
-    console.log({
-      transactionHash,
-      orchestratorAddress,
-    });
-
+    setLoading(true);
     try {
-      setLoading(true);
+      const prepData = await prep.mutateAsync();
+
+      if (!address) throw new Error("Address not found");
+      const isWhiteListed = await checkWhiteList(address);
+      if (!isWhiteListed) throw new Error("Address not whitelisted");
+
+      const nftName = formData.tokenName.trim() + " NFT";
+      const nftSymbol = formData.tokenTicker.trim() + "NFT";
+      const nftContractAddress = await deployNFT.mutateAsync({
+        name: nftName,
+        symbol: nftSymbol,
+      });
+
+      if (!nftContractAddress) throw new Error("NFT not deployed");
+
+      const { transactionHash, orchestratorAddress } = await deploy.mutateAsync(
+        {
+          prepData,
+          userArgs: {
+            fundingManager: {
+              bondingCurveParams: config.bondingCurveParams,
+              issuanceToken: {
+                name: formData.tokenName,
+                symbol: formData.tokenTicker,
+                decimals: "18",
+                maxSupply: config.tokenIssueMaxSupply,
+              },
+              tokenAdmin: formData.projectAddress, // TODO: maybe a hardcoded address
+              collateralToken: config.COLATERAL_TOKEN,
+            },
+            authorizer: {
+              initialAdmin: formData.projectAddress, // should correspond to your deployer EOA for ease of configuration initially and represents the orchestrator admin
+            },
+          },
+        }
+      );
+
+      if (!inverter) throw new Error("Inverter instance not found");
+
+      await inverter.publicClient.waitForTransactionReceipt({
+        hash: transactionHash,
+      });
+      const workflow = await inverter.getWorkflow(
+        orchestratorAddress,
+        requestedModules
+      );
+
+      const issuanceTokenAddress =
+        await workflow.fundingManager.read.getIssuanceToken.run();
+
+      // TODO: save in db
+      console.log({
+        transactionHash,
+        orchestratorAddress,
+      });
+
       const res = await addProject({
         tokenName: formData.tokenName,
         tokenTicker: formData.tokenTicker,
@@ -92,8 +94,8 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
         userAddress: address,
         issuanceTokenAddress,
         nftContractAddress,
+        chainId: inverter.publicClient.chain.id,
       });
-      setLoading(false);
       if (res.insertedId) {
         setFormData({
           ...data,
@@ -104,6 +106,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
       }
     } catch (error: any) {
       toast.error(error.message);
+    } finally {
       setLoading(false);
     }
   };
