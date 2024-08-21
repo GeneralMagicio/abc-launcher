@@ -9,6 +9,8 @@ export async function addProject(param: {
   orchestratorAddress: string;
   userAddress: string;
   issuanceTokenAddress: string;
+  nftContractAddress: string;
+  chainId: number;
 }) {
   const {
     tokenName,
@@ -19,6 +21,8 @@ export async function addProject(param: {
     orchestratorAddress,
     userAddress,
     issuanceTokenAddress,
+    nftContractAddress,
+    chainId,
   } = param;
   // Add project to database
   console.log("Adding token to database...");
@@ -41,6 +45,8 @@ export async function addProject(param: {
         orchestratorAddress: orchestratorAddress.toLocaleLowerCase(),
         userAddress: userAddress.toLocaleLowerCase(),
         issuanceTokenAddress: issuanceTokenAddress.toLocaleLowerCase(),
+        nftContractAddress: nftContractAddress.toLocaleLowerCase(),
+        chainId,
       },
     }),
   });

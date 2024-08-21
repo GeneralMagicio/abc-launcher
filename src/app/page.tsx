@@ -12,7 +12,7 @@ import { useAccount, useSwitchChain } from "wagmi";
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const { open: openWeb3Modal } = useWeb3Modal();
-  const { address, chainId, isConnected } = useAccount();
+  const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
 
   const router = useRouter();
