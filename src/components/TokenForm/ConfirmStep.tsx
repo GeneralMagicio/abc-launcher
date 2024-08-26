@@ -49,17 +49,17 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           userArgs: {
             fundingManager: {
               bondingCurveParams: config.bondingCurveParams,
-              issuanceToken: {
-                name: formData.tokenName,
-                symbol: formData.tokenTicker,
-                decimals: "18",
-                maxSupply: config.tokenIssueMaxSupply,
-              },
-              tokenAdmin: formData.projectAddress, // TODO: maybe a hardcoded address
+              issuanceToken: config.COLATERAL_TOKEN,
               collateralToken: config.COLATERAL_TOKEN,
             },
             authorizer: {
               initialAdmin: formData.projectAddress, // should correspond to your deployer EOA for ease of configuration initially and represents the orchestrator admin
+            },
+            issuanceToken: {
+              name: formData.tokenName,
+              symbol: formData.tokenTicker,
+              decimals: "18",
+              maxSupply: config.tokenIssueMaxSupply,
             },
           },
         }
@@ -70,10 +70,10 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
       await inverter.publicClient.waitForTransactionReceipt({
         hash: transactionHash,
       });
-      const workflow = await inverter.getWorkflow(
+      const workflow = await inverter.getWorkflow({
         orchestratorAddress,
-        requestedModules
-      );
+        requestedModules,
+      });
 
       const issuanceTokenAddress =
         await workflow.fundingManager.read.getIssuanceToken.run();

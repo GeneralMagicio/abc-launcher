@@ -16,8 +16,9 @@ const config = {
     sellFee: "100",
     buyIsOpen: true,
     sellIsOpen: true,
-    initialIssuanceSupply: "1",
-    initialCollateralSupply: "3",
+    initialIssuanceSupply: "3000", // human readable format
+    // This will be deposited into the contract
+    initialCollateralSupply: "1000", // human readable format,
   },
   SCAN_URL: "https://etherscan.io/",
   tokenIssueMaxSupply: "1000000",
