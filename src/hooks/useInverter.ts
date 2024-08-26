@@ -10,7 +10,10 @@ export const useInverter = () => {
   const inverter = useQuery({
     queryKey: ["inverter", chainId, walletClient.dataUpdatedAt],
     queryFn: async () => {
-      const instance = new Inverter(publicClient!, walletClient.data);
+      const instance = new Inverter({
+        publicClient: publicClient!,
+        walletClient: walletClient.data,
+      });
 
       // use math.random() as fallback for crypto.randomUUID() between 1 and 10000
       const instanceId =

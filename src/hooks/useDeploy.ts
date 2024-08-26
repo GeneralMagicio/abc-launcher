@@ -10,15 +10,21 @@ export const requestedModules = {
   authorizer: "AUT_Roles_v1",
   paymentProcessor: "PP_Streaming_v1",
   optionalModules: ["LM_PC_PaymentRouter_v1"],
-} satisfies RequestedModules;
+} as const satisfies RequestedModules;
 
 export const useDeploy = () => {
   const inverter = useInverter();
 
   const prep = useMutation({
-    mutationFn: () => {
+    mutationFn: async () => {
       if (!inverter) throw new Error("Inverter instance not found");
-      return inverter.getDeploy(requestedModules);
+
+      const data = await inverter.getDeploy({
+        requestedModules,
+        factoryType: "restricted-pim",
+      });
+
+      return data;
     },
     onError: (error) => {
       toast.error(error.message);
@@ -30,12 +36,15 @@ export const useDeploy = () => {
       userArgs,
       prepData,
     }: {
-      prepData: typeof prep.data;
-      userArgs: GetUserArgs<{
-        fundingManager: "FM_BC_Bancor_Redeeming_VirtualSupply_v1";
-        authorizer: "AUT_Roles_v1";
-        paymentProcessor: "PP_Simple_v1";
-      }>;
+      prepData: (typeof prep)["data"];
+      userArgs: GetUserArgs<
+        {
+          fundingManager: "FM_BC_Bancor_Redeeming_VirtualSupply_v1";
+          authorizer: "AUT_Roles_v1";
+          paymentProcessor: "PP_Simple_v1";
+        },
+        "restricted-pim"
+      >;
     }) => {
       if (!prepData) throw new Error("No deploy data found");
 
