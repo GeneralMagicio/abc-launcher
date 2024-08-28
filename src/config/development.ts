@@ -10,8 +10,8 @@ const config = {
 
   bondingCurveParams: {
     formula: "0xfaf6c989dB0582D7b31e40343dd4A41a1848E038" as Address,
-    reserveRatioForBuying: "333333",
-    reserveRatioForSelling: "333333",
+    reserveRatioForBuying: 333333,
+    reserveRatioForSelling: 333333,
     buyFee: "0",
     sellFee: "100",
     buyIsOpen: true,

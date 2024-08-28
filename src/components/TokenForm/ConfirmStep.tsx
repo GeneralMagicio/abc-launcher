@@ -58,7 +58,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             issuanceToken: {
               name: formData.tokenName,
               symbol: formData.tokenTicker,
-              decimals: "18",
+              decimals: 18,
               maxSupply: config.tokenIssueMaxSupply,
             },
           },
