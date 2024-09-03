@@ -1,8 +1,11 @@
 import React from "react";
 import StepNavigation from "./StepNavigation";
 import { useForm, FormProvider } from "react-hook-form";
-import Checkbox from "../Checkbox";
 import { useTokenFormContext } from "./TokenFormContext";
+import { MessageType, POLICY_STATEMENT } from "@/constants/signAndSubmit";
+import { useSignAndSubmit } from "@/hooks/useSignAndSubmit";
+import { SignMessageErrorType } from "viem";
+import { toast } from "sonner";
 
 interface FormData {
   agreedToPolicy: boolean;
@@ -17,11 +20,35 @@ const PolicyStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     defaultValues: formData,
     mode: "onChange", // This enables validation on change
   });
+  const { signAndSubmit } = useSignAndSubmit();
   const { handleSubmit, formState } = methods;
 
-  const onSubmit = (data: FormData) => {
-    setFormData(data);
-    onNext();
+  const onSubmit = async (data: FormData) => {
+    try {
+      const res = await signAndSubmit.mutateAsync(
+        {
+          message: POLICY_STATEMENT,
+          type: MessageType.PrivacyPolicy,
+        },
+        {
+          onError: (e) => {
+            const err = e as SignMessageErrorType;
+            if (e.name === "UserRejectedRequestError") {
+              toast.error("You must sign the Policy to continue");
+            } else {
+              toast.error(err.name);
+            }
+          },
+        }
+      );
+
+      if (res) {
+        setFormData(data);
+        onNext();
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -35,32 +62,16 @@ const PolicyStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             Review Privacy Policy
           </h1>
           <p className="max-h-64 overflow-x-hidden overflow-y-auto text-justify">
-            The Quadratic Accelerator takes personal privacy very seriously. As
-            a general rule, this website does not collect your personal
-            information unless you choose to provide that information to us.
-            When you choose to provide us with your personal information, you
-            are giving Quadratic Accelerator your permission to use that
-            information for the stated purposes listed in this privacy policy.
-            If you choose not to provide us with that information, it might
-            limit the features and services that you can use on this website.
-            permission to use that information for the stated purposes listed in
-            this privacy policy. If you choose not to provide us with that
-            information, it might limit the features and services that you can
-            use on this website.
+            {POLICY_STATEMENT}
           </p>
-          <Checkbox
-            name="agreedToPolicy"
-            label="I have read and agree to the Privacy Policy."
-            rules={{
-              required: "You must agree to the Privacy Policy to continue",
-            }}
-          />
         </section>
         <StepNavigation
+          isNextLoading={signAndSubmit.isPending}
           currentStep={3}
           totalSteps={4}
           onBack={onBack}
-          isFormValid={formState.isValid}
+          isFormValid
+          nextLabel="Sign Policy and Proceed"
         />
       </form>
     </FormProvider>

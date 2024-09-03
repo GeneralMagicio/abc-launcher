@@ -1,8 +1,11 @@
 import React from "react";
 import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
-import Checkbox from "../Checkbox";
 import { FormProvider, useForm } from "react-hook-form";
+import { TERMS_AND_CONDITIONS, MessageType } from "@/constants/signAndSubmit";
+import { useSignAndSubmit } from "@/hooks/useSignAndSubmit";
+import { toast } from "sonner";
+import { SignMessageErrorType } from "viem";
 
 interface FormData {
   agreedToTerms: boolean;
@@ -17,11 +20,35 @@ const TermsStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     defaultValues: formData,
     mode: "onChange", // This enables validation on change
   });
+  const { signAndSubmit } = useSignAndSubmit();
   const { handleSubmit, formState } = methods;
 
-  const onSubmit = (data: FormData) => {
-    setFormData(data);
-    onNext();
+  const onSubmit = async (data: FormData) => {
+    try {
+      const res = await signAndSubmit.mutateAsync(
+        {
+          message: TERMS_AND_CONDITIONS,
+          type: MessageType.TermsAndConditions,
+        },
+        {
+          onError: (e) => {
+            const err = e as SignMessageErrorType;
+            if (e.name === "UserRejectedRequestError") {
+              toast.error("You must sign the Terms of Service to continue");
+            } else {
+              toast.error(err.name);
+            }
+          },
+        }
+      );
+
+      if (res) {
+        setFormData(data);
+        onNext();
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -35,32 +62,16 @@ const TermsStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             Review Terms of Service
           </h1>
           <p className="max-h-64 overflow-x-hidden overflow-y-auto text-justify">
-            The Quadratic Accelerator takes personal privacy very seriously. As
-            a general rule, this website does not collect your personal
-            information unless you choose to provide that information to us.
-            When you choose to provide us with your personal information, you
-            are giving Quadratic Accelerator your permission to use that
-            information for the stated purposes listed in this privacy policy.
-            If you choose not to provide us with that information, it might
-            limit the features and services that you can use on this website.
-            permission to use that information for the stated purposes listed in
-            this privacy policy. If you choose not to provide us with that
-            information, it might limit the features and services that you can
-            use on this website.
+            {TERMS_AND_CONDITIONS}
           </p>
-          <Checkbox
-            name="agreedToTerms"
-            label="I have read and agree to the Terms of Service."
-            rules={{
-              required: "You must agree to the Terms of Service to continue",
-            }}
-          />
         </section>
         <StepNavigation
+          isNextLoading={signAndSubmit.isPending}
           currentStep={2}
           totalSteps={4}
           onBack={onBack}
-          isFormValid={formState.isValid}
+          isFormValid
+          nextLabel="Sign Terms and Proceed"
         />
       </form>
     </FormProvider>
