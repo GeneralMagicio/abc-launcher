@@ -11,6 +11,7 @@ interface FormData {
   addressConfirmed: boolean;
   issuanceTokenAddress?: Address;
   nftContractAddress?: Address;
+  policyAcceptTime?: Date;
 }
 
 interface TokenFormContextType {
@@ -33,6 +34,7 @@ export const TokenFormProvider: React.FC<{ children: ReactNode }> = ({
     agreedToTerms: false,
     agreedToPolicy: false,
     addressConfirmed: false,
+    policyAcceptTime: undefined,
   });
 
   const setFormData = (data: Partial<FormData>) => {

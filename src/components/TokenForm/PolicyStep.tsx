@@ -1,11 +1,9 @@
 import React from "react";
 import StepNavigation from "./StepNavigation";
 import { useForm, FormProvider } from "react-hook-form";
+import Checkbox from "../Checkbox";
 import { useTokenFormContext } from "./TokenFormContext";
-import { MessageType, POLICY_STATEMENT } from "@/constants/signAndSubmit";
-import { useSignAndSubmit } from "@/hooks/useSignAndSubmit";
-import { SignMessageErrorType } from "viem";
-import { toast } from "sonner";
+import { POLICY_STATEMENT } from "@/constants/signAndSubmit";
 
 interface FormData {
   agreedToPolicy: boolean;
@@ -20,35 +18,14 @@ const PolicyStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     defaultValues: formData,
     mode: "onChange", // This enables validation on change
   });
-  const { signAndSubmit } = useSignAndSubmit();
   const { handleSubmit, formState } = methods;
 
-  const onSubmit = async (data: FormData) => {
-    try {
-      const res = await signAndSubmit.mutateAsync(
-        {
-          message: POLICY_STATEMENT,
-          type: MessageType.PrivacyPolicy,
-        },
-        {
-          onError: (e) => {
-            const err = e as SignMessageErrorType;
-            if (e.name === "UserRejectedRequestError") {
-              toast.error("You must sign the Policy to continue");
-            } else {
-              toast.error(err.name);
-            }
-          },
-        }
-      );
-
-      if (res) {
-        setFormData(data);
-        onNext();
-      }
-    } catch (e) {
-      console.error(e);
-    }
+  const onSubmit = (data: FormData) => {
+    setFormData({
+      ...data,
+      policyAcceptTime: new Date(),
+    });
+    onNext();
   };
 
   return (
@@ -64,14 +41,19 @@ const PolicyStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           <p className="max-h-64 overflow-x-hidden overflow-y-auto text-justify">
             {POLICY_STATEMENT}
           </p>
+          <Checkbox
+            name="agreedToPolicy"
+            label="I have read and agree to the Privacy Policy."
+            rules={{
+              required: "You must agree to the Privacy Policy to continue",
+            }}
+          />
         </section>
         <StepNavigation
-          isNextLoading={signAndSubmit.isPending}
           currentStep={3}
           totalSteps={4}
           onBack={onBack}
-          isFormValid
-          nextLabel="Sign Policy and Proceed"
+          isFormValid={formState.isValid}
         />
       </form>
     </FormProvider>

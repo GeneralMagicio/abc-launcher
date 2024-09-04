@@ -95,6 +95,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
         issuanceTokenAddress,
         nftContractAddress,
         chainId: inverter.publicClient.chain.id,
+        policyAcceptTime: formData.policyAcceptTime || new Date(),
       });
       if (res.insertedId) {
         setFormData({
