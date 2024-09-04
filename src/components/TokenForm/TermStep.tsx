@@ -71,7 +71,7 @@ const TermsStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           totalSteps={4}
           onBack={onBack}
           isFormValid
-          nextLabel="Sign Terms and Proceed"
+          nextLabel="Sign & Continue"
         />
       </form>
     </FormProvider>
