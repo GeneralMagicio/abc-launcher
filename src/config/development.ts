@@ -22,6 +22,7 @@ const config = {
   },
   SCAN_URL: "https://sepolia-optimism.etherscan.io/",
   tokenIssueMaxSupply: "1000000",
+  gotToDashboardLink: "https://q-acc.vercel.app/create",
 };
 
 export default config;
