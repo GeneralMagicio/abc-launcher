@@ -1,9 +1,10 @@
 import React from "react";
+import Link from "next/link";
 import { useTokenFormContext } from "./TokenFormContext";
 import InfoItem, { InfoType } from "./InfoItem";
-import { Button } from "../Button";
 import { IconArrowRight } from "../Icons/IconArrowRight";
 import { Address } from "viem";
+import config from "@/config/configuration";
 
 const SuccessStep: React.FC<{}> = () => {
   const { formData } = useTokenFormContext();
@@ -63,10 +64,13 @@ const SuccessStep: React.FC<{}> = () => {
           ))}
         </div>
         <div className="mx-auto py-4">
-          <Button>
+          <Link
+            href={config.gotToDashboardLink}
+            className="font-bold text-xs border-none rounded-full py-4 px-10 flex gap-2 text-white bg-pink-500 hover:opacity-85"
+          >
             <span>Go to My Dashboard</span>
             <IconArrowRight size={16} />
-          </Button>
+          </Link>
         </div>
       </div>
     </section>
