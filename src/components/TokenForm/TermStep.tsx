@@ -11,6 +11,10 @@ interface FormData {
   agreedToTerms: boolean;
 }
 
+function stripHTMLTags(str: string) {
+  return str.replace(/<\/?[^>]+(>|$)/g, "");
+}
+
 const TermsStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
   onBack,
@@ -27,7 +31,7 @@ const TermsStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     try {
       const res = await signAndSubmit.mutateAsync(
         {
-          message: TERMS_AND_CONDITIONS,
+          message: stripHTMLTags(TERMS_AND_CONDITIONS),
           type: MessageType.TermsAndConditions,
         },
         {
@@ -61,9 +65,10 @@ const TermsStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           <h1 className="text-4xl font-bold text-gray-800 text-center mb-7">
             Review Terms of Service
           </h1>
-          <p className="max-h-64 overflow-x-hidden overflow-y-auto text-justify">
-            {TERMS_AND_CONDITIONS}
-          </p>
+          <div
+            className="max-h-64 pr-4 overflow-x-hidden overflow-y-auto text-justify"
+            dangerouslySetInnerHTML={{ __html: TERMS_AND_CONDITIONS }}
+          />
         </section>
         <StepNavigation
           isNextLoading={signAndSubmit.isPending}

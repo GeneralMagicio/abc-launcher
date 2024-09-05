@@ -38,9 +38,10 @@ const PolicyStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           <h1 className="text-4xl font-bold text-gray-800 text-center mb-7">
             Review Privacy Policy
           </h1>
-          <p className="max-h-64 overflow-x-hidden overflow-y-auto text-justify">
-            {POLICY_STATEMENT}
-          </p>
+          <div
+            className="max-h-64 pr-4 overflow-x-hidden overflow-y-auto text-justify"
+            dangerouslySetInnerHTML={{ __html: POLICY_STATEMENT }}
+          />
           <Checkbox
             name="agreedToPolicy"
             label="I have read and agree to the Privacy Policy."
