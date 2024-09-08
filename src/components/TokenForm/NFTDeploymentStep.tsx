@@ -6,11 +6,11 @@ import { useTokenFormContext } from "./TokenFormContext";
 import { FormProvider, useForm } from "react-hook-form";
 import { MintSuccessModal } from "@/components/MintSuccessModal";
 import { MintErrorModal } from "@/components/MintErrorModal";
-import { useMintNFT } from "@/hooks/useMintNFT";
+import { useNFT } from "@/hooks/useNFT";
 import { toast } from "sonner";
 
 interface FormData {
-  mintedNft?: boolean;
+  deployNFT?: boolean;
 }
 
 const NFTDeploymentStep: React.FC<{
@@ -21,31 +21,33 @@ const NFTDeploymentStep: React.FC<{
   const [showMintErrorModal, setShowMintErrorModal] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const { setFormData } = useTokenFormContext();
+  const { formData, setFormData } = useTokenFormContext();
   const methods = useForm<FormData>();
   const { handleSubmit, formState } = methods;
+  const { deploy } = useNFT();
 
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
 
-      const receipt = await mintNFT.mutateAsync("0.00000001");
+      const deployAction = await deploy.mutateAsync({
+        name: formData.tokenName,
+        symbol: formData.tokenTicker,
+      });
 
       // If the transaction was successful, show success modal and proceed to the next step
-      if (receipt) {
-        toast.success("NFT minted successfully!");
+      if (deployAction) {
+        toast.success("NFT deployment successfully!");
         setShowMintSuccessModal(true);
 
         setFormData({
           ...data,
-          mintedNft: true,
+          deployNFT: true,
         });
-
-        
       }
     } catch (error: any) {
-      console.error("Minting failed", error);
-      toast.error("Minting failed");
+      console.error("NTF deployment failed", error);
+      toast.error("NTF deployment failed");
       setShowMintErrorModal(true); // Show error modal in case of failure
     } finally {
       setLoading(false);

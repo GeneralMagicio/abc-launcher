@@ -7,7 +7,7 @@ export const useNFT = () => {
   const walletClient = useWalletClient();
   const publicClient = usePublicClient();
   const { address } = useAccount();
-  const DEFAULT_BASE_URI = "";
+  const DEFAULT_BASE_URI = "/images/nft/logo.png";
 
   const deploy = useMutation({
     mutationFn: async ({ name, symbol }: { name: string; symbol: string }) => {
