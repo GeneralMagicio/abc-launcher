@@ -23,9 +23,6 @@ const config = {
   SCAN_URL: "https://etherscan.io/",
   tokenIssueMaxSupply: "1000000",
   gotToDashboardLink: "https://q-acc.vercel.app/create",
-
-  // TODO: remove this with real one @aminlatifi
-  MINT_CONTRACT_ADDRESS: "0x5D551A1fc7DA45F9761CE5FBE052897E34C1DFbd" as Address,
 };
 
 export default config;

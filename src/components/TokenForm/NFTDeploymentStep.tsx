@@ -24,13 +24,11 @@ const NFTDeploymentStep: React.FC<{
   const { setFormData } = useTokenFormContext();
   const methods = useForm<FormData>();
   const { handleSubmit, formState } = methods;
-  const { mintNFT } = useMintNFT();
 
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
 
-      // Call the mintNFT hook with a specified amount
       const receipt = await mintNFT.mutateAsync("0.00000001");
 
       // If the transaction was successful, show success modal and proceed to the next step
@@ -43,7 +41,7 @@ const NFTDeploymentStep: React.FC<{
           mintedNft: true,
         });
 
-        // What is function to save data inside database @aminlatifi ?
+        
       }
     } catch (error: any) {
       console.error("Minting failed", error);
