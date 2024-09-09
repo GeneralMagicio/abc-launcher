@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import { Address } from "viem";
 
 import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
@@ -9,6 +10,10 @@ import { MintErrorModal } from "@/components/MintErrorModal";
 import { useNFT } from "@/hooks/useNFT";
 import { toast } from "sonner";
 
+interface FormData {
+  nftContractAddress?: Address;
+}
+
 const NFTDeploymentStep: React.FC<{
   onNext: () => void;
   onBack: () => void;
@@ -17,7 +22,7 @@ const NFTDeploymentStep: React.FC<{
   const [showMintErrorModal, setShowMintErrorModal] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const { formData } = useTokenFormContext();
+  const { formData, setFormData } = useTokenFormContext();
   const methods = useForm<FormData>();
   const { handleSubmit, formState } = methods;
   const { deploy } = useNFT();
@@ -26,15 +31,25 @@ const NFTDeploymentStep: React.FC<{
     try {
       setLoading(true);
 
-      const deployAction = await deploy.mutateAsync({
-        name: formData.tokenName,
-        symbol: formData.tokenTicker,
+      const nftName = formData.tokenName.trim() + " NFT";
+      const nftSymbol = formData.tokenTicker.trim() + "NFT";
+
+      const nftContractAddress = await deploy.mutateAsync({
+        name: nftName,
+        symbol: nftSymbol,
       });
 
+      if (!nftContractAddress) throw new Error("NFT not deployed");
+
       // If the transaction was successful, show success modal and proceed to the next step
-      if (deployAction) {
+      if (nftContractAddress) {
         toast.success("NFT deployment successfully!");
         setShowMintSuccessModal(true);
+
+        setFormData({
+          ...data,
+          nftContractAddress,
+        });
       }
     } catch (error: any) {
       console.error("NTF deployment failed", error);
@@ -81,7 +96,6 @@ const NFTDeploymentStep: React.FC<{
                 alt="NFT"
                 width={398}
                 height={397}
-                className="rounded-2xl"
               />
             </div>
           </div>
