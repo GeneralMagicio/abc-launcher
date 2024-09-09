@@ -96,6 +96,7 @@ const NFTDeploymentStep: React.FC<{
                 alt="NFT"
                 width={398}
                 height={397}
+                className="rounded-2xl"
               />
             </div>
           </div>
