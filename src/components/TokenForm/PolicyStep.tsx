@@ -51,7 +51,7 @@ const PolicyStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
         </section>
         <StepNavigation
           currentStep={3}
-          totalSteps={4}
+          totalSteps={5}
           onBack={onBack}
           isFormValid={formState.isValid}
         />

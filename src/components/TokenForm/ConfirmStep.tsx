@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
 import Checkbox from "../Checkbox";
@@ -10,7 +10,6 @@ import config from "@/config/configuration";
 import { addProject } from "@/app/actions/add-project";
 import { useAccount } from "wagmi";
 import { checkWhiteList } from "@/services/check-white-list";
-import { useNFT } from "@/hooks/useNFT";
 import { toast } from "sonner";
 
 const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
@@ -23,7 +22,6 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const { address } = useAccount();
   const { handleSubmit, formState } = methods;
   const { deploy, prep, requestedModules, inverter } = useDeploy();
-  const { deploy: deployNFT } = useNFT();
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
@@ -33,15 +31,6 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
       if (!address) throw new Error("Address not found");
       const isWhiteListed = await checkWhiteList(address);
       if (!isWhiteListed) throw new Error("Address not whitelisted");
-
-      const nftName = formData.tokenName.trim() + " NFT";
-      const nftSymbol = formData.tokenTicker.trim() + "NFT";
-      const nftContractAddress = await deployNFT.mutateAsync({
-        name: nftName,
-        symbol: nftSymbol,
-      });
-
-      if (!nftContractAddress) throw new Error("NFT not deployed");
 
       const { transactionHash, orchestratorAddress } = await deploy.mutateAsync(
         {
@@ -93,7 +82,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
         orchestratorAddress: orchestratorAddress,
         userAddress: address,
         issuanceTokenAddress,
-        nftContractAddress,
+        nftContractAddress: formData.nftContractAddress || "",
         chainId: inverter.publicClient.chain.id,
         policyAcceptTime: formData.policyAcceptTime || new Date(),
       });
@@ -101,7 +90,6 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
         setFormData({
           ...data,
           issuanceTokenAddress,
-          nftContractAddress,
         });
         onNext();
       }
@@ -176,8 +164,8 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           </div>
         </section>
         <StepNavigation
-          currentStep={4}
-          totalSteps={4}
+          currentStep={5}
+          totalSteps={5}
           onBack={onBack}
           nextLabel="Launch my token"
           isFormValid={formState.isValid}

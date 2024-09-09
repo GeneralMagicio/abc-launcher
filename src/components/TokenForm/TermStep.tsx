@@ -68,7 +68,7 @@ const TermsStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
         <StepNavigation
           isNextLoading={signAndSubmit.isPending}
           currentStep={2}
-          totalSteps={4}
+          totalSteps={5}
           onBack={onBack}
           isFormValid
           nextLabel="Sign & Continue"

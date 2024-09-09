@@ -4,6 +4,7 @@ import { ConnectModal } from "@/components/ConnectModal";
 import { HoldModal } from "@/components/HoldModal";
 import ConfirmStep from "@/components/TokenForm/ConfirmStep";
 import PolicyStep from "@/components/TokenForm/PolicyStep";
+import NFTDeploymentStep from "@/components/TokenForm/NFTDeploymentStep";
 import SuccessStep from "@/components/TokenForm/SuccessStep";
 import TermsStep from "@/components/TokenForm/TermStep";
 import { TokenFormProvider } from "@/components/TokenForm/TokenFormContext";
@@ -17,6 +18,7 @@ enum FormSteps {
   TokenInfo = 1,
   Terms,
   Policy,
+  NFTDeployment,
   Confirm,
   Success,
 }
@@ -73,6 +75,9 @@ export default function TokenFormPage() {
             )}
             {step === FormSteps.Policy && (
               <PolicyStep onNext={handleNext} onBack={handleBack} />
+            )}
+            {step === FormSteps.NFTDeployment && (
+              <NFTDeploymentStep onNext={handleNext} onBack={handleBack} />
             )}
             {step === FormSteps.Confirm && (
               <ConfirmStep onNext={handleSubmit} onBack={handleBack} />
