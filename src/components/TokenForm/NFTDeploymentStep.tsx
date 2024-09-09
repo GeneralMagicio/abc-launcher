@@ -9,10 +9,6 @@ import { MintErrorModal } from "@/components/MintErrorModal";
 import { useNFT } from "@/hooks/useNFT";
 import { toast } from "sonner";
 
-interface FormData {
-  deployNFT?: boolean;
-}
-
 const NFTDeploymentStep: React.FC<{
   onNext: () => void;
   onBack: () => void;
@@ -21,7 +17,7 @@ const NFTDeploymentStep: React.FC<{
   const [showMintErrorModal, setShowMintErrorModal] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const { formData, setFormData } = useTokenFormContext();
+  const { formData } = useTokenFormContext();
   const methods = useForm<FormData>();
   const { handleSubmit, formState } = methods;
   const { deploy } = useNFT();
@@ -39,11 +35,6 @@ const NFTDeploymentStep: React.FC<{
       if (deployAction) {
         toast.success("NFT deployment successfully!");
         setShowMintSuccessModal(true);
-
-        setFormData({
-          ...data,
-          deployNFT: true,
-        });
       }
     } catch (error: any) {
       console.error("NTF deployment failed", error);
@@ -90,6 +81,7 @@ const NFTDeploymentStep: React.FC<{
                 alt="NFT"
                 width={398}
                 height={397}
+                className="rounded-2xl"
               />
             </div>
           </div>
