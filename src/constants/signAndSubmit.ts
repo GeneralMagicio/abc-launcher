@@ -1,5 +1,5 @@
-import { TERMS_AND_CONDITIONS_TEXT } from "./termsText";
-import { POLICY_STATEMENT_TEXT } from "./privacyText";
+import { TERMS_AND_CONDITIONS_HTML } from "./termsText";
+import { POLICY_STATEMENT_HTML } from "./privacyText";
 
 export const TERMS_AND_CONDITIONS = TERMS_AND_CONDITIONS_TEXT;
 

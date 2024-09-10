@@ -1,4 +1,4 @@
-export const POLICY_STATEMENT_TEXT = `
+export const POLICY_STATEMENT_HTML = `
   <p class="mb-4">
     This privacy policy (“Privacy Policy”) provides an extensive insight into how the Quadratic Accelerator AG (“Accelerator”), Giveth Association (“Association”, together with the Accelerator, “we”, “us”, “our”)  and all platforms affiliated with Accelerator and Association, including but not limited to the q/acc Websites, all their Subdomains and affiliated applications  [qacc.giveth.io] (collectively “Platforms”) collect, share or use data about you (“user(s)”, “You”, “your”) with connection to the Platforms. 
   </p>

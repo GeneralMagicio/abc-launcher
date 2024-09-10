@@ -1,4 +1,4 @@
-export const TERMS_AND_CONDITIONS_TEXT = `
+export const TERMS_AND_CONDITIONS_HTML = `
   <p class="mb-4">
     These Terms and Conditions govern the access and use of the q/acc ABC Launch dApp (add link), operated by Giveth Association (“Association”, “We” or “Us”),  an association organized and existing under the laws of Zug, Switzerland, and other Services that the Association provides to the Project (“User”, or “You”). 
   </p>
