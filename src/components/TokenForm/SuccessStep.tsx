@@ -36,6 +36,11 @@ const SuccessStep: React.FC<{}> = () => {
       value: formData.issuanceTokenAddress as Address,
       type: InfoType.LINK,
     },
+    {
+      label: "NFT Address",
+      value: formData.nftContractAddress as Address,
+      type: InfoType.LINK,
+    },
   ];
 
   return (

@@ -11,6 +11,7 @@ import { addProject } from "@/app/actions/add-project";
 import { useAccount } from "wagmi";
 import { checkWhiteList } from "@/services/check-white-list";
 import { toast } from "sonner";
+import { Address } from "viem";
 
 const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
@@ -119,6 +120,11 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     {
       label: "Project Address",
       value: formData.projectAddress,
+      type: InfoType.LINK,
+    },
+    {
+      label: "NFT Address",
+      value: formData.nftContractAddress as Address,
       type: InfoType.LINK,
     },
   ];
