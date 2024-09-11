@@ -8,6 +8,7 @@ export async function addProject(param: {
   transactionHash: string;
   orchestratorAddress: string;
   userAddress: string;
+  fundingManagerAddress: string;
   issuanceTokenAddress: string;
   nftContractAddress: string;
   chainId: number;
@@ -22,6 +23,7 @@ export async function addProject(param: {
     orchestratorAddress,
     userAddress,
     issuanceTokenAddress,
+    fundingManagerAddress,
     nftContractAddress,
     chainId,
     policyAcceptTime,
@@ -47,6 +49,7 @@ export async function addProject(param: {
         orchestratorAddress: orchestratorAddress.toLocaleLowerCase(),
         userAddress: userAddress.toLocaleLowerCase(),
         issuanceTokenAddress: issuanceTokenAddress.toLocaleLowerCase(),
+        fundingManagerAddress: fundingManagerAddress.toLocaleLowerCase(),
         nftContractAddress: nftContractAddress.toLocaleLowerCase(),
         chainId,
         policyAcceptTime: policyAcceptTime.toISOString(),

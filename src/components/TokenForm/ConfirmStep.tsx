@@ -67,6 +67,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
 
       const issuanceTokenAddress =
         await workflow.fundingManager.read.getIssuanceToken.run();
+      const fundingManagerAddress = workflow.fundingManager.address;
 
       // TODO: save in db
       console.log({
@@ -83,6 +84,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
         orchestratorAddress: orchestratorAddress,
         userAddress: address,
         issuanceTokenAddress,
+        fundingManagerAddress,
         nftContractAddress: formData.nftContractAddress || "",
         chainId: inverter.publicClient.chain.id,
         policyAcceptTime: formData.policyAcceptTime || new Date(),
