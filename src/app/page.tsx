@@ -7,6 +7,7 @@ import { checkWhiteList } from "@/services/check-white-list";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import { useAccount, useSwitchChain } from "wagmi";
 
 export default function Home() {
@@ -40,11 +41,12 @@ export default function Home() {
         } else {
           router.push("/not-whitelisted");
         }
+      } else {
+        toast.error("Please try again!");
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error:", error);
-    } finally {
-      setLoading(false);
     }
   };
 
