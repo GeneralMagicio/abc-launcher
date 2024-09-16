@@ -3,10 +3,12 @@
 import { Button } from "@/components/Button";
 import { IconArrowRight } from "@/components/Icons/IconArrowRight";
 import config from "@/config/configuration";
+import { useCollateralCheck } from "@/hooks/useDeploy";
 import { checkWhiteList } from "@/services/check-white-list";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import { useAccount, useSwitchChain } from "wagmi";
 
 export default function Home() {
@@ -14,6 +16,8 @@ export default function Home() {
   const { open: openWeb3Modal } = useWeb3Modal();
   const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
+
+  const collateralCheck = useCollateralCheck();
 
   const router = useRouter();
   const targetChain = config.SUPPORTED_CHAINS[0].id;
@@ -36,15 +40,29 @@ export default function Home() {
         console.log("Launching Token for address:", address);
         const isWhiteListed = await checkWhiteList(address);
         if (isWhiteListed) {
+          const isCollateral = await collateralCheck.mutateAsync();
+
+          if (!isCollateral) {
+            toast.error(
+              "Not enough collateral is supplied to you! You are not eligible to launch a token."
+            );
+            setLoading(false);
+            return;
+          }
+
           router.push("/token-form");
         } else {
           router.push("/not-whitelisted");
         }
+      } else {
+        toast.error("Please try again!");
+        setLoading(false);
       }
     } catch (error) {
+      toast.error(
+        "Error in checking your eligibility to launch token!\nPlease try again!"
+      );
       console.error("Error:", error);
-    } finally {
-      setLoading(false);
     }
   };
 

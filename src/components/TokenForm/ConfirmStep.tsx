@@ -43,7 +43,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
               collateralToken: config.COLATERAL_TOKEN,
             },
             authorizer: {
-              initialAdmin: formData.projectAddress, // should correspond to your deployer EOA for ease of configuration initially and represents the orchestrator admin
+              initialAdmin: config.COLATERAL_SUPPLIER || address!,
             },
             issuanceToken: {
               name: formData.tokenName,

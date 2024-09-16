@@ -1,9 +1,11 @@
+import { EnvConfig } from "@/types/config";
 import { Address } from "viem";
 import { Chain, polygonZkEvm } from "wagmi/chains";
 
-const config = {
+const config: EnvConfig = {
   SUPPORTED_CHAINS: [polygonZkEvm] as [Chain],
   COLATERAL_TOKEN: "0x0000000000000000000000000000000000000000" as Address,
+  // COLATERAL_SUPPLIER: "0x0000000000000000000000000000000000000000",
   GRAPHQL_ENDPOINT:
     process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT ||
     "https://mainnet.serve.giveth.io/graphql",
