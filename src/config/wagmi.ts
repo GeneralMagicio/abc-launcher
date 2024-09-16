@@ -25,5 +25,6 @@ export const wagmiConfig = defaultWagmiConfig({
   }),
   auth: {
     email: false,
+    socials: undefined,
   },
 });
