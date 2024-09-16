@@ -5,7 +5,7 @@ import Checkbox from "../Checkbox";
 import { FormProvider, useForm } from "react-hook-form";
 import InfoItem, { InfoType } from "./InfoItem";
 import { IconArrowRight } from "../Icons/IconArrowRight";
-import { useDeploy } from "@/hooks/useDeploy";
+import { useCollateralCheck, useDeploy } from "@/hooks/useDeploy";
 import config from "@/config/configuration";
 import { addProject } from "@/app/actions/add-project";
 import { useAccount } from "wagmi";
@@ -23,6 +23,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const { address } = useAccount();
   const { handleSubmit, formState } = methods;
   const { deploy, prep, requestedModules, inverter } = useDeploy();
+  const collateralCheck = useCollateralCheck();
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
@@ -32,6 +33,14 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
       if (!address) throw new Error("Address not found");
       const isWhiteListed = await checkWhiteList(address);
       if (!isWhiteListed) throw new Error("Address not whitelisted");
+
+      const isCollateral = await collateralCheck.mutateAsync();
+
+      if (!isCollateral) {
+        throw new Error(
+          "Not enough collateral is supplied to you! You are not eligible to launch a token."
+        );
+      }
 
       const { transactionHash, orchestratorAddress } = await deploy.mutateAsync(
         {
