@@ -17,8 +17,6 @@ export default function Home() {
   const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
 
-  const collateralCheck = useCollateralCheck();
-
   const router = useRouter();
   const targetChain = config.SUPPORTED_CHAINS[0].id;
 
@@ -40,16 +38,6 @@ export default function Home() {
         console.log("Launching Token for address:", address);
         const isWhiteListed = await checkWhiteList(address);
         if (isWhiteListed) {
-          const isCollateral = await collateralCheck.mutateAsync();
-
-          if (!isCollateral) {
-            toast.error(
-              "Not enough collateral is supplied to you! You are not eligible to launch a token."
-            );
-            setLoading(false);
-            return;
-          }
-
           router.push("/token-form");
         } else {
           router.push("/not-whitelisted");
