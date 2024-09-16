@@ -1,10 +1,10 @@
 import { EnvConfig } from "@/types/config";
 import { UserArgs } from "@/types/inverter";
 import { Address } from "viem";
-import { Chain, optimismSepolia } from "wagmi/chains";
+import { Chain, optimismSepolia, baseSepolia } from "wagmi/chains";
 
 const config: EnvConfig = {
-  SUPPORTED_CHAINS: [optimismSepolia] as [Chain],
+  SUPPORTED_CHAINS: [baseSepolia] as [Chain],
   COLATERAL_TOKEN: "0x065775C7aB4E60ad1776A30DCfB15325d231Ce4F",
   // COLATERAL_SUPPLIER: "0x0000000000000000000000000000000000000000",
   GRAPHQL_ENDPOINT:
