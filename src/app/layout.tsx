@@ -26,6 +26,10 @@ export default function RootLayout({
   );
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="manifest" href="/site.webmanifest" />
+      </head>
       <body className={nunito.className}>
         <div className="min-h-screen flex flex-col relative overflow-x-hidden">
           <Toaster />
