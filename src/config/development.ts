@@ -23,7 +23,7 @@ const config: EnvConfig = {
     // This will be deposited into the contract
     initialCollateralSupply: "1000", // human readable format,
   },
-  SCAN_URL: "https://sepolia-optimism.etherscan.io/",
+  SCAN_URL: "https://sepolia.basescan.org/",
   tokenIssueMaxSupply: "1000000",
   gotToDashboardLink: "https://q-acc.vercel.app/create",
 };
