@@ -1,5 +1,8 @@
 "use server";
 
+import { getMongoDB } from "@/lib/db";
+import { Collection, Db } from "mongodb";
+
 export async function addProject(param: {
   tokenName: string;
   tokenTicker: string;
@@ -29,37 +32,29 @@ export async function addProject(param: {
     policyAcceptTime,
   } = param;
   // Add project to database
-  console.log("Adding token to database...");
-  const response = await fetch(`${process.env.MONGODB_URL}/action/insertOne`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "api-key": process.env.MONGODB_API_KEY || "",
-    },
-    body: JSON.stringify({
-      dataSource: process.env.MONGO_DATA_SOURCE || "giveth",
-      database: "abc-launcher",
-      collection: "project",
-      document: {
-        tokenName,
-        tokenTicker,
-        iconHash,
-        projectAddress: projectAddress.toLocaleLowerCase(),
-        transactionHash: transactionHash.toLocaleLowerCase(),
-        orchestratorAddress: orchestratorAddress.toLocaleLowerCase(),
-        userAddress: userAddress.toLocaleLowerCase(),
-        issuanceTokenAddress: issuanceTokenAddress.toLocaleLowerCase(),
-        fundingManagerAddress: fundingManagerAddress.toLocaleLowerCase(),
-        nftContractAddress: nftContractAddress.toLocaleLowerCase(),
-        chainId,
-        policyAcceptTime: policyAcceptTime.toISOString(),
-      },
-    }),
-  });
+  console.log("Adding project to database...");
 
-  if (!response.ok) {
-    throw new Error("Failed to insert data");
+  const db: Db = await getMongoDB();
+  const projectCollection: Collection = db.collection("project");
+  const response = await projectCollection.insertOne({
+    tokenName,
+    tokenTicker,
+    iconHash,
+    projectAddress: projectAddress.toLocaleLowerCase(),
+    transactionHash: transactionHash.toLocaleLowerCase(),
+    orchestratorAddress: orchestratorAddress.toLocaleLowerCase(),
+    userAddress: userAddress.toLocaleLowerCase(),
+    issuanceTokenAddress: issuanceTokenAddress.toLocaleLowerCase(),
+    fundingManagerAddress: fundingManagerAddress.toLocaleLowerCase(),
+    nftContractAddress: nftContractAddress.toLocaleLowerCase(),
+    chainId,
+    policyAcceptTime: policyAcceptTime.toISOString(),
+  });
+  if (!response?.acknowledged) {
+    throw new Error("Failed to insert project data");
   }
 
-  return await response.json();
+  return {
+    insertedId: response.insertedId.toString(),
+  };
 }

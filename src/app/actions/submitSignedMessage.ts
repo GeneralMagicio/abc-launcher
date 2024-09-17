@@ -1,5 +1,7 @@
 "use server";
 
+import { getMongoDB } from "@/lib/db";
+import { Db } from "mongodb";
 import { Address, recoverMessageAddress } from "viem";
 
 async function isSignatureValid({
@@ -44,29 +46,18 @@ export async function submitSignedMessage({
 
   // Submit signed message to server
   console.log("Submitting signed message to server...");
-  const response = await fetch(`${process.env.MONGODB_URL}/action/insertOne`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "api-key": process.env.MONGODB_API_KEY || "",
-    },
-    body: JSON.stringify({
-      dataSource: process.env.MONGO_DATA_SOURCE || "giveth",
-      database: "abc-launcher",
-      collection: "signedMessage",
-      document: {
-        message,
-        userAddress: userAddress.toLocaleLowerCase(),
-        signature,
-        type,
-        submitTime: new Date().toISOString(),
-      },
-    }),
+  const db: Db = await getMongoDB();
+  const response = await db.collection("signedMessage").insertOne({
+    message,
+    userAddress: userAddress.toLocaleLowerCase(),
+    signature,
+    type,
+    submitTime: new Date().toISOString(),
   });
 
-  if (!response.ok) {
+  if (!response.acknowledged) {
     throw new Error("Failed to insert data");
   }
 
-  return await response.json();
+  return response.insertedId.toString();
 }
