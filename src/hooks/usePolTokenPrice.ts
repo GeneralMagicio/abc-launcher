@@ -1,4 +1,4 @@
-import { fetchPolTokenPrice } from "@/helpers/currency";
+import { fetchPolTokenPrice } from "@/services/pol-token";
 import { useQuery } from "@tanstack/react-query";
 
 export const usePolTokenPrice = () => {
