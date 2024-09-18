@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
 import Checkbox from "../Checkbox";
@@ -12,6 +12,8 @@ import { useAccount } from "wagmi";
 import { checkWhiteList } from "@/services/check-white-list";
 import { toast } from "sonner";
 import { Address } from "viem";
+import { formatCurrencyAmount } from "@/helpers/currency";
+import { usePolTokenPrice } from "@/hooks/usePolTokenPrice";
 
 const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
@@ -24,6 +26,17 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const { handleSubmit, formState } = methods;
   const { deploy, prep, requestedModules, inverter } = useDeploy();
   const collateralCheck = useCollateralCheck();
+  const polTokenPrice = usePolTokenPrice();
+  const collateralAmount = +config.bondingCurveParams.initialCollateralSupply;
+  const collateralUsdValueString: string = useMemo(() => {
+    return polTokenPrice.isSuccess
+      ? formatCurrencyAmount(collateralAmount * polTokenPrice.data)
+      : "-";
+  }, [collateralAmount, polTokenPrice.isSuccess, polTokenPrice.data]);
+
+  useEffect(() => {
+    console.log("POL Token Price: ", polTokenPrice);
+  }, [polTokenPrice]);
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
@@ -158,8 +171,10 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
               <p className="text-lg text-gray-600">Grant size</p>
               <IconArrowRight size={24} />
               <div className="border-2 rounded-md border-success-600 bg-success-100 text-success-700 flex items-start gap-4 px-4 py-1">
-                <p className="text-lg  font-bold">65,000 MATIC</p>
-                <p className="text-xs">$50,000</p>
+                <p className="text-lg  font-bold">
+                  {formatCurrencyAmount(collateralAmount)} MATIC
+                </p>
+                <p className="text-xs">${collateralUsdValueString}</p>
               </div>
               {info.map((item) => (
                 <InfoItem
