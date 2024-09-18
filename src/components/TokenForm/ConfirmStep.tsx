@@ -166,7 +166,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
               <IconArrowRight size={24} />
               <div className="border-2 rounded-md border-success-600 bg-success-100 text-success-700 flex items-start gap-4 px-4 py-1">
                 <p className="text-lg  font-bold">
-                  {formatCurrencyAmount(collateralAmount)} MATIC
+                  {formatCurrencyAmount(collateralAmount)} POL
                 </p>
                 <p className="text-xs">${collateralUsdValueString}</p>
               </div>
