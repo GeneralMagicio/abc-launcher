@@ -28,15 +28,9 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const collateralCheck = useCollateralCheck();
   const polTokenPrice = usePolTokenPrice();
   const collateralAmount = +config.bondingCurveParams.initialCollateralSupply;
-  const collateralUsdValueString: string = useMemo(() => {
-    return polTokenPrice.isSuccess
-      ? formatCurrencyAmount(collateralAmount * polTokenPrice.data)
-      : "-";
-  }, [collateralAmount, polTokenPrice.isSuccess, polTokenPrice.data]);
-
-  useEffect(() => {
-    console.log("POL Token Price: ", polTokenPrice);
-  }, [polTokenPrice]);
+  const collateralUsdValueString: string = polTokenPrice.isSuccess
+    ? formatCurrencyAmount(collateralAmount * polTokenPrice.data)
+    : "-";
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
