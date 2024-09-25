@@ -5,9 +5,16 @@ import InfoItem, { InfoType } from "./InfoItem";
 import { IconArrowRight } from "../Icons/IconArrowRight";
 import { Address } from "viem";
 import config from "@/config/configuration";
+import { formatCurrencyAmount } from "@/helpers/currency";
+import { usePolTokenPrice } from "@/hooks/usePolTokenPrice";
 
 const SuccessStep: React.FC<{}> = () => {
   const { formData } = useTokenFormContext();
+  const polTokenPrice = usePolTokenPrice();
+  const collateralAmount = +config.bondingCurveParams.initialCollateralSupply;
+  const collateralUsdValueString: string = polTokenPrice.isSuccess
+    ? formatCurrencyAmount(collateralAmount * polTokenPrice.data)
+    : "-";
   console.log(formData);
 
   const info = [
@@ -56,8 +63,10 @@ const SuccessStep: React.FC<{}> = () => {
           <p className="text-lg text-gray-600">Grant size</p>
           <IconArrowRight size={24} />
           <div className="border-2 rounded-md border-success-600 bg-success-100 text-success-700 flex items-start gap-4 px-4 py-1">
-            <p className="text-lg font-bold">65,000 MATIC</p>
-            <p className="text-xs">$50,000</p>
+            <p className="text-lg font-bold">
+              {formatCurrencyAmount(collateralAmount)} POL
+            </p>
+            <p className="text-xs">${collateralUsdValueString}</p>
           </div>
           {info.map((item) => (
             <InfoItem
