@@ -89,7 +89,6 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
                 return isAddress(value) ? true : "Address in not valid"; // Add your validation logic here
               },
             }}
-            className="pr-1"
           />
 
           <Checkbox
