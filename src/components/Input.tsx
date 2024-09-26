@@ -46,7 +46,7 @@ const Input: React.FC<InputProps> = ({
           {...props}
           value={value}
           onChange={handleChange}
-          className={`px-4 py-4 block w-full rounded-lg border-2 pr-12 ${
+          className={`px-4 py-4 block w-full rounded-lg border-2 ${
             errors[name]
               ? "border-red-500 focus:border-red-500"
               : "border-gray-200 focus:border-gray-300"
