@@ -188,4 +188,8 @@ export const TERMS_AND_CONDITIONS_HTML = `
     <li>These Terms shall be governed by and construed in accordance with the laws of Switzerland.</li>
     <li>Any disputes arising out of or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts of Zug, Switzerland.</li>
   </ul>
+  <h2 class="font-bold text-lg mb-4">18. Breach of Terms & Conditions</h2>
+  <p class="mb-4">
+  We reserve the right to disable access to the dApp at any time in the event of any breach of the Terms, including without limitation, if we, in our sole discretion, believe that you, at any time, fail to satisfy the eligibility requirements set forth in the Terms. Further, we reserve the right to limit or restrict access to the dApp by any person or entity, or within any geographic area or legal jurisdiction, at any time and at our sole discretion. We will not be liable to you for any losses or damages you may suffer as a result of or in connection with the dApp being inaccessible to you at any time or for any reason.
+  </p>
 `;
