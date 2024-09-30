@@ -7,15 +7,19 @@ import { useCollateralCheck } from "@/hooks/useDeploy";
 import { checkWhiteList } from "@/services/check-white-list";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useAccount, useSwitchChain } from "wagmi";
+import { tokenExist } from "@/app/actions/tokenExist";
+import { TokenExistModal } from "@/components/TokenExistModal";
+import React from "react";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const { open: openWeb3Modal } = useWeb3Modal();
   const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
+  const [tokenExistModal, setTokenExistModal] = useState(false);
 
   const router = useRouter();
   const targetChain = config.SUPPORTED_CHAINS[0].id;
@@ -54,28 +58,46 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    if (address) {
+      tokenExist({ userAddress: address }).then((exists) => {
+        if (exists) {
+          setTokenExistModal(true);
+        }
+      });
+    }
+  }, [address]);
+
   return (
-    <main className="container text-center flex flex-col items-center gap-8">
-      <div className="flex flex-col items-center gap-6 py-10">
-        <h1 className="text-5xl	font-bold leading-normal">
-          Launch your token economy
-        </h1>
-        <p className="font-semibold text-2xl max-w-[620px]">
-          Create your regenerative economy with Augmented Bonding Curves.
-        </p>
-      </div>
-      <div className="flex gap-4">
-        <p className="text-2xl font-light">
-          Start the process by connecting your wallet
-        </p>
-        <IconArrowRight size={32} />
-      </div>
-      <Button
-        onClick={() => (address ? handleLaunchToken() : openWeb3Modal())}
-        loading={loading}
-      >
-        {address ? "Launch Token" : "Connect Wallet"}
-      </Button>
-    </main>
+    <>
+      <main className="container text-center flex flex-col items-center gap-8">
+        <div className="flex flex-col items-center gap-6 py-10">
+          <h1 className="text-5xl	font-bold leading-normal">
+            Launch your token economy
+          </h1>
+          <p className="font-semibold text-2xl max-w-[620px]">
+            Create your regenerative economy with Augmented Bonding Curves.
+          </p>
+        </div>
+        <div className="flex gap-4">
+          <p className="text-2xl font-light">
+            Start the process by connecting your wallet
+          </p>
+          <IconArrowRight size={32} />
+        </div>
+        <Button
+          onClick={() => (address ? handleLaunchToken() : openWeb3Modal())}
+          loading={loading}
+        >
+          {address ? "Launch Token" : "Connect Wallet"}
+        </Button>
+      </main>
+      {tokenExistModal && (
+        <TokenExistModal
+          isOpen={tokenExistModal}
+          onClose={() => setTokenExistModal(false)}
+        />
+      )}
+    </>
   );
 }
