@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useAccount, useSwitchChain } from "wagmi";
 import { tokenExist } from "@/app/actions/tokenExist";
-import { TokenExistModal } from "@/components/TokenExistModal";
 import React from "react";
 
 export default function Home() {
@@ -19,7 +18,6 @@ export default function Home() {
   const { open: openWeb3Modal } = useWeb3Modal();
   const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
-  const [tokenExistModal, setTokenExistModal] = useState(false);
 
   const router = useRouter();
   const targetChain = config.SUPPORTED_CHAINS[0].id;
@@ -58,15 +56,16 @@ export default function Home() {
     }
   };
 
+  // if user already launched token redirect to token-exist page
   useEffect(() => {
     if (address) {
-      tokenExist({ userAddress: address }).then((exists) => {
-        if (exists) {
-          setTokenExistModal(true);
+      tokenExist({ userAddress: address }).then((project) => {
+        if (project) {
+          router.push("/token-exist");
         }
       });
     }
-  }, [address]);
+  }, [address, router]);
 
   return (
     <>
@@ -92,12 +91,6 @@ export default function Home() {
           {address ? "Launch Token" : "Connect Wallet"}
         </Button>
       </main>
-      {tokenExistModal && (
-        <TokenExistModal
-          isOpen={tokenExistModal}
-          onClose={() => setTokenExistModal(false)}
-        />
-      )}
     </>
   );
 }

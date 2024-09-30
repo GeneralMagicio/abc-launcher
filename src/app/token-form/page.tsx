@@ -13,6 +13,8 @@ import { checkWhiteList } from "@/services/check-white-list";
 import React, { use, useEffect, useState } from "react";
 import { Address } from "viem";
 import { useAccount } from "wagmi";
+import { tokenExist } from "../actions/tokenExist";
+import { useRouter } from "next/navigation";
 
 enum FormSteps {
   TokenInfo = 1,
@@ -24,6 +26,7 @@ enum FormSteps {
 }
 
 export default function TokenFormPage() {
+  const router = useRouter();
   const [step, setStep] = useState(FormSteps.TokenInfo);
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [showHoldModal, setShowHoldModal] = useState(false);
@@ -61,6 +64,17 @@ export default function TokenFormPage() {
       checkAddress(address);
     }
   }, [address]);
+
+  // if user already launched token redirect to token-exist page
+  useEffect(() => {
+    if (address) {
+      tokenExist({ userAddress: address }).then((project) => {
+        if (project) {
+          router.push("/token-exist");
+        }
+      });
+    }
+  }, [address, router]);
 
   return (
     <>
