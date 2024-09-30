@@ -9,11 +9,9 @@ export async function tokenExist(param: { userAddress: string }) {
   const db: Db = await getMongoDB();
   const projectCollection: Collection = db.collection("project");
 
-  const normalizedWalletAddress = userAddress.toLowerCase();
-
   // Find a document where the `abc` field exists and is not empty/null for the given user address
   const project = await projectCollection.findOne({
-    userAddress: normalizedWalletAddress,
+    userAddress: userAddress.toLowerCase(),
   });
 
   return project;
