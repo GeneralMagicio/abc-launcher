@@ -183,13 +183,13 @@ export const TERMS_AND_CONDITIONS_HTML = `
   <li>You expressly agree that you assume all risks concerning your access to and use of the Services. Additionally, you expressly waive and release us from any liability, claims, causes of action, or damages arising from or in any way relating to your access to and use of the Services.</li>
   <li>These Terms will survive any termination of your access to the Services, regardless of the reasons for its expiration or termination, in addition to any other provision which by law or by its nature should survive.</li>
   </ul>
-  <h2 class="font-bold text-lg mb-4">17. Governing Law and Jurisdiction</h2>
+    <h2 class="font-bold text-lg mb-4">17. Breach of Terms & Conditions</h2>
+  <p class="mb-4">
+  We reserve the right to disable access to the dApp at any time in the event of any breach of the Terms, including without limitation, if we, in our sole discretion, believe that you, at any time, fail to satisfy the eligibility requirements set forth in the Terms. Further, we reserve the right to limit or restrict access to the dApp by any person or entity, or within any geographic area or legal jurisdiction, at any time and at our sole discretion. We will not be liable to you for any losses or damages you may suffer as a result of or in connection with the dApp being inaccessible to you at any time or for any reason.
+  </p>
+  <h2 class="font-bold text-lg mb-4">18. Governing Law and Jurisdiction</h2>
   <ul style="list-style-type: initial; padding-left: 20px; margin-bottom: 1rem;">
     <li>These Terms shall be governed by and construed in accordance with the laws of Switzerland.</li>
     <li>Any disputes arising out of or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts of Zug, Switzerland.</li>
   </ul>
-  <h2 class="font-bold text-lg mb-4">18. Breach of Terms & Conditions</h2>
-  <p class="mb-4">
-  We reserve the right to disable access to the dApp at any time in the event of any breach of the Terms, including without limitation, if we, in our sole discretion, believe that you, at any time, fail to satisfy the eligibility requirements set forth in the Terms. Further, we reserve the right to limit or restrict access to the dApp by any person or entity, or within any geographic area or legal jurisdiction, at any time and at our sole discretion. We will not be liable to you for any losses or damages you may suffer as a result of or in connection with the dApp being inaccessible to you at any time or for any reason.
-  </p>
 `;
