@@ -10,10 +10,9 @@ import TermsStep from "@/components/TokenForm/TermStep";
 import { TokenFormProvider } from "@/components/TokenForm/TokenFormContext";
 import TokenInfoStep from "@/components/TokenForm/TokenInfoStep";
 import { checkWhiteList } from "@/services/check-white-list";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Address } from "viem";
 import { useAccount } from "wagmi";
-import { tokenExist } from "../actions/tokenExist";
 import { useRouter } from "next/navigation";
 
 enum FormSteps {
@@ -64,17 +63,6 @@ export default function TokenFormPage() {
       checkAddress(address);
     }
   }, [address]);
-
-  // if user already launched token redirect to token-exist page
-  useEffect(() => {
-    if (address) {
-      tokenExist({ userAddress: address }).then((project) => {
-        if (project) {
-          router.push("/token-exist");
-        }
-      });
-    }
-  }, [address, router]);
 
   return (
     <>

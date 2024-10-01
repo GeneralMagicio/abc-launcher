@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import Input from "@/components/Input";
 import Checkbox from "@/components/Checkbox";
@@ -6,6 +6,9 @@ import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
 import { Dropzone } from "@/components/DropZone";
 import { Address, isAddress } from "viem";
+import { tokenExist } from "@/app/actions/tokenExist";
+import { useRouter } from "next/navigation";
+import { useAccount } from "wagmi";
 
 interface FormData {
   tokenName: string;
@@ -19,6 +22,8 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
   onBack,
 }) => {
+  const router = useRouter();
+  const { address } = useAccount();
   const { formData, setFormData } = useTokenFormContext();
   const methods = useForm<FormData>({
     defaultValues: formData,
@@ -36,6 +41,17 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     setFormData(data);
     onNext();
   };
+
+  // if user already launched token redirect to token-exist page
+  useEffect(() => {
+    if (address) {
+      tokenExist({ userAddress: address }).then((project) => {
+        if (project) {
+          router.push("/token-exist");
+        }
+      });
+    }
+  }, [address, router]);
 
   return (
     <FormProvider {...methods}>

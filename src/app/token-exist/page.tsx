@@ -17,9 +17,10 @@ import { tokenExist } from "../actions/tokenExist";
 interface TokenData {
   tokenName: string;
   tokenTicker: string;
-  tokenIcon?: { ipfsHash: string };
+  iconHash?: { ipfsHash: string };
   projectAddress: string;
   nftContractAddress: Address;
+  issuanceTokenAddress: Address;
 }
 
 export default function TokenExistPage() {
@@ -46,12 +47,17 @@ export default function TokenExistPage() {
     },
     {
       label: "Token Icon",
-      value: tokenData?.tokenIcon?.ipfsHash || "",
+      value: tokenData?.iconHash || "",
       type: InfoType.IPFS_IMAGE,
     },
     {
       label: "Project Address",
       value: tokenData?.projectAddress,
+      type: InfoType.LINK,
+    },
+    {
+      label: "Token Contract Address",
+      value: tokenData?.issuanceTokenAddress as Address,
       type: InfoType.LINK,
     },
     {
@@ -68,9 +74,10 @@ export default function TokenExistPage() {
           const tokenData: TokenData = {
             tokenName: project.tokenName,
             tokenTicker: project.tokenTicker,
-            tokenIcon: project.tokenIcon,
+            iconHash: project.iconHash,
             projectAddress: project.projectAddress,
             nftContractAddress: project.nftContractAddress,
+            issuanceTokenAddress: project.issuanceTokenAddress,
           };
           setTokenData(tokenData);
         }
@@ -83,10 +90,19 @@ export default function TokenExistPage() {
       <TokenFormProvider>
         <main className="container">
           <div className="my-20 bg-white rounded-2xl flex flex-col items-center gap-24 max-w-3xl mx-auto">
-            <div className="flex flex-col gap-8 pt-20 w-full">
-              <section className="flex flex-col gap-4 w-3/4 mx-auto ">
-                <h1 className="text-5xl font-bold text-success-500 text-center mb-7">
-                  Your token is already launched.
+            <div className="flex flex-col gap-8 w-full">
+              <section
+                className="flex flex-col gap-4 w-3/4 mx-auto pb-10 pt-14"
+                style={{
+                  backgroundImage: `url('/images/token-form/last-step-top.svg'), url('/images/token-form/last-step-down.svg')`,
+                  backgroundSize: "contain, contain",
+                  backgroundPosition: "top center, bottom center",
+                  backgroundRepeat: "no-repeat, no-repeat",
+                }}
+              >
+                <h1 className="text-5xl font-bold text-success-500 text-center mb-7 leading-normal">
+                  Your token is <br />
+                  already launched.
                 </h1>
                 <div className="flex flex-col gap-4">
                   <div className="grid grid-cols-[auto_24px_auto] gap-y-4 gap-x-6 px-5 py-4 border-t-[1px] border-b-[1px]">
@@ -102,7 +118,7 @@ export default function TokenExistPage() {
                       <InfoItem
                         key={item.label}
                         label={item.label}
-                        value={item.value || ""}
+                        value={typeof item.value === "string" ? item.value : ""}
                         type={item.type}
                       />
                     ))}
