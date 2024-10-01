@@ -11,18 +11,18 @@ const config: EnvConfig = {
     process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT ||
     "https://impact-graph.serve.giveth.io/graphql",
 
-    bondingCurveParams: {
-      formula: "0xfaf6c989dB0582D7b31e40343dd4A41a1848E038" as Address,
-      reserveRatioForBuying: 125000,
-      reserveRatioForSelling: 125000,
-      buyFee: "0",
-      sellFee: "100",
-      buyIsOpen: true,
-      sellIsOpen: true,
-      initialIssuanceSupply: "6400000", // human readable format
-      // This will be deposited into the contract
-      initialCollateralSupply: "125000”, // human readable format,
-    },
+  bondingCurveParams: {
+    formula: "0xfaf6c989dB0582D7b31e40343dd4A41a1848E038" as Address,
+    reserveRatioForBuying: 125000,
+    reserveRatioForSelling: 125000,
+    buyFee: "0",
+    sellFee: "100",
+    buyIsOpen: true,
+    sellIsOpen: true,
+    initialIssuanceSupply: "6400000", // human readable format
+    // This will be deposited into the contract
+    initialCollateralSupply: "125000", // human readable format
+  },
   SCAN_URL: "https://sepolia.basescan.org/",
   tokenIssueMaxSupply: "1000000",
   gotToDashboardLink: "https://q-acc.vercel.app/create",
