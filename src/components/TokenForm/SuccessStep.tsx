@@ -51,7 +51,15 @@ const SuccessStep: React.FC<{}> = () => {
   ];
 
   return (
-    <section className="flex flex-col gap-4 w-3/4 mx-auto pt-20 pb-10 ">
+    <section
+      className="flex flex-col gap-4 w-3/4 mx-auto pt-20 pb-10"
+      style={{
+        backgroundImage: `url('/images/token-form/last-step-top.svg'), url('/images/token-form/last-step-down.svg')`,
+        backgroundSize: "contain, contain",
+        backgroundPosition: "top center, bottom center",
+        backgroundRepeat: "no-repeat, no-repeat",
+      }}
+    >
       <h1 className="text-5xl font-bold text-success-500 text-center mb-7">
         Congratulations!
       </h1>
