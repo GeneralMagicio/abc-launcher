@@ -1,9 +1,9 @@
 import { EnvConfig } from "@/types/config";
 import { Address } from "viem";
-import { Chain, polygonZkEvm } from "wagmi/chains";
+import { Chain, polygonZkEvm, polygon } from "wagmi/chains";
 
 const config: EnvConfig = {
-  SUPPORTED_CHAINS: [polygonZkEvm] as [Chain],
+  SUPPORTED_CHAINS: [polygonZkEvm, polygon] as [Chain, Chain],
   COLATERAL_TOKEN: "0x0000000000000000000000000000000000000000" as Address,
   // COLATERAL_SUPPLIER: "0x0000000000000000000000000000000000000000",
   GRAPHQL_ENDPOINT:
