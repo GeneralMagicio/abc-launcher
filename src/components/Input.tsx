@@ -1,6 +1,6 @@
+// components/Input.tsx
 import { useFormContext, RegisterOptions } from "react-hook-form";
 import type { InputHTMLAttributes } from "react";
-import { useState } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -24,12 +24,11 @@ const Input: React.FC<InputProps> = ({
   const {
     register,
     formState: { errors },
+    watch,
   } = useFormContext();
-  const [value, setValue] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
+  // Watch the current value for the counter
+  const currentValue = watch(name) || "";
 
   return (
     <div>
@@ -44,8 +43,6 @@ const Input: React.FC<InputProps> = ({
           type={type}
           maxLength={maxLength}
           {...props}
-          value={value}
-          onChange={handleChange}
           className={`px-4 py-4 block w-full rounded-lg border-2 ${
             errors[name]
               ? "border-red-500 focus:border-red-500"
@@ -64,7 +61,7 @@ const Input: React.FC<InputProps> = ({
         )}
         {showCounter && maxLength && (
           <div className="absolute right-2 top-1/2 py-1 px-2 transform -translate-y-1/2 flex items-center justify-center bg-gray-100 border rounded-full text-xs text-gray-400">
-            {value.length}/{maxLength}
+            {currentValue.length}/{maxLength}
           </div>
         )}
       </div>
