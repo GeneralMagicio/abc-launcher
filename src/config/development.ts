@@ -1,7 +1,6 @@
 import { EnvConfig } from "@/types/config";
-import { UserArgs } from "@/types/inverter";
 import { Address } from "viem";
-import { Chain, optimismSepolia, baseSepolia } from "wagmi/chains";
+import { Chain, baseSepolia } from "wagmi/chains";
 
 const config: EnvConfig = {
   SUPPORTED_CHAINS: [baseSepolia] as [Chain],
