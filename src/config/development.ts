@@ -25,8 +25,6 @@ const config: EnvConfig = {
   SCAN_URL: "https://sepolia.basescan.org/",
   tokenIssueMaxSupply: "1000000",
   gotToDashboardLink: "https://q-acc.vercel.app/create",
-
-  PROVIDER_URL: `https://base-sepolia.infura.io/v3/${process.env.INFURA_ID}`,
 };
 
 export default config;

@@ -11,5 +11,4 @@ export type EnvConfig = {
   SCAN_URL: string;
   tokenIssueMaxSupply: string;
   gotToDashboardLink: string;
-  PROVIDER_URL: string;
 };

@@ -25,7 +25,6 @@ const config: EnvConfig = {
   SCAN_URL: "https://etherscan.io/",
   tokenIssueMaxSupply: "1000000",
   gotToDashboardLink: "https://q-acc.vercel.app/create",
-  PROVIDER_URL: "https://polygon-zkevm.drpc.org",
 };
 
 export default config;
