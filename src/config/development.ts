@@ -13,15 +13,15 @@ const config: EnvConfig = {
 
   bondingCurveParams: {
     formula: "0xfaf6c989dB0582D7b31e40343dd4A41a1848E038" as Address,
-    reserveRatioForBuying: 333333,
-    reserveRatioForSelling: 333333,
+    reserveRatioForBuying: 125000,
+    reserveRatioForSelling: 125000,
     buyFee: "0",
     sellFee: "100",
     buyIsOpen: true,
     sellIsOpen: true,
-    initialIssuanceSupply: "3000", // human readable format
+    initialIssuanceSupply: "6400000", // human readable format
     // This will be deposited into the contract
-    initialCollateralSupply: "1000", // human readable format,
+    initialCollateralSupply: "125000", // human readable format
   },
   SCAN_URL: "https://sepolia.basescan.org/",
   tokenIssueMaxSupply: "1000000",
