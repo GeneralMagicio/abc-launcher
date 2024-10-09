@@ -1,9 +1,6 @@
 import { EnvConfig } from "@/types/config";
-import { UserArgs } from "@/types/inverter";
 import { Address } from "viem";
-import { Chain, optimismSepolia, baseSepolia } from "wagmi/chains";
-
-const INFURA_ID = ''; // todo: how should I inject INFURA_ID in a safe way?
+import { Chain, baseSepolia } from "wagmi/chains";
 
 const config: EnvConfig = {
   SUPPORTED_CHAINS: [baseSepolia] as [Chain],
@@ -29,7 +26,7 @@ const config: EnvConfig = {
   tokenIssueMaxSupply: "1000000",
   gotToDashboardLink: "https://q-acc.vercel.app/create",
 
-  PROVIDER_URL: `https://base-sepolia.infura.io/v3/${INFURA_ID}`,
+  PROVIDER_URL: `https://base-sepolia.infura.io/v3/${process.env.INFURA_ID}`,
 };
 
 export default config;

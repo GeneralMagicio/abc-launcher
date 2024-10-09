@@ -30,8 +30,7 @@ export async function isSafeOwner(safeAddress: string, ownerAddress?: string): P
 
         const owners = await safeContract.getOwners()
 
-        return owners.some((addr: string) => addr.toLowerCase() === ownerAddress.toLowerCase()) ?
-            true : 'The address provided is not owner of this safe';
+        return owners.some((addr: string) => addr.toLowerCase() === ownerAddress.toLowerCase());
     } catch (error) {
         // If the function throws, it's not a Safe
         return 'Not a safe address'

@@ -102,12 +102,13 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             description="The grant is being sent to this address."
             rules={{
               required: "Project Address is required",
-              validate: (value) => {
+              validate: async (value) => {
                 if (isAddress(value)) {
-                  return isSafeOwner(value, address);
+                  const isOwner = await isSafeOwner(value, address);
+                  return isOwner || "Address is not a Safe owner address";
                 }
-                return "Address in not valid";
-              },
+                return "Address is not valid";
+              }
             }}
           />
 
