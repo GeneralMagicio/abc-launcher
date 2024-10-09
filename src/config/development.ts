@@ -3,6 +3,8 @@ import { UserArgs } from "@/types/inverter";
 import { Address } from "viem";
 import { Chain, optimismSepolia, baseSepolia } from "wagmi/chains";
 
+const INFURA_ID = ''; // todo: how should I inject INFURA_ID in a safe way?
+
 const config: EnvConfig = {
   SUPPORTED_CHAINS: [baseSepolia] as [Chain],
   COLATERAL_TOKEN: "0x065775C7aB4E60ad1776A30DCfB15325d231Ce4F",
@@ -26,6 +28,8 @@ const config: EnvConfig = {
   SCAN_URL: "https://sepolia.basescan.org/",
   tokenIssueMaxSupply: "1000000",
   gotToDashboardLink: "https://q-acc.vercel.app/create",
+
+  PROVIDER_URL: `https://base-sepolia.infura.io/v3/${INFURA_ID}`,
 };
 
 export default config;
