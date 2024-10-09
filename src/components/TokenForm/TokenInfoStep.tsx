@@ -9,6 +9,7 @@ import { Address, isAddress } from "viem";
 import { tokenExist } from "@/app/actions/tokenExist";
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
+import { isSafeOwner } from "@/services/check-safe-owner";
 
 interface FormData {
   tokenName: string;
@@ -102,7 +103,10 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             rules={{
               required: "Project Address is required",
               validate: (value) => {
-                return isAddress(value) ? true : "Address in not valid"; // Add your validation logic here
+                if (isAddress(value)) {
+                  return isSafeOwner(value, address);
+                }
+                return "Address in not valid";
               },
             }}
           />
