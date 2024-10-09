@@ -1,3 +1,4 @@
+// TokenInfoStep.tsx
 import React, { useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import Input from "@/components/Input";
@@ -78,15 +79,17 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
               required: "Token Ticker is required",
               maxLength: {
                 value: 5,
-                message: "Token Ticker cannot exceed 4 characters",
+                message: "Token Ticker cannot exceed 5 characters",
               },
             }}
+            maxLength={5}
+            showCounter
           />
         </section>
 
         <section className="flex flex-col gap-4 w-2/4 mx-auto">
           <label className="text-4xl font-bold text-gray-800 text-center mb-7">
-            Upload Token icon
+            Upload Token Icon
           </label>
           <Dropzone name="icon" onDrop={handleDrop} />
         </section>
@@ -108,7 +111,7 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
                   return isOwner || "Address is not a Safe owner address";
                 }
                 return "Address is not valid";
-              }
+              },
             }}
           />
 
