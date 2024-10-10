@@ -1,15 +1,15 @@
 // TokenInfoStep.tsx
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import Input from "@/components/Input";
 import Checkbox from "@/components/Checkbox";
 import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
 import { Dropzone } from "@/components/DropZone";
-import { Address, isAddress } from "viem";
+import { Address, getAddress, isAddress } from "viem";
 import { tokenExist } from "@/app/actions/tokenExist";
 import { useRouter } from "next/navigation";
-import { useAccount } from "wagmi";
+import { useAccount, usePublicClient } from "wagmi";
 import { isSafeOwner } from "@/services/check-safe-owner";
 
 interface FormData {
@@ -31,6 +31,7 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     defaultValues: formData,
     mode: "onChange", // This enables validation on change
   });
+
   const { handleSubmit, setValue, formState } = methods;
 
   const handleDrop = (file: File, ipfsHash: string) => {
@@ -54,6 +55,31 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
       });
     }
   }, [address, router]);
+
+  const provider = usePublicClient();
+  const [isGnosisSafe, setIsGnosisSafe] = useState(false);
+
+  useEffect(() => {
+    const checkIfGnosisSafe = async () => {
+      if (!address || !isAddress(address)) return;
+
+      try {
+        const code = await provider?.getCode({ address: getAddress(address) });
+        // Gnosis Safe bytecode length is greater than 0x0 (an externally owned account would have no code).
+        if (code && code !== "0x") {
+          // Optionally, you can also make a contract call to `getThreshold` to ensure it's a Gnosis Safe.
+          setIsGnosisSafe(true);
+        } else {
+          setIsGnosisSafe(false);
+        }
+      } catch (error) {
+        console.error("Error checking if address is a Gnosis Safe:", error);
+        setIsGnosisSafe(false);
+      }
+    };
+
+    checkIfGnosisSafe();
+  }, [address, provider]);
 
   return (
     <FormProvider {...methods}>
@@ -103,9 +129,14 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             label="Project Address"
             placeholder="0x..."
             description="The grant is being sent to this address."
+            disabled={isGnosisSafe}
+            value={isGnosisSafe ? address : undefined}
             rules={{
               required: "Project Address is required",
               validate: async (value) => {
+                if (isGnosisSafe) {
+                  return true;
+                }
                 if (isAddress(value)) {
                   const isOwner = await isSafeOwner(value, address);
                   return isOwner || "Address is not a Safe owner address";
