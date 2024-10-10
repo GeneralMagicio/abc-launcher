@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Address } from "viem";
+import { useAccount, useSwitchChain } from "wagmi";
 
 import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
@@ -9,6 +10,8 @@ import { MintSuccessModal } from "@/components/MintSuccessModal";
 import { MintErrorModal } from "@/components/MintErrorModal";
 import { useNFT } from "@/hooks/useNFT";
 import { toast } from "sonner";
+import config from "@/config/configuration";
+import { useSwitchChainIfNeeded } from "@/hooks/useSwitchChainIfNeeded";
 
 interface FormData {
   nftContractAddress?: Address;
@@ -26,10 +29,20 @@ const NFTDeploymentStep: React.FC<{
   const methods = useForm<FormData>();
   const { handleSubmit, formState } = methods;
   const { deploy } = useNFT();
+  const { chainId } = useAccount();
+  const { switchChainAsync } = useSwitchChain();
+  const { switchChainIfNeeded } = useSwitchChainIfNeeded();
+  const targetNFTChain = config.SUPPORTED_CHAINS[1].id; // Polygon chain ID
 
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
+
+      // Deploy NFT contract on the target chain: Polygon
+      const chainSwitched = await switchChainIfNeeded(targetNFTChain);
+
+      // If chain switching failed, stop further execution
+      if (!chainSwitched) return;
 
       const nftName = formData.tokenName.trim() + " NFT";
       const nftSymbol = formData.tokenTicker.trim() + "NFT";
