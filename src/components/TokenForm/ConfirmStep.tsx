@@ -57,7 +57,6 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           userArgs: {
             fundingManager: {
               bondingCurveParams: config.bondingCurveParams,
-              issuanceToken: config.COLATERAL_TOKEN,
               collateralToken: config.COLATERAL_TOKEN,
             },
             authorizer: {
@@ -69,6 +68,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
               decimals: 18,
               maxSupply: config.tokenIssueMaxSupply,
             },
+            beneficiary: formData.projectAddress,
           },
         }
       );
