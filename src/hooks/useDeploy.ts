@@ -83,14 +83,13 @@ export const useDeploy = () => {
 };
 
 export const useCollateralCheck = () => {
-  const { address } = useAccount();
   const inverter = useInverter();
+  const { address: userAddress } = useAccount();
 
   const factoryAddress = useFactoryAddress();
 
-  return useMutation<boolean>({
-    mutationKey: ["checkCollateral", address],
-    mutationFn: async () => {
+  return useMutation({
+    mutationFn: async (address: Address) => {
       const fa = await factoryAddress.mutateAsync();
       if (!fa) {
         return false;
@@ -101,7 +100,7 @@ export const useCollateralCheck = () => {
       });
       console.log("factory:", factory);
 
-      const sponsor = config.COLATERAL_SUPPLIER || address!;
+      const sponsor = config.COLATERAL_SUPPLIER || userAddress!;
       console.log("Sponsor:", sponsor);
 
       const result = await factory?.read.fundings.run([

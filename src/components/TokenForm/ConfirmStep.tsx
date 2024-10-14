@@ -41,7 +41,9 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
       const isWhiteListed = await checkWhiteList(address);
       if (!isWhiteListed) throw new Error("Address not whitelisted");
 
-      const isCollateral = await collateralCheck.mutateAsync();
+      const isCollateral = await collateralCheck.mutateAsync(
+        formData.projectAddress
+      );
 
       if (!isCollateral) {
         throw new Error(
