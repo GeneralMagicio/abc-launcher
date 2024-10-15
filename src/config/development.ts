@@ -3,7 +3,7 @@ import { Address } from "viem";
 import { Chain, baseSepolia } from "wagmi/chains";
 
 const config: EnvConfig = {
-  SUPPORTED_CHAINS: [baseSepolia] as [Chain],
+  SUPPORTED_CHAINS: [baseSepolia, baseSepolia] as [Chain, Chain],
   COLATERAL_TOKEN: "0x065775C7aB4E60ad1776A30DCfB15325d231Ce4F",
   // COLATERAL_SUPPLIER: "0x0000000000000000000000000000000000000000",
   GRAPHQL_ENDPOINT:

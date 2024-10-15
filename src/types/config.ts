@@ -3,7 +3,7 @@ import { UserArgs } from "./inverter";
 import type { inverterFactoryType } from "@/config/configuration";
 
 export type EnvConfig = {
-  SUPPORTED_CHAINS: [Chain];
+  SUPPORTED_CHAINS: [Chain, Chain];
   COLATERAL_TOKEN: Address;
   COLATERAL_SUPPLIER?: Address;
   GRAPHQL_ENDPOINT: string;

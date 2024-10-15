@@ -9,7 +9,7 @@ export const MintErrorModal: FC<MintErrorModalProps> = (props) => {
   return (
     <Modal {...props} title="We encountered an issue" className="max-w-2xl">
       <div className="flex flex-col gap-3 text-xl max-w-2xl">
-        <p>Sorry, we couldn’t deploy your NFT smart countract.</p>
+        <p>Sorry, we couldn’t deploy your NFT smart contract.</p>
         <div className="bg-[#F7F7F9;] mt-1 px-6 py-4 rounded-2xl">
           <p>
             Try again, and if there are still issues, please contact{" "}

@@ -8,12 +8,13 @@ import { IconArrowRight } from "../Icons/IconArrowRight";
 import { useCollateralCheck, useDeploy } from "@/hooks/useDeploy";
 import config from "@/config/configuration";
 import { addProject } from "@/app/actions/add-project";
-import { useAccount } from "wagmi";
+import { useAccount, useSwitchChain } from "wagmi";
 import { checkWhiteList } from "@/services/check-white-list";
 import { toast } from "sonner";
 import { Address } from "viem";
 import { formatCurrencyAmount } from "@/helpers/currency";
 import { usePolTokenPrice } from "@/hooks/usePolTokenPrice";
+import { useSwitchChainIfNeeded } from "@/hooks/useSwitchChainIfNeeded";
 
 const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   onNext,
@@ -22,7 +23,8 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const [loading, setLoading] = useState(false);
   const { formData, setFormData } = useTokenFormContext();
   const methods = useForm<FormData>();
-  const { address } = useAccount();
+  const { address, chainId } = useAccount();
+  const { switchChainAsync } = useSwitchChain();
   const { handleSubmit, formState } = methods;
   const { deploy, prep, requestedModules, inverter } = useDeploy();
   const collateralCheck = useCollateralCheck();
@@ -31,10 +33,19 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const collateralUsdValueString: string = polTokenPrice.isSuccess
     ? formatCurrencyAmount(collateralAmount * polTokenPrice.data)
     : "-";
+  const { switchChainIfNeeded } = useSwitchChainIfNeeded();
+  const targetChain = config.SUPPORTED_CHAINS[0].id; // PolygonZkEvm chain ID
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
+
     try {
+      // Return user to polygonZkEvm after deployed NFT contract on polygon
+      const chainSwitched = await switchChainIfNeeded(targetChain);
+
+      // If chain switching failed, stop further execution
+      if (!chainSwitched) return;
+
       const prepData = await prep.mutateAsync();
 
       if (!address) throw new Error("Address not found");
