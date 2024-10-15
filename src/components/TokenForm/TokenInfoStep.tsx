@@ -10,7 +10,7 @@ import { Address, isAddress } from "viem";
 import { tokenExist } from "@/app/actions/tokenExist";
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
-import { isSafeOwner } from "@/services/check-safe-owner";
+import { isSafeAddress } from "@/services/check-safe-owner";
 
 interface FormData {
   tokenName: string;
@@ -107,8 +107,8 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
               required: "Project Address is required",
               validate: async (value) => {
                 if (isAddress(value)) {
-                  const isOwner = await isSafeOwner(value, address);
-                  return isOwner || "Address is not a Safe owner address";
+                  const isOwner = await isSafeAddress(value);
+                  return isOwner || "Address is not a Safe address";
                 }
                 return "Address is not valid";
               },

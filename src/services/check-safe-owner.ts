@@ -20,13 +20,9 @@ const SAFE_ABI = [
   },
 ] as Abi;
 
-export async function isSafeOwner(
+export async function isSafeAddress(
   safeAddress: Address,
-  ownerAddress?: Address
 ): Promise<boolean | string> {
-  if (!ownerAddress) {
-    return "Owner address is not provided";
-  }
   try {
     const owners = (await readContract(wagmiConfig, {
       abi: SAFE_ABI,
@@ -34,9 +30,7 @@ export async function isSafeOwner(
       functionName: "getOwners",
     })) as Address[];
 
-    return owners.some(
-      (addr: string) => addr.toLowerCase() === ownerAddress.toLowerCase()
-    );
+    return owners.length > 0;
   } catch (error) {
     // If the function throws, it's not a Safe
     console.log("error", error);
