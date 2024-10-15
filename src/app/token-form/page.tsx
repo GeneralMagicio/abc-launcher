@@ -9,11 +9,10 @@ import SuccessStep from "@/components/TokenForm/SuccessStep";
 import TermsStep from "@/components/TokenForm/TermStep";
 import { TokenFormProvider } from "@/components/TokenForm/TokenFormContext";
 import TokenInfoStep from "@/components/TokenForm/TokenInfoStep";
-import { checkWhiteList } from "@/services/check-white-list";
 import React, { useEffect, useState } from "react";
-import { Address } from "viem";
 import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
+import { useAddressWhitelist } from "@/hooks/useAddressWhitelist";
 
 enum FormSteps {
   TokenInfo = 1,
@@ -31,6 +30,7 @@ export default function TokenFormPage() {
   const [showHoldModal, setShowHoldModal] = useState(false);
 
   const { address } = useAccount();
+  const useWhitelist = useAddressWhitelist();
 
   const handleNext = () => {
     setStep((prevStep) => prevStep + 1);
@@ -47,22 +47,17 @@ export default function TokenFormPage() {
   };
 
   useEffect(() => {
-    async function checkAddress(address: Address) {
-      const isWhiteListed = await checkWhiteList(address);
-      if (isWhiteListed) {
+    if (!address) {
+      setShowConnectModal(true);
+      setShowHoldModal(false);
+    } else {
+      if (useWhitelist.data || useWhitelist.isLoading) {
         setShowHoldModal(false);
       } else {
         setShowHoldModal(true);
       }
     }
-    if (!address) {
-      setShowConnectModal(true);
-      setShowHoldModal(false);
-    } else {
-      setShowConnectModal(false);
-      checkAddress(address);
-    }
-  }, [address]);
+  }, [address, useWhitelist]);
 
   return (
     <>

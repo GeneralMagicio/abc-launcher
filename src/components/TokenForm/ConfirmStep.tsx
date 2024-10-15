@@ -9,7 +9,6 @@ import { useCollateralCheck, useDeploy } from "@/hooks/useDeploy";
 import config from "@/config/configuration";
 import { addProject } from "@/app/actions/add-project";
 import { useAccount } from "wagmi";
-import { checkWhiteList } from "@/services/check-white-list";
 import { toast } from "sonner";
 import { Address } from "viem";
 import { formatCurrencyAmount } from "@/helpers/currency";
@@ -38,8 +37,6 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
       const prepData = await prep.mutateAsync();
 
       if (!address) throw new Error("Address not found");
-      const isWhiteListed = await checkWhiteList(address);
-      if (!isWhiteListed) throw new Error("Address not whitelisted");
 
       const isCollateral = await collateralCheck.mutateAsync(
         formData.projectAddress
