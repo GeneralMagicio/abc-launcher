@@ -108,7 +108,7 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             placeholder="0x..."
             description="The grant is being sent to this address."
             value={useWhitelist?.data?.fundingPotMultisig || ""}
-            disabled
+            readOnly
             rules={{
               required: "Project Address is required",
             }}
