@@ -28,14 +28,24 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const { address } = useAccount();
   const { formData, setFormData } = useTokenFormContext();
   const useWhitelist = useAddressWhitelist();
+
+  const projectAddress = useWhitelist?.data?.fundingPotMultisig;
   const methods = useForm<FormData>({
     defaultValues: {
       ...formData,
-      projectAddress: useWhitelist?.data?.fundingPotMultisig,
+      projectAddress,
     },
     mode: "onChange", // This enables validation on change
   });
-  const { handleSubmit, setValue, formState } = methods;
+  const { handleSubmit, setValue, resetField, formState } = methods;
+
+  useEffect(() => {
+    if (projectAddress) {
+      setValue("projectAddress", projectAddress);
+    } else {
+      resetField("projectAddress");
+    }
+  }, [projectAddress]);
 
   const handleDrop = (file: File, ipfsHash: string) => {
     if (file) {
