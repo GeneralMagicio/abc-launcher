@@ -66,6 +66,7 @@ export default function NotWhiteListedPage() {
         address!,
         collateralAmount,
       ]);
+      await publicClient!.waitForTransactionReceipt({ hash: tx });
     }
 
     const factoryAddress = await useFA.mutateAsync();
