@@ -33,7 +33,6 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const methods = useForm<FormData>({
     defaultValues: {
       ...formData,
-      projectAddress,
     },
     mode: "onChange", // This enables validation on change
   });
