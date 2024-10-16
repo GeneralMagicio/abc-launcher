@@ -9,9 +9,11 @@ import { MintSuccessModal } from "@/components/MintSuccessModal";
 import { MintErrorModal } from "@/components/MintErrorModal";
 import { useNFT } from "@/hooks/useNFT";
 import { toast } from "sonner";
+import { useAddressWhitelist } from "@/hooks/useAddressWhitelist";
 
 interface FormData {
   nftContractAddress?: Address;
+  nftImageURI?: string;
 }
 
 const NFTDeploymentStep: React.FC<{
@@ -26,6 +28,7 @@ const NFTDeploymentStep: React.FC<{
   const methods = useForm<FormData>();
   const { handleSubmit, formState } = methods;
   const { deploy } = useNFT();
+  const useWhitelist = useAddressWhitelist();
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -37,6 +40,7 @@ const NFTDeploymentStep: React.FC<{
       const nftContractAddress = await deploy.mutateAsync({
         name: nftName,
         symbol: nftSymbol,
+        nftImage: formData.tokenIcon?.ipfsHash || "",
       });
 
       if (!nftContractAddress) throw new Error("NFT not deployed");
@@ -49,6 +53,7 @@ const NFTDeploymentStep: React.FC<{
         setFormData({
           ...data,
           nftContractAddress,
+          nftImageURI: useWhitelist?.data?.nftImageURI || "",
         });
       }
     } catch (error: any) {
@@ -91,13 +96,24 @@ const NFTDeploymentStep: React.FC<{
               how.
             </p>
             <div className="flex items-center justify-center">
-              <Image
-                src="/images/nft/nft.svg"
-                alt="NFT"
-                width={398}
-                height={397}
-                className="rounded-2xl"
-              />
+              {useWhitelist?.data?.nftImageURI && (
+                <Image
+                  src={useWhitelist.data.nftImageURI as string}
+                  alt="NFT"
+                  width={398}
+                  height={397}
+                  className="rounded-2xl"
+                />
+              )}
+              {!useWhitelist?.data?.nftImageURI && (
+                <Image
+                  src="/images/nft/nft.svg"
+                  alt="NFT"
+                  width={398}
+                  height={397}
+                  className="rounded-2xl"
+                />
+              )}
             </div>
           </div>
         </section>
