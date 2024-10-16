@@ -14,11 +14,23 @@ import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import { toast } from "sonner";
 import { Erc20Abi } from "@/lib/abi";
 import { useInverter } from "@/hooks/useInverter";
+import { useAddressWhitelist } from "@/hooks/useAddressWhitelist";
 
 export default function NotWhiteListedPage() {
   const { address } = useAccount();
   const [projectAddress, setProjectAddress] = useState<string>();
   const [isValidAddress, setIsValidAddress] = useState<boolean>();
+  const { data: addressWhitelist } = useAddressWhitelist();
+
+  useEffect(() => {
+    if (!!addressWhitelist) {
+      setProjectAddress((pa) => {
+        if (!pa) {
+          return addressWhitelist.fundingPotMultisig;
+        }
+      });
+    }
+  }, [addressWhitelist]);
 
   const collateralBalance = useCollateralBalance();
   const useFA = useFactoryAddress();
@@ -131,6 +143,7 @@ export default function NotWhiteListedPage() {
             }`}
             name="projectAddress"
             placeholder="Enter project address (0x...)"
+            value={projectAddress}
             onChange={(e) => setProjectAddress(e.target.value)}
           />
 
