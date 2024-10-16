@@ -40,7 +40,6 @@ const NFTDeploymentStep: React.FC<{
       const nftContractAddress = await deploy.mutateAsync({
         name: nftName,
         symbol: nftSymbol,
-        nftImage: formData.tokenIcon?.ipfsHash || "",
       });
 
       if (!nftContractAddress) throw new Error("NFT not deployed");
@@ -53,7 +52,6 @@ const NFTDeploymentStep: React.FC<{
         setFormData({
           ...data,
           nftContractAddress,
-          nftImageURI: useWhitelist?.data?.nftImageURI || "",
         });
       }
     } catch (error: any) {

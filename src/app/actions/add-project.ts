@@ -16,7 +16,6 @@ export async function addProject(param: {
   nftContractAddress: string;
   chainId: number;
   policyAcceptTime: Date;
-  nftImageURI: string;
 }) {
   const {
     tokenName,
@@ -31,7 +30,6 @@ export async function addProject(param: {
     nftContractAddress,
     chainId,
     policyAcceptTime,
-    nftImageURI,
   } = param;
   // Add project to database
   console.log("Adding project to database...");
@@ -51,7 +49,6 @@ export async function addProject(param: {
     nftContractAddress: nftContractAddress.toLocaleLowerCase(),
     chainId,
     policyAcceptTime: policyAcceptTime.toISOString(),
-    nftImageURI,
   });
   if (!response?.acknowledged) {
     throw new Error("Failed to insert project data");
