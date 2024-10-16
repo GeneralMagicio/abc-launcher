@@ -16,12 +16,16 @@ export const useNFT = () => {
       if (!publicClient) throw new Error("Public client not found");
       if (!whitelist?.nftImageURI) throw new Error("NFT image not found");
 
-      const nftImage = whitelist?.nftImageURI;
+      const nftImage = {
+        name: `${name} NFT Image`,
+        description: `${name} project NFT Image`,
+        image: `ipfs://${whitelist?.nftImageURI}`,
+      };
 
       const hash = await walletClient.data.deployContract({
         abi,
         bytecode,
-        args: [name, symbol, address, whitelist?.nftImageURI],
+        args: [name, symbol, address, nftImage],
       });
 
       toast.info(`Waiting for NFT deploy confirmation: ${hash}`);

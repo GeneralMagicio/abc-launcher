@@ -96,7 +96,7 @@ const NFTDeploymentStep: React.FC<{
             <div className="flex items-center justify-center">
               {useWhitelist?.data?.nftImageURI && (
                 <Image
-                  src={useWhitelist.data.nftImageURI as string}
+                  src={`https://gateway.pinata.cloud/ipfs/${useWhitelist.data.nftImageURI}`}
                   alt="NFT"
                   width={398}
                   height={397}
