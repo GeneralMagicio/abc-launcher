@@ -3,25 +3,16 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
-
-import { checkWhiteList } from "@/services/check-white-list";
+import { useAddressWhitelist } from "@/hooks/useAddressWhitelist";
 
 export default function NotWhiteListedPage() {
   const { address, chainId } = useAccount();
   const router = useRouter();
+  const useWhitelist = useAddressWhitelist();
 
-  // Handle address changes
-  useEffect(() => {
-    async function fetchData() {
-      if (address) {
-        const isWhiteListed = await checkWhiteList(address);
-        if (isWhiteListed) {
-          router.push("/token-form");
-        }
-      }
-    }
-    fetchData();
-  }, [address, router]);
+  if (!!useWhitelist.data) {
+    router.push("/token-form");
+  }
 
   return (
     <main className="container text-center">

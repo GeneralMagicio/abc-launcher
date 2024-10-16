@@ -10,7 +10,7 @@ import { Address, isAddress } from "viem";
 import { tokenExist } from "@/app/actions/tokenExist";
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
-import { isSafeOwner } from "@/services/check-safe-owner";
+import { useAddressWhitelist } from "@/hooks/useAddressWhitelist";
 
 interface FormData {
   tokenName: string;
@@ -27,8 +27,12 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const router = useRouter();
   const { address } = useAccount();
   const { formData, setFormData } = useTokenFormContext();
+  const useWhitelist = useAddressWhitelist();
   const methods = useForm<FormData>({
-    defaultValues: formData,
+    defaultValues: {
+      ...formData,
+      projectAddress: useWhitelist?.data?.fundingPotMultisig,
+    },
     mode: "onChange", // This enables validation on change
   });
   const { handleSubmit, setValue, formState } = methods;
@@ -103,15 +107,10 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             label="Project Address"
             placeholder="0x..."
             description="The grant is being sent to this address."
+            value={useWhitelist?.data?.fundingPotMultisig || ""}
+            disabled
             rules={{
               required: "Project Address is required",
-              validate: async (value) => {
-                if (isAddress(value)) {
-                  const isOwner = await isSafeOwner(value, address);
-                  return isOwner || "Address is not a Safe owner address";
-                }
-                return "Address is not valid";
-              },
             }}
           />
 

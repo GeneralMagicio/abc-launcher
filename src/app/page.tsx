@@ -3,8 +3,6 @@
 import { Button } from "@/components/Button";
 import { IconArrowRight } from "@/components/Icons/IconArrowRight";
 import config from "@/config/configuration";
-import { useCollateralCheck } from "@/hooks/useDeploy";
-import { checkWhiteList } from "@/services/check-white-list";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -12,6 +10,7 @@ import { toast } from "sonner";
 import { useAccount, useSwitchChain } from "wagmi";
 import { tokenExist } from "@/app/actions/tokenExist";
 import React from "react";
+import { checkWhitelist } from "./actions/check-whiltelist";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -38,7 +37,7 @@ export default function Home() {
 
       if (address) {
         console.log("Launching Token for address:", address);
-        const isWhiteListed = await checkWhiteList(address);
+        const isWhiteListed = await checkWhitelist(address);
         if (isWhiteListed) {
           router.push("/token-form");
         } else {
