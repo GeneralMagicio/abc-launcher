@@ -9,6 +9,7 @@ export const useNFT = () => {
   const publicClient = usePublicClient();
   const { address } = useAccount();
   const { data: whitelist } = useAddressWhitelist();
+  const DEFAULT_BASE_URI = "/images/nft/logo.png";
 
   const deploy = useMutation({
     mutationFn: async ({ name, symbol }: { name: string; symbol: string }) => {
@@ -16,11 +17,7 @@ export const useNFT = () => {
       if (!publicClient) throw new Error("Public client not found");
       if (!whitelist?.nftImageURI) throw new Error("NFT image not found");
 
-      const nftImage = {
-        name: `${name} NFT Image`,
-        description: `${name} project NFT Image`,
-        image: `ipfs://${whitelist?.nftImageURI}`,
-      };
+      const nftImage = whitelist?.nftImageURI || DEFAULT_BASE_URI;
 
       const hash = await walletClient.data.deployContract({
         abi,
