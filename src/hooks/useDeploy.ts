@@ -82,14 +82,14 @@ export const useDeploy = () => {
   };
 };
 
-export const useCollateralCheck = () => {
+export const useCollateralBalance = () => {
   const inverter = useInverter();
   const { address: userAddress } = useAccount();
 
   const factoryAddress = useFactoryAddress();
 
   return useMutation({
-    mutationFn: async (address: Address) => {
+    mutationFn: async (address: Address): Promise<number | false> => {
       const fa = await factoryAddress.mutateAsync();
       if (!fa) {
         return false;
@@ -98,7 +98,6 @@ export const useCollateralCheck = () => {
         name: INVERTER_FACTORY_CONTRACT_NAME,
         address: fa,
       });
-      console.log("factory:", factory);
 
       const sponsor = config.COLATERAL_SUPPLIER || userAddress!;
       console.log("Sponsor:", sponsor);
@@ -118,12 +117,25 @@ export const useCollateralCheck = () => {
 
       console.log("Result:", ethResult);
 
-      return +ethResult >= +config.bondingCurveParams.initialCollateralSupply;
+      return +ethResult;
+    },
+  });
+};
+export const useCollateralCheck = () => {
+  const collateralBalance = useCollateralBalance();
+
+  return useMutation({
+    mutationFn: async (address: Address) => {
+      const ethResult = await collateralBalance.mutateAsync(address);
+      if (ethResult === false) {
+        return false;
+      }
+      return ethResult >= +config.bondingCurveParams.initialCollateralSupply;
     },
   });
 };
 
-const useFactoryAddress = () => {
+export const useFactoryAddress = () => {
   const publicClient = usePublicClient();
   return useMutation({
     gcTime: Infinity,
