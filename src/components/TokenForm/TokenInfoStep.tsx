@@ -123,13 +123,13 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             }}
           />
 
-          <Checkbox
+          {/* <Checkbox
             name="addressConfirmed"
             label="I confirm I have access to this address."
             rules={{
               required: "You must confirm you have access to this address.",
             }}
-          />
+          /> */}
         </section>
 
         <StepNavigation
