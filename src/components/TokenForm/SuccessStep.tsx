@@ -33,11 +33,11 @@ const SuccessStep: React.FC<{}> = () => {
       value: formData.tokenIcon?.ipfsHash || "",
       type: InfoType.IPFS_IMAGE,
     },
-    {
-      label: "Project Address",
-      value: formData.projectAddress,
-      type: InfoType.LINK,
-    },
+    // {
+    //   label: "Project Address",
+    //   value: formData.projectAddress,
+    //   type: InfoType.LINK,
+    // },
     {
       label: "Token Contract Address",
       value: formData.issuanceTokenAddress as Address,

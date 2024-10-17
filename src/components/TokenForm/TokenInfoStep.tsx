@@ -107,7 +107,7 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           <Dropzone name="icon" onDrop={handleDrop} />
         </section>
 
-        <section className="flex flex-col gap-4 w-2/4 mx-auto">
+        {/* <section className="flex flex-col gap-4 w-2/4 mx-auto">
           <h1 className="text-4xl font-bold text-gray-800 text-center mb-7">
             Enter Project Address
           </h1>
@@ -121,16 +121,16 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
             rules={{
               required: "Project Address is required",
             }}
-          />
+          /> */}
 
-          {/* <Checkbox
+        {/* <Checkbox
             name="addressConfirmed"
             label="I confirm I have access to this address."
             rules={{
               required: "You must confirm you have access to this address.",
             }}
           /> */}
-        </section>
+        {/* </section> */}
 
         <StepNavigation
           currentStep={1}
