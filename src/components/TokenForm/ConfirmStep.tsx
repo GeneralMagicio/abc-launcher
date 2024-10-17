@@ -134,11 +134,11 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
       value: formData.tokenIcon?.ipfsHash || "",
       type: InfoType.IPFS_IMAGE,
     },
-    {
-      label: "Project Address",
-      value: formData.projectAddress,
-      type: InfoType.LINK,
-    },
+    // {
+    //   label: "Project Address",
+    //   value: formData.projectAddress,
+    //   type: InfoType.LINK,
+    // },
     {
       label: "NFT Address",
       value: formData.nftContractAddress as Address,

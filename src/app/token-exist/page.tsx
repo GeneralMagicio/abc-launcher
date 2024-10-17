@@ -50,11 +50,11 @@ export default function TokenExistPage() {
       value: tokenData?.iconHash || "",
       type: InfoType.IPFS_IMAGE,
     },
-    {
-      label: "Project Address",
-      value: tokenData?.projectAddress,
-      type: InfoType.LINK,
-    },
+    // {
+    //   label: "Project Address",
+    //   value: tokenData?.projectAddress,
+    //   type: InfoType.LINK,
+    // },
     {
       label: "Token Contract Address",
       value: tokenData?.issuanceTokenAddress as Address,
