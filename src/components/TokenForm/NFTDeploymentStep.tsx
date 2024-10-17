@@ -9,9 +9,12 @@ import { MintSuccessModal } from "@/components/MintSuccessModal";
 import { MintErrorModal } from "@/components/MintErrorModal";
 import { useNFT } from "@/hooks/useNFT";
 import { toast } from "sonner";
+import { useAddressWhitelist } from "@/hooks/useAddressWhitelist";
+import { ipfsGatewayURI } from "@/config/configuration";
 
 interface FormData {
   nftContractAddress?: Address;
+  nftImageURI?: string;
 }
 
 const NFTDeploymentStep: React.FC<{
@@ -26,6 +29,7 @@ const NFTDeploymentStep: React.FC<{
   const methods = useForm<FormData>();
   const { handleSubmit, formState } = methods;
   const { deploy } = useNFT();
+  const useWhitelist = useAddressWhitelist();
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -92,7 +96,11 @@ const NFTDeploymentStep: React.FC<{
             </p>
             <div className="flex items-center justify-center">
               <Image
-                src="/images/nft/nft.svg"
+                src={
+                  useWhitelist?.data?.nftImageURI
+                    ? ipfsGatewayURI + useWhitelist.data.nftImageURI
+                    : "/images/nft/nft.svg"
+                }
                 alt="NFT"
                 width={398}
                 height={397}

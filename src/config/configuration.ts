@@ -11,6 +11,9 @@ export const inverterFactoryType: FactoryType = "restricted-pim";
 export type inverterFactoryType = typeof inverterFactoryType;
 export const INVERTER_FACTORY_CONTRACT_NAME = "Restricted_PIM_Factory_v1";
 
+// this is public pinata gateway url
+export const ipfsGatewayURI = 'https://gateway.pinata.cloud/ipfs/';
+
 const config: EnvConfig = {
   ...envConfig,
 };
