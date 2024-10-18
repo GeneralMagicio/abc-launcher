@@ -8,6 +8,7 @@ export type AddressWhitelist = {
   deployerEOA: Address;
   fundingPotMultisig: Address;
   projectMultisig: Address;
+  nftImageURI: string;
 };
 
 export async function checkWhitelist(
@@ -30,6 +31,7 @@ export async function checkWhitelist(
         deployerEOA: result.deployerEOA,
         fundingPotMultisig: result.fundingPotMultisig,
         projectMultisig: result.projectMultisig,
+        nftImageURI: result.nftImageURI,
       }
     : null;
 }
