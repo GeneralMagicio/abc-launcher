@@ -20,8 +20,6 @@ export const useNFT = () => {
 
       const nftImage = whitelist?.nftImageURI || DEFAULT_BASE_URI;
 
-      console.log({ nftImage });
-
       const hash = await walletClient.data.deployContract({
         abi,
         bytecode,
