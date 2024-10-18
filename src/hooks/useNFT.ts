@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import { useAddressWhitelist } from "@/hooks/useAddressWhitelist";
+import { ipfsGatewayURI } from "@/config/configuration";
 
 export const useNFT = () => {
   const walletClient = useWalletClient();

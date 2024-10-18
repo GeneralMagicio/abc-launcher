@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Address } from "viem";
 
@@ -30,6 +30,31 @@ const NFTDeploymentStep: React.FC<{
   const { handleSubmit, formState } = methods;
   const { deploy } = useNFT();
   const useWhitelist = useAddressWhitelist();
+  const [nftImage, setNftImage] = useState<string | null>(null);
+
+  // Fetch the image from the IPFS metadata
+  useEffect(() => {
+    const fetchNFTMetadata = async () => {
+      if (useWhitelist?.data?.nftImageURI) {
+        try {
+          const metadataURI =
+            ipfsGatewayURI +
+            useWhitelist.data.nftImageURI.replace("ipfs://", "");
+          const response = await fetch(metadataURI);
+          const metadata = await response.json();
+
+          if (metadata.image) {
+            const imageURI = ipfsGatewayURI + metadata.image;
+            setNftImage(imageURI);
+          }
+        } catch (error) {
+          console.error("Error fetching NFT metadata:", error);
+        }
+      }
+    };
+
+    fetchNFTMetadata();
+  }, [useWhitelist?.data?.nftImageURI]);
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -96,11 +121,7 @@ const NFTDeploymentStep: React.FC<{
             </p>
             <div className="flex items-center justify-center">
               <Image
-                src={
-                  useWhitelist?.data?.nftImageURI
-                    ? ipfsGatewayURI + useWhitelist.data.nftImageURI
-                    : "/images/nft/nft.svg"
-                }
+                src={nftImage ? nftImage : "/images/nft/nft.svg"}
                 alt="NFT"
                 width={398}
                 height={397}
