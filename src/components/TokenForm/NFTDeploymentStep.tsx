@@ -9,8 +9,6 @@ import { MintSuccessModal } from "@/components/MintSuccessModal";
 import { MintErrorModal } from "@/components/MintErrorModal";
 import { useNFT } from "@/hooks/useNFT";
 import { toast } from "sonner";
-import { useAddressWhitelist } from "@/hooks/useAddressWhitelist";
-import { ipfsGatewayURI } from "@/config/configuration";
 
 interface FormData {
   nftContractAddress?: Address;
@@ -28,33 +26,7 @@ const NFTDeploymentStep: React.FC<{
   const { formData, setFormData } = useTokenFormContext();
   const methods = useForm<FormData>();
   const { handleSubmit, formState } = methods;
-  const { deploy } = useNFT();
-  const useWhitelist = useAddressWhitelist();
-  const [nftImage, setNftImage] = useState<string | null>(null);
-
-  // Fetch the image from the IPFS metadata
-  useEffect(() => {
-    const fetchNFTMetadata = async () => {
-      if (useWhitelist?.data?.nftImageURI) {
-        try {
-          const metadataURI =
-            ipfsGatewayURI +
-            useWhitelist.data.nftImageURI.replace("ipfs://", "");
-          const response = await fetch(metadataURI);
-          const metadata = await response.json();
-
-          if (metadata.image) {
-            const imageURI = ipfsGatewayURI + metadata.image;
-            setNftImage(imageURI);
-          }
-        } catch (error) {
-          console.error("Error fetching NFT metadata:", error);
-        }
-      }
-    };
-
-    fetchNFTMetadata();
-  }, [useWhitelist?.data?.nftImageURI]);
+  const { deploy, nftImagePath } = useNFT();
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -120,13 +92,16 @@ const NFTDeploymentStep: React.FC<{
               how.
             </p>
             <div className="flex items-center justify-center">
-              <Image
-                src={nftImage ? nftImage : "/images/nft/nft.svg"}
-                alt="NFT"
-                width={398}
-                height={397}
-                className="rounded-2xl"
-              />
+              {!!nftImagePath.data && (
+                <Image
+                  src={nftImagePath.data}
+                  hidden={!nftImagePath.isSuccess}
+                  alt="NFT"
+                  width={398}
+                  height={397}
+                  className="rounded-2xl"
+                />
+              )}
             </div>
           </div>
         </section>
