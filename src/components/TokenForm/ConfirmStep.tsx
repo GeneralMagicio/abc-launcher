@@ -23,7 +23,13 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
   const methods = useForm<FormData>();
   const { address } = useAccount();
   const { handleSubmit, formState } = methods;
-  const { deploy, prep, requestedModules, inverter } = useDeploy();
+  const {
+    deploy,
+    prep,
+    requestedModules,
+    inverter,
+    getIssuanceTokenFromWrapper,
+  } = useDeploy();
   const collateralCheck = useCollateralCheck();
   const polTokenPrice = usePolTokenPrice();
   const collateralAmount = +config.bondingCurveParams.initialCollateralSupply;
@@ -80,8 +86,12 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
         requestedModules,
       });
 
-      const issuanceTokenAddress =
+      const issuanceTokenWrapperAddress =
         await workflow.fundingManager.read.getIssuanceToken.run();
+      const issuanceTokenAddress = await getIssuanceTokenFromWrapper(
+        issuanceTokenWrapperAddress
+      );
+
       const fundingManagerAddress = workflow.fundingManager.address;
 
       // TODO: save in db

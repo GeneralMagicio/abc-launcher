@@ -6,11 +6,12 @@ import { useInverter } from "./useInverter";
 import { toast } from "sonner";
 import { UserArgs } from "@/types/inverter";
 import { useAccount, usePublicClient } from "wagmi";
-import { Address, formatEther } from "viem";
+import { Address, formatEther, getContract, PublicClient } from "viem";
 import config, {
   INVERTER_FACTORY_CONTRACT_NAME,
   inverterFactoryType,
 } from "@/config/configuration";
+import { mintWrapperAbi } from "@/lib/abi";
 
 const DEPLOYMENTS_URL =
   "https://raw.githubusercontent.com/InverterNetwork/deployments/main/deployments";
@@ -74,11 +75,23 @@ export const useDeploy = () => {
     },
   });
 
+  const getIssuanceTokenFromWrapper = async (
+    address: Address
+  ): Promise<Address> => {
+    const mintWrapper = getContract({
+      address,
+      client: inverter?.publicClient!,
+      abi: mintWrapperAbi,
+    });
+    return (await mintWrapper.read.issuanceToken()) as Address;
+  };
+
   return {
     inverter,
     requestedModules,
     prep,
     deploy,
+    getIssuanceTokenFromWrapper,
   };
 };
 
