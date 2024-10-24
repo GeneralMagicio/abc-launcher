@@ -11,7 +11,8 @@ import config, {
   INVERTER_FACTORY_CONTRACT_NAME,
   inverterFactoryType,
 } from "@/config/configuration";
-import { mintWrapperAbi } from "@/lib/abi";
+import { MintWrapperAbi, RestrictedPIMFactoryv1Abi } from "@/lib/abi";
+import { useAddressWhitelist } from "./useAddressWhitelist";
 
 const DEPLOYMENTS_URL =
   "https://raw.githubusercontent.com/InverterNetwork/deployments/main/deployments";
@@ -81,7 +82,7 @@ export const useDeploy = () => {
     const mintWrapper = getContract({
       address,
       client: inverter?.publicClient!,
-      abi: mintWrapperAbi,
+      abi: MintWrapperAbi,
     });
     return (await mintWrapper.read.issuanceToken()) as Address;
   };
@@ -98,6 +99,7 @@ export const useDeploy = () => {
 export const useCollateralBalance = () => {
   const inverter = useInverter();
   const { address: userAddress } = useAccount();
+  // const { data: addrssWhitelist } = useAddressWhitelist();
 
   const factoryAddress = useFactoryAddress();
 
@@ -107,26 +109,33 @@ export const useCollateralBalance = () => {
       if (!fa) {
         return false;
       }
-      const factory = inverter?.getModule({
-        name: INVERTER_FACTORY_CONTRACT_NAME,
-        address: fa,
+      // const factory = inverter?.getModule({
+      //   name: INVERTER_FACTORY_CONTRACT_NAME,
+      //   address: fa,
+      // });
+
+      const factory = getContract({
+        abi: RestrictedPIMFactoryv1Abi,
+        client: inverter?.publicClient!,
+        address: fa!,
       });
 
       const sponsor = config.COLATERAL_SUPPLIER || userAddress!;
       console.log("Sponsor:", sponsor);
 
-      const result = await factory?.read.fundings.run([
+      const result = (await factory?.read.fundings([
         sponsor,
-        address!,
+        address,
+        address,
         config.COLATERAL_TOKEN,
-      ]);
+      ])) as [bigint, string] | null;
 
       if (!result) {
         throw new Error("Error fetching funding balance!");
       }
 
       // viem wei to eth  of result
-      const ethResult = formatEther(BigInt(result!));
+      const ethResult = formatEther(result[0]);
 
       console.log("Result:", ethResult);
 
