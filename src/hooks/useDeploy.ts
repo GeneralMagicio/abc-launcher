@@ -124,9 +124,9 @@ export const useCollateralBalance = () => {
       console.log("Sponsor:", sponsor);
 
       const result = (await factory?.read.fundings([
-        sponsor,
+        userAddress,
         address,
-        address,
+        userAddress,
         config.COLATERAL_TOKEN,
       ])) as [bigint, string] | null;
 
