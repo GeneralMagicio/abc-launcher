@@ -125,7 +125,7 @@ export const useCollateralBalance = () => {
 
       const result = (await factory?.read.fundings([
         userAddress,
-        address,
+        config.INITIAL_ADMIN || address,
         userAddress,
         config.COLATERAL_TOKEN,
       ])) as [bigint, string] | null;
