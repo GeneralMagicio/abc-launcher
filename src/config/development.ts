@@ -15,13 +15,13 @@ const config: EnvConfig = {
     formula: "0xaAA597779bdbC7D54836FCdDDd38690787d04d6d" as Address,
     reserveRatioForBuying: 125000,
     reserveRatioForSelling: 125000,
-    buyFee: "1000",
-    sellFee: "1000",
+    buyFee: "800",
+    sellFee: "800",
     buyIsOpen: true,
     sellIsOpen: true,
     initialIssuanceSupply: "6400000", // human readable format
     // This will be deposited into the contract
-    initialCollateralSupply: "135000", // human readable format,
+    initialCollateralSupply: "140964.2", // human readable format,
   },
   SCAN_URL: "https://zkevm.polygonscan.com/",
   tokenIssueMaxSupply:
