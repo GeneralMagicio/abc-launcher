@@ -99,7 +99,7 @@ export default function NotWhiteListedPage() {
     const tx = await factory?.write.addFunding([
       address,
       projectAddress!,
-      address, // admin
+      config.INITIAL_ADMIN || address, // admin
       config.COLATERAL_TOKEN,
       collateralAmount.toString(),
     ]);
