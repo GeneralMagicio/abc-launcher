@@ -234,7 +234,7 @@ export const Erc20Abi: Abi = [
   },
 ];
 
-export const mintWrapperAbi = [
+export const MintWrapperAbi: Abi = [
   {
     type: "constructor",
     inputs: [
@@ -463,5 +463,381 @@ export const mintWrapperAbi = [
         internalType: "address",
       },
     ],
+  },
+];
+
+export const RestrictedPIMFactoryv1Abi: Abi = [
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_orchestratorFactory",
+        type: "address",
+      },
+      { internalType: "address", name: "_trustedForwarder", type: "address" },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    inputs: [{ internalType: "address", name: "target", type: "address" }],
+    name: "AddressEmptyCode",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "account", type: "address" }],
+    name: "AddressInsufficientBalance",
+    type: "error",
+  },
+  { inputs: [], name: "FailedInnerCall", type: "error" },
+  { inputs: [], name: "FundingAlreadyAddedByDifferentSponsor", type: "error" },
+  {
+    inputs: [
+      { internalType: "uint256", name: "availableFunding", type: "uint256" },
+    ],
+    name: "InsufficientFunding",
+    type: "error",
+  },
+  { inputs: [], name: "NotAuthorized", type: "error" },
+  {
+    inputs: [{ internalType: "address", name: "token", type: "address" }],
+    name: "SafeERC20FailedOperation",
+    type: "error",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "sponsor",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "deployer",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "beneficiary",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "admin",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "token",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "FundingAdded",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "sponsor",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "deployer",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "beneficiary",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "admin",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "token",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "FundingRemoved",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "orchestrator",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "issuanceToken",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "beneficiary",
+        type: "address",
+      },
+    ],
+    name: "PIMWorkflowCreated",
+    type: "event",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "deployer", type: "address" },
+      { internalType: "address", name: "beneficiary", type: "address" },
+      { internalType: "address", name: "admin", type: "address" },
+      { internalType: "address", name: "token", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "addFunding",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          { internalType: "bool", name: "independentUpdates", type: "bool" },
+          {
+            internalType: "address",
+            name: "independentUpdateAdmin",
+            type: "address",
+          },
+        ],
+        internalType: "struct IOrchestratorFactory_v1.WorkflowConfig",
+        name: "workflowConfig",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "majorVersion",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "minorVersion",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "patchVersion",
+                type: "uint256",
+              },
+              { internalType: "string", name: "url", type: "string" },
+              { internalType: "string", name: "title", type: "string" },
+            ],
+            internalType: "struct IModule_v1.Metadata",
+            name: "metadata",
+            type: "tuple",
+          },
+          { internalType: "bytes", name: "configData", type: "bytes" },
+        ],
+        internalType: "struct IOrchestratorFactory_v1.ModuleConfig",
+        name: "fundingManagerConfig",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "majorVersion",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "minorVersion",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "patchVersion",
+                type: "uint256",
+              },
+              { internalType: "string", name: "url", type: "string" },
+              { internalType: "string", name: "title", type: "string" },
+            ],
+            internalType: "struct IModule_v1.Metadata",
+            name: "metadata",
+            type: "tuple",
+          },
+          { internalType: "bytes", name: "configData", type: "bytes" },
+        ],
+        internalType: "struct IOrchestratorFactory_v1.ModuleConfig",
+        name: "authorizerConfig",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "majorVersion",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "minorVersion",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "patchVersion",
+                type: "uint256",
+              },
+              { internalType: "string", name: "url", type: "string" },
+              { internalType: "string", name: "title", type: "string" },
+            ],
+            internalType: "struct IModule_v1.Metadata",
+            name: "metadata",
+            type: "tuple",
+          },
+          { internalType: "bytes", name: "configData", type: "bytes" },
+        ],
+        internalType: "struct IOrchestratorFactory_v1.ModuleConfig",
+        name: "paymentProcessorConfig",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "majorVersion",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "minorVersion",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "patchVersion",
+                type: "uint256",
+              },
+              { internalType: "string", name: "url", type: "string" },
+              { internalType: "string", name: "title", type: "string" },
+            ],
+            internalType: "struct IModule_v1.Metadata",
+            name: "metadata",
+            type: "tuple",
+          },
+          { internalType: "bytes", name: "configData", type: "bytes" },
+        ],
+        internalType: "struct IOrchestratorFactory_v1.ModuleConfig[]",
+        name: "moduleConfigs",
+        type: "tuple[]",
+      },
+      {
+        components: [
+          { internalType: "string", name: "name", type: "string" },
+          { internalType: "string", name: "symbol", type: "string" },
+          { internalType: "uint8", name: "decimals", type: "uint8" },
+          { internalType: "uint256", name: "maxSupply", type: "uint256" },
+        ],
+        internalType: "struct IBondingCurveBase_v1.IssuanceToken",
+        name: "issuanceTokenParams",
+        type: "tuple",
+      },
+      { internalType: "address", name: "beneficiary", type: "address" },
+    ],
+    name: "createPIMWorkflow",
+    outputs: [
+      { internalType: "contract IOrchestrator_v1", name: "", type: "address" },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "deployer", type: "address" },
+      { internalType: "address", name: "beneficiary", type: "address" },
+      { internalType: "address", name: "admin", type: "address" },
+      { internalType: "address", name: "token", type: "address" },
+    ],
+    name: "fundings",
+    outputs: [
+      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "address", name: "sponsor", type: "address" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "forwarder", type: "address" }],
+    name: "isTrustedForwarder",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "orchestratorFactory",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "trustedForwarder",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "deployer", type: "address" },
+      { internalType: "address", name: "beneficiary", type: "address" },
+      { internalType: "address", name: "admin", type: "address" },
+      { internalType: "address", name: "token", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "withdrawFunding",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
 ];

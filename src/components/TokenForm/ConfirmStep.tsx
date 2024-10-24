@@ -63,7 +63,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
               collateralToken: config.COLATERAL_TOKEN,
             },
             authorizer: {
-              initialAdmin: config.COLATERAL_SUPPLIER || address!,
+              initialAdmin: config.INITIAL_ADMIN || address!,
             },
             issuanceToken: {
               name: formData.tokenName,

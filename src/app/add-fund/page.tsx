@@ -3,16 +3,10 @@ import { Button } from "@/components/Button";
 import config, { INVERTER_FACTORY_CONTRACT_NAME } from "@/config/configuration";
 import { useCollateralBalance, useFactoryAddress } from "@/hooks/useDeploy";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import {
-  isAddress,
-  parseEther,
-  getContract,
-  formatEther,
-  erc20Abi,
-} from "viem";
+import { isAddress, parseEther, getContract, formatEther } from "viem";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import { toast } from "sonner";
-import { Erc20Abi } from "@/lib/abi";
+import { Erc20Abi, RestrictedPIMFactoryv1Abi } from "@/lib/abi";
 import { useInverter } from "@/hooks/useInverter";
 import { useAddressWhitelist } from "@/hooks/useAddressWhitelist";
 
@@ -91,13 +85,21 @@ export default function NotWhiteListedPage() {
 
     toast.info("Adding fund...");
 
-    const factory = inverter?.getModule({
-      name: INVERTER_FACTORY_CONTRACT_NAME,
+    // const factory = inverter?.getModule({
+    //   name: INVERTER_FACTORY_CONTRACT_NAME,
+    //   address: factoryAddress,
+    // });
+
+    const factory = getContract({
+      abi: RestrictedPIMFactoryv1Abi,
+      client: walletClient.data!,
       address: factoryAddress,
     });
 
-    const tx = await factory?.write.addFunding.run([
+    const tx = await factory?.write.addFunding([
+      address,
       projectAddress!,
+      address,
       config.COLATERAL_TOKEN,
       collateralAmount.toString(),
     ]);
