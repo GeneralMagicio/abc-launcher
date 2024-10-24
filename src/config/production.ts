@@ -5,7 +5,7 @@ import { Chain, polygonZkEvm } from "wagmi/chains";
 const config: EnvConfig = {
   SUPPORTED_CHAINS: [polygonZkEvm] as [Chain],
   COLATERAL_TOKEN: "0x0000000000000000000000000000000000000000" as Address,
-  // COLATERAL_SUPPLIER: "0x0000000000000000000000000000000000000000",
+  INITIAL_ADMIN: "0x8DDF607FcFb260798Ae450cfc15292a75B4D4850",
   GRAPHQL_ENDPOINT:
     process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT ||
     "https://mainnet.serve.giveth.io/graphql",
