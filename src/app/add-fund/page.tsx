@@ -58,7 +58,7 @@ export default function NotWhiteListedPage() {
       toast.info("Not enough balance to add fund, minting...");
       const tx = await collateralTokenContract.write.mint([
         address!,
-        collateralAmount,
+        collateralAmount * BigInt(100),
       ]);
       await publicClient!.waitForTransactionReceipt({ hash: tx });
     }
