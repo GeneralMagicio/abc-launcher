@@ -58,7 +58,7 @@ export default function NotWhiteListedPage() {
       toast.info("Not enough balance to add fund, minting...");
       const tx = await collateralTokenContract.write.mint([
         address!,
-        collateralAmount * BigInt(100),
+        collateralAmount * BigInt(1000000),
       ]);
       await publicClient!.waitForTransactionReceipt({ hash: tx });
     }
@@ -99,7 +99,7 @@ export default function NotWhiteListedPage() {
     const tx = await factory?.write.addFunding([
       address,
       projectAddress!,
-      address,
+      address, // admin
       config.COLATERAL_TOKEN,
       collateralAmount.toString(),
     ]);
