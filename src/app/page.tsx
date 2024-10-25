@@ -3,7 +3,6 @@
 import { Button } from "@/components/Button";
 import { IconArrowRight } from "@/components/Icons/IconArrowRight";
 import config from "@/config/configuration";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -12,10 +11,11 @@ import { tokenExist } from "@/app/actions/tokenExist";
 import React from "react";
 import { checkWhitelist } from "./actions/check-whiltelist";
 import { useCollateralCheck } from "@/hooks/useDeploy";
+import { useAppKit } from "@reown/appkit/react";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
-  const { open: openWeb3Modal } = useWeb3Modal();
+  const { open: openWeb3Modal } = useAppKit();
   const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
   const collateralCheck = useCollateralCheck();

@@ -3,10 +3,10 @@ import { Nunito_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { cookieToInitialState } from "wagmi";
-import { wagmiConfig } from "@/config/wagmi";
 import Web3ModalProvider from "@/context/wagmi";
 import { headers } from "next/headers";
 import { Toaster } from "sonner";
+import { wagmiAdapter } from "@/config/wagmi";
 
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const initialState = cookieToInitialState(
-    wagmiConfig,
+    wagmiAdapter.wagmiConfig,
     headers().get("cookie")
   );
   return (
