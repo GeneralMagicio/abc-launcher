@@ -86,14 +86,14 @@ const SuccessStep: React.FC<{}> = () => {
           ))}
         </div>
         <div className="mx-auto py-4">
-          <Link
+          {/* <Link
             href={config.gotToDashboardLink}
             className="font-bold text-xs border-none rounded-full py-4 px-10 flex gap-2 text-white bg-pink-500 hover:opacity-85"
             target="_blank"
           >
             <span>Go to My Dashboard</span>
             <IconArrowRight size={16} />
-          </Link>
+          </Link> */}
         </div>
       </div>
     </section>
