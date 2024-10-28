@@ -82,7 +82,7 @@ export const TERMS_AND_CONDITIONS_HTML = `
       By using the Technology, you acknowledge and agree, that:
       <ul style="list-style-type: circle; padding-left: 20px;">
         <li>We are not responsible for the operation of the blockchain-based software and networks underlying the Technology;</li>
-        <li>There exists no guarantee of the functionality, security, or availability of that software and networks; and</li>
+        <li>that there exists no guarantee of the functionality, security, or availability of that software and networks, and</li>
         <li>The underlying blockchain-based networks are subject to sudden changes in operating rules, such as those commonly referred to as “forks,” which may materially affect the Technology.</li>
       </ul>
     </li>
