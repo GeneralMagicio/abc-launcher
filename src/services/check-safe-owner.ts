@@ -1,6 +1,6 @@
+import { wagmiAdapter } from "@/config/wagmi";
 import { Abi, Address, isAddress } from "viem";
 import { readContract } from "wagmi/actions";
-import { wagmiConfig } from "@/config/wagmi";
 
 // Safe Contract ABI (only the getOwners function)
 const SAFE_ABI = [
@@ -28,7 +28,7 @@ export async function isSafeOwner(
     return "Owner address is not provided";
   }
   try {
-    const owners = (await readContract(wagmiConfig, {
+    const owners = (await readContract(wagmiAdapter.wagmiConfig, {
       abi: SAFE_ABI,
       address: safeAddress,
       functionName: "getOwners",
