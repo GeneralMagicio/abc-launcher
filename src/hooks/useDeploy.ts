@@ -120,9 +120,6 @@ export const useCollateralBalance = () => {
         address: fa!,
       });
 
-      const sponsor = config.COLATERAL_SUPPLIER || userAddress!;
-      console.log("Sponsor:", sponsor);
-
       const result = (await factory?.read.fundings([
         userAddress,
         address,

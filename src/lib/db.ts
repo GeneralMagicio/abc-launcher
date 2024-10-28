@@ -16,5 +16,5 @@ export async function connectToMongo() {
 
 export async function getMongoDB(): Promise<mongoDB.Db> {
   const client = await connectToMongo();
-  return client.db("abc-launcher");
+  return client.db(process.env.MONGODB_DB_NAME || "abc-launcher");
 }
