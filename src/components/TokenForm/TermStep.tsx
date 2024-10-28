@@ -2,7 +2,11 @@ import React from "react";
 import StepNavigation from "./StepNavigation";
 import { useTokenFormContext } from "./TokenFormContext";
 import { FormProvider, useForm } from "react-hook-form";
-import { TERMS_AND_CONDITIONS, MessageType } from "@/constants/signAndSubmit";
+import {
+  TERMS_AND_CONDITIONS_HTML,
+  TERMS_AND_CONDITIONS_TEXT,
+  MessageType,
+} from "@/constants/signAndSubmit";
 import { useSignAndSubmit } from "@/hooks/useSignAndSubmit";
 import { toast } from "sonner";
 import { SignMessageErrorType } from "viem";
@@ -31,7 +35,7 @@ const TermsStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     try {
       const res = await signAndSubmit.mutateAsync(
         {
-          message: stripHTMLTags(TERMS_AND_CONDITIONS),
+          message: TERMS_AND_CONDITIONS_TEXT,
           type: MessageType.TermsAndConditions,
         },
         {
@@ -67,7 +71,7 @@ const TermsStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           </h1>
           <div
             className="max-h-64 pr-4 overflow-x-hidden overflow-y-auto text-justify"
-            dangerouslySetInnerHTML={{ __html: TERMS_AND_CONDITIONS }}
+            dangerouslySetInnerHTML={{ __html: TERMS_AND_CONDITIONS_HTML }}
           />
         </section>
         <StepNavigation

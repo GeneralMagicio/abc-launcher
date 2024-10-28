@@ -1,7 +1,8 @@
-import { TERMS_AND_CONDITIONS_HTML } from "./termsText";
+export {
+  TERMS_AND_CONDITIONS_HTML,
+  TERMS_AND_CONDITIONS_TEXT,
+} from "./termsText";
 import { POLICY_STATEMENT_HTML } from "./privacyText";
-
-export const TERMS_AND_CONDITIONS = TERMS_AND_CONDITIONS_HTML;
 
 export const POLICY_STATEMENT = POLICY_STATEMENT_HTML;
 
