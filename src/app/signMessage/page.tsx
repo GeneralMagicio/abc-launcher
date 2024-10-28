@@ -1,5 +1,5 @@
 "use client";
-import { TERMS_AND_CONDITIONS } from "@/constants/signAndSubmit";
+import { TERMS_AND_CONDITIONS_TEXT } from "@/constants/signAndSubmit";
 import { useSignAndSubmit } from "@/hooks/useSignAndSubmit";
 import React from "react";
 
@@ -7,7 +7,7 @@ export default function SignMessage() {
   const { signAndSubmit } = useSignAndSubmit();
   const haneleSignMessage = async () => {
     const res = await signAndSubmit.mutateAsync({
-      message: TERMS_AND_CONDITIONS,
+      message: TERMS_AND_CONDITIONS_TEXT,
       type: "terms",
     });
     console.log(res);
