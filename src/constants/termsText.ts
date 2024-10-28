@@ -1,6 +1,4 @@
 export const TERMS_AND_CONDITIONS_HTML = `
-  <p class="mb-4">Date: 10/27/2024<br>Status: Final version, ready for prod</p>
-  <h1 class="font-bold text-xl mb-4 text-center">ABC Launcher dApp<br>Terms and Conditions</h1>
   <p class="mb-4">
     These Terms and Conditions govern the access and use of the ABC Launcher dApp <strong>“abclauncher.giveth.io”</strong> developed by Giveth Association (“Association”, “We”, “Our” or “Us”), an association organized and existing under the laws of Zug, Switzerland, and other Services that the Association provides to the Project (“User”, or “You”). 
   </p>
