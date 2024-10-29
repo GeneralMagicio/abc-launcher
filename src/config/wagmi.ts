@@ -5,7 +5,7 @@ import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
 // Your WalletConnect Cloud project ID
 // export const projectId = "cea85f2edebb693e0443973f37e23153";
 
-export const projectId = "92d26d6f099b694e1df95f1dfdaf5914";
+export const projectId = process.env.WALLET_CONNECT_PROJECT_ID as string;
 
 // Create a metadata object
 export const metadata = {
