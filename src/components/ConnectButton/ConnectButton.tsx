@@ -1,14 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import { useAppKit } from "@reown/appkit/react";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { fetchUserInfo } from "./service";
 import type { Address } from "viem";
 import Image from "next/image";
 
 export const ConnectButton: React.FC = () => {
   const [user, setUser] = useState<IUser>();
-  const { open } = useAppKit();
+  const { open } = useWeb3Modal();
   const { address, isConnecting, chain } = useAccount();
 
   useEffect(() => {

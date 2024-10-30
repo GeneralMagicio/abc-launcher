@@ -6,7 +6,7 @@ import { cookieToInitialState } from "wagmi";
 import Web3ModalProvider from "@/context/wagmi";
 import { headers } from "next/headers";
 import { Toaster } from "sonner";
-import { wagmiAdapter } from "@/config/wagmi";
+import { wagmiConfig } from "@/config/wagmi";
 
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const initialState = cookieToInitialState(
-    wagmiAdapter.wagmiConfig,
+    wagmiConfig,
     headers().get("cookie")
   );
   return (
