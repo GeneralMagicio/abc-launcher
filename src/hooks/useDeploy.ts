@@ -5,7 +5,7 @@ import { RequestedModules } from "@inverter-network/sdk";
 import { useInverter } from "./useInverter";
 import { toast } from "sonner";
 import { UserArgs } from "@/types/inverter";
-import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+import { useAccount, usePublicClient } from "wagmi";
 import { Address, formatEther, getContract, PublicClient } from "viem";
 import config, {
   INVERTER_FACTORY_CONTRACT_NAME,
@@ -99,7 +99,6 @@ export const useDeploy = () => {
 export const useCollateralBalance = () => {
   const inverter = useInverter();
   const { address: userAddress } = useAccount();
-  const { data: walletClient } = useWalletClient();
   // const { data: addrssWhitelist } = useAddressWhitelist();
 
   const factoryAddress = useFactoryAddress();
@@ -117,7 +116,7 @@ export const useCollateralBalance = () => {
 
       const factory = getContract({
         abi: RestrictedPIMFactoryv1Abi,
-        client: walletClient!,
+        client: inverter?.publicClient!,
         address: fa!,
       });
 
