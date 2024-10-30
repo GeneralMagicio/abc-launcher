@@ -11,11 +11,11 @@ import { tokenExist } from "@/app/actions/tokenExist";
 import React from "react";
 import { checkWhitelist } from "./actions/check-whiltelist";
 import { useCollateralCheck } from "@/hooks/useDeploy";
-import { useAppKit } from "@reown/appkit/react";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
-  const { open: openWeb3Modal } = useAppKit();
+  const { open: openWeb3Modal } = useWeb3Modal();
   const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
   const collateralCheck = useCollateralCheck();
