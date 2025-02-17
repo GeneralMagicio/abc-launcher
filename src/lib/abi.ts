@@ -489,6 +489,7 @@ export const RestrictedPIMFactoryv1Abi: Abi = [
     name: "AddressInsufficientBalance",
     type: "error",
   },
+  { inputs: [], name: "FactoryNotActive", type: "error" },
   { inputs: [], name: "FailedInnerCall", type: "error" },
   { inputs: [], name: "FundingAlreadyAddedByDifferentSponsor", type: "error" },
   {
@@ -500,9 +501,27 @@ export const RestrictedPIMFactoryv1Abi: Abi = [
   },
   { inputs: [], name: "NotAuthorized", type: "error" },
   {
+    inputs: [{ internalType: "address", name: "owner", type: "address" }],
+    name: "OwnableInvalidOwner",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "account", type: "address" }],
+    name: "OwnableUnauthorizedAccount",
+    type: "error",
+  },
+  {
     inputs: [{ internalType: "address", name: "token", type: "address" }],
     name: "SafeERC20FailedOperation",
     type: "error",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: "bool", name: "isActive", type: "bool" },
+    ],
+    name: "FactorySetActive",
+    type: "event",
   },
   {
     anonymous: false,
@@ -588,6 +607,25 @@ export const RestrictedPIMFactoryv1Abi: Abi = [
       },
     ],
     name: "FundingRemoved",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
     type: "event",
   },
   {
@@ -798,11 +836,28 @@ export const RestrictedPIMFactoryv1Abi: Abi = [
       { internalType: "address", name: "admin", type: "address" },
       { internalType: "address", name: "token", type: "address" },
     ],
-    name: "fundings",
-    outputs: [
-      { internalType: "uint256", name: "amount", type: "uint256" },
+    name: "getFundingAmount",
+    outputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "deployer", type: "address" },
+      { internalType: "address", name: "beneficiary", type: "address" },
+      { internalType: "address", name: "admin", type: "address" },
+      { internalType: "address", name: "token", type: "address" },
       { internalType: "address", name: "sponsor", type: "address" },
     ],
+    name: "getFundingSponsorship",
+    outputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "isActive",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
@@ -818,6 +873,34 @@ export const RestrictedPIMFactoryv1Abi: Abi = [
     name: "orchestratorFactory",
     outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bool", name: "_isActive", type: "bool" }],
+    name: "setActive",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
