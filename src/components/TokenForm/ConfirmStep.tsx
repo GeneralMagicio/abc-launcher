@@ -149,11 +149,11 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     //   value: formData.projectAddress,
     //   type: InfoType.LINK,
     // },
-    {
-      label: "NFT Address",
-      value: formData.nftContractAddress as Address,
-      type: InfoType.LINK,
-    },
+    // {
+    //   label: "NFT Address",
+    //   value: formData.nftContractAddress as Address,
+    //   type: InfoType.LINK,
+    // },
   ];
 
   return (
@@ -199,7 +199,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           </div>
         </section>
         <StepNavigation
-          currentStep={5}
+          currentStep={4}
           totalSteps={5}
           onBack={onBack}
           nextLabel="Launch my token"

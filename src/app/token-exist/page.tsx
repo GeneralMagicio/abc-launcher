@@ -60,11 +60,11 @@ export default function TokenExistPage() {
       value: tokenData?.issuanceTokenAddress as Address,
       type: InfoType.LINK,
     },
-    {
-      label: "NFT Address",
-      value: tokenData?.nftContractAddress as Address,
-      type: InfoType.LINK,
-    },
+    // {
+    //   label: "NFT Address",
+    //   value: tokenData?.nftContractAddress as Address,
+    //   type: InfoType.LINK,
+    // },
   ];
 
   useEffect(() => {
