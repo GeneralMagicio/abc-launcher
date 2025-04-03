@@ -25,7 +25,7 @@ const config: EnvConfig = {
   SCAN_URL: "https://polygonscan.com/",
   tokenIssueMaxSupply:
     "115792089237316195423570985008687907853269984665640564039457.584007913129639935",
-  gotToDashboardLink: "https://q-acc.vercel.app/create",
+  gotToDashboardLink: "https://q-acc.vercel.app/create/profile",
 };
 
 export default config;
