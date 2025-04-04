@@ -46,11 +46,12 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     }
   }, [projectAddress]);
 
-  const handleDrop = (file: File, ipfsHash: string) => {
-    if (file) {
-      setValue("tokenIcon", { file, ipfsHash });
-    }
-  };
+  // const handleDrop = (file: File, ipfsHash: string) => {
+  //   if (file) {
+  //     setValue("tokenIcon", { file, ipfsHash });
+  //   }
+  // };
+  const handleDrop = (name: string, file: File, ipfsHash: string) => {};
 
   const onSubmit = (data: FormData) => {
     setFormData(data);
