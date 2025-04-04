@@ -104,7 +104,13 @@ const TokenInfoStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           <label className="text-4xl font-bold text-gray-800 text-center mb-7">
             Upload Token Icon
           </label>
-          <Dropzone name="icon" onDrop={handleDrop} />
+          <Dropzone
+            name="icon"
+            onDrop={handleDrop}
+            rules={{
+              required: "Token Icon is required",
+            }}
+          />
         </section>
 
         {/* <section className="flex flex-col gap-4 w-2/4 mx-auto">
