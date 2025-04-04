@@ -30,7 +30,7 @@ const SuccessStep: React.FC<{}> = () => {
     },
     {
       label: "Token Icon",
-      value: formData.tokenIcon?.ipfsHash || "",
+      value: formData.icon || "",
       type: InfoType.IPFS_IMAGE,
     },
     // {

@@ -21,6 +21,7 @@ interface TokenData {
   projectAddress: string;
   nftContractAddress: Address;
   issuanceTokenAddress: Address;
+  icon?: string;
 }
 
 export default function TokenExistPage() {
@@ -78,6 +79,7 @@ export default function TokenExistPage() {
             projectAddress: project.projectAddress,
             nftContractAddress: project.nftContractAddress,
             issuanceTokenAddress: project.issuanceTokenAddress,
+            icon: project.iconHash,
           };
           setTokenData(tokenData);
         }

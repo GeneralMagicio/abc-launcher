@@ -26,7 +26,12 @@ const InfoItem: React.FC<InfoItemProps> = ({ label, value, type }) => {
       </div>
       {type === InfoType.IMAGE ? (
         <div className="flex items-center gap-4">
-          <Image src={value} alt="token icon" width={32} height={32} />
+          <Image
+            src={getIpfsAddress(value)}
+            alt="token icon"
+            width={32}
+            height={32}
+          />
         </div>
       ) : type === InfoType.IPFS_IMAGE ? (
         <div className="flex items-center gap-4">

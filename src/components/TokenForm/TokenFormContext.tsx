@@ -12,6 +12,7 @@ interface FormData {
   issuanceTokenAddress?: Address;
   nftContractAddress?: Address;
   policyAcceptTime?: Date;
+  icon?: string;
 }
 
 interface TokenFormContextType {
