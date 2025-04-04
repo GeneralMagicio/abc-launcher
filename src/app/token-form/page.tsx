@@ -41,7 +41,13 @@ export default function TokenFormPage() {
     });
   };
   const handleBack = () => {
-    setStep((prevStep) => prevStep - 1);
+    setStep((prevStep) => {
+      if (prevStep === FormSteps.Confirm) {
+        return FormSteps.Policy; // Skip NFTDeployment and go directly to Policy
+      }
+      return prevStep - 1;
+    });
+    // setStep((prevStep) => prevStep - 1);
   };
 
   const handleSubmit = () => {
