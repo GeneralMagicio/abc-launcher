@@ -53,7 +53,7 @@ export const Dropzone: FC<DropzoneProps> = ({ name, rules, onDrop }) => {
       if (ipfsHash) {
         onDrop(name, file, ipfsHash);
         setIpfsHash(ipfsHash);
-        setValue(name, getIpfsAddress(ipfsHash), { shouldValidate: true }); // Set value and trigger validation
+        setValue(name, ipfsHash, { shouldValidate: true }); // Set value and trigger validation
       }
     },
     [onDrop, setValue, name]
@@ -100,7 +100,7 @@ export const Dropzone: FC<DropzoneProps> = ({ name, rules, onDrop }) => {
     <div className="flex flex-col gap-6">
       <div className="py-14 border-[1px] border-dashed border-giv-500 p-4 rounded-2xl text-center bg-gray-100 text-gray-400 cursor-pointer">
         <img
-          src={formValue}
+          src={getIpfsAddress(formValue)}
           alt="Selected Image"
           className="block mb-4 mx-auto"
         />

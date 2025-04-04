@@ -103,7 +103,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
       const res = await addProject({
         tokenName: formData.tokenName,
         tokenTicker: formData.tokenTicker,
-        iconHash: formData.tokenIcon?.ipfsHash || "",
+        iconHash: formData.icon || "",
         projectAddress: formData.projectAddress,
         transactionHash: transactionHash,
         orchestratorAddress: orchestratorAddress,
@@ -141,7 +141,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     },
     {
       label: "Token Icon",
-      value: formData.tokenIcon?.ipfsHash || "",
+      value: formData.icon || "",
       type: InfoType.IPFS_IMAGE,
     },
     // {
