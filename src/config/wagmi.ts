@@ -12,7 +12,7 @@ export const projectId = process.env
 export const metadata = {
   name: "qacc",
   description: "AppKit Example",
-  url: "https://web3modal.com", // origin must match your domain & subdomain
+  url: "https://abclauncher.giveth.io/", // origin must match your domain & subdomain
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
