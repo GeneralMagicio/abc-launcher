@@ -103,7 +103,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
       const res = await addProject({
         tokenName: formData.tokenName,
         tokenTicker: formData.tokenTicker,
-        iconHash: formData.tokenIcon?.ipfsHash || "",
+        iconHash: formData.icon || "",
         projectAddress: formData.projectAddress,
         transactionHash: transactionHash,
         orchestratorAddress: orchestratorAddress,
@@ -141,7 +141,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     },
     {
       label: "Token Icon",
-      value: formData.tokenIcon?.ipfsHash || "",
+      value: formData.icon || "",
       type: InfoType.IPFS_IMAGE,
     },
     // {
@@ -149,11 +149,11 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
     //   value: formData.projectAddress,
     //   type: InfoType.LINK,
     // },
-    {
-      label: "NFT Address",
-      value: formData.nftContractAddress as Address,
-      type: InfoType.LINK,
-    },
+    // {
+    //   label: "NFT Address",
+    //   value: formData.nftContractAddress as Address,
+    //   type: InfoType.LINK,
+    // },
   ];
 
   return (
@@ -199,7 +199,7 @@ const ConfirmStep: React.FC<{ onNext: () => void; onBack: () => void }> = ({
           </div>
         </section>
         <StepNavigation
-          currentStep={5}
+          currentStep={4}
           totalSteps={5}
           onBack={onBack}
           nextLabel="Launch my token"

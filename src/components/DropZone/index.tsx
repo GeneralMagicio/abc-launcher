@@ -1,17 +1,20 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
+"use client";
+
+import { useCallback, useEffect, useState, useRef, FC } from "react";
 import { useDropzone } from "react-dropzone";
 import { useFormContext, RegisterOptions } from "react-hook-form";
-import { uploadToIPFS } from "./service";
 import axios from "axios";
 import { IconX } from "../Icons/IconX";
+import { getIpfsAddress } from "@/helpers/image";
+import { uploadToIPFS } from "./service";
 
 interface DropzoneProps {
-  onDrop: (acceptedFile: File, ipfsHash: string) => void;
+  onDrop: (name: string, acceptedFile: File, ipfsHash: string) => void;
   name: string;
   rules?: RegisterOptions;
 }
 
-export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
+export const Dropzone: FC<DropzoneProps> = ({ name, rules, onDrop }) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [ipfsHash, setIpfsHash] = useState<string | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
@@ -19,7 +22,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const { register, setValue, trigger } = useFormContext();
+  const { register, setValue, trigger, watch } = useFormContext();
 
   const onDropCallback = useCallback(
     async (acceptedFiles: File[]) => {
@@ -48,7 +51,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
       abortControllerRef.current = null;
 
       if (ipfsHash) {
-        onDrop(file, ipfsHash);
+        onDrop(name, file, ipfsHash);
         setIpfsHash(ipfsHash);
         setValue(name, ipfsHash, { shouldValidate: true }); // Set value and trigger validation
       }
@@ -68,11 +71,11 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
   const deleteUploadedImage = async () => {
     if (ipfsHash) {
       try {
-        await axios.delete("/api/ipfs", { data: { ipfsHash } });
         setUploadProgress(0);
         setSelectedImage(null);
         setIpfsHash(null);
         setIsLoading(false);
+        await axios.delete("/api/ipfs", { data: { ipfsHash } });
       } catch (error) {
         console.error("Error deleting from IPFS", error);
       }
@@ -91,7 +94,43 @@ export const Dropzone: React.FC<DropzoneProps> = ({ name, rules, onDrop }) => {
     trigger(name);
   }, [selectedImage, trigger, name, ipfsHash, isLoading]);
 
-  return (
+  const formValue = watch(name);
+
+  return formValue ? (
+    <div className="flex flex-col gap-6">
+      <div className="py-14 border-[1px] border-dashed border-giv-500 p-4 rounded-2xl text-center bg-gray-100 text-gray-400 cursor-pointer">
+        <img
+          src={getIpfsAddress(formValue)}
+          alt="Selected Image"
+          className="block mb-4 mx-auto"
+        />
+      </div>
+      <div className="flex flex-col gap-1">
+        <div className="flex justify-between overflow-hidden max-w-full">
+          <p className="text-xs text-nowrap max-w-full overflow-hidden text-ellipsis">
+            Uploaded
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setValue(name, null);
+              setSelectedImage(null);
+            }}
+            className="px-2 text-xs text-pink-500 rounded border-none flex gap-1 items-center"
+          >
+            <IconX size={8} />
+            <span>Delete</span>
+          </button>
+        </div>
+        <div className="relative w-full bg-gray-200 h-2 rounded-lg overflow-hidden mb-4">
+          <div
+            className="absolute top-0 left-0 h-full bg-giv-500 transition-all"
+            style={{ width: `${100}%` }}
+          ></div>
+        </div>
+      </div>
+    </div>
+  ) : (
     <>
       <div
         {...getRootProps()}

@@ -120,23 +120,21 @@ export const useCollateralBalance = () => {
         address: fa!,
       });
 
-      const result = (await factory?.read.fundings([
+      const result = (await factory?.read.getFundingAmount([
         userAddress,
         address,
         config.INITIAL_ADMIN || userAddress,
         config.COLATERAL_TOKEN,
-      ])) as [bigint, string] | null;
+      ])) as bigint | null;
 
-      if (!result) {
-        throw new Error("Error fetching funding balance!");
+      if (result) {
+        const ethResult = formatEther(result);
+
+        console.log("Result:", ethResult);
+
+        return +ethResult;
       }
-
-      // viem wei to eth  of result
-      const ethResult = formatEther(result[0]);
-
-      console.log("Result:", ethResult);
-
-      return +ethResult;
+      return 0;
     },
   });
 };

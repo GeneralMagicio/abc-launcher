@@ -21,6 +21,7 @@ interface TokenData {
   projectAddress: string;
   nftContractAddress: Address;
   issuanceTokenAddress: Address;
+  icon?: string;
 }
 
 export default function TokenExistPage() {
@@ -60,11 +61,11 @@ export default function TokenExistPage() {
       value: tokenData?.issuanceTokenAddress as Address,
       type: InfoType.LINK,
     },
-    {
-      label: "NFT Address",
-      value: tokenData?.nftContractAddress as Address,
-      type: InfoType.LINK,
-    },
+    // {
+    //   label: "NFT Address",
+    //   value: tokenData?.nftContractAddress as Address,
+    //   type: InfoType.LINK,
+    // },
   ];
 
   useEffect(() => {
@@ -78,6 +79,7 @@ export default function TokenExistPage() {
             projectAddress: project.projectAddress,
             nftContractAddress: project.nftContractAddress,
             issuanceTokenAddress: project.issuanceTokenAddress,
+            icon: project.iconHash,
           };
           setTokenData(tokenData);
         }
@@ -123,16 +125,16 @@ export default function TokenExistPage() {
                       />
                     ))}
                   </div>
-                  {/* <div className="mx-auto py-4">
+                  <div className="mx-auto py-4">
                     <Link
                       href={config.gotToDashboardLink}
                       className="font-bold text-xs border-none rounded-full py-4 px-10 flex gap-2 text-white bg-pink-500 hover:opacity-85"
                       target="_blank"
                     >
-                      <span>Go to My Dashboard</span>
+                      <span>Create q/acc account</span>
                       <IconArrowRight size={16} />
                     </Link>
-                  </div> */}
+                  </div>
                 </div>
               </section>
             </div>
