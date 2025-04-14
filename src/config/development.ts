@@ -20,7 +20,7 @@ const config: EnvConfig = {
     sellIsOpen: true,
     initialIssuanceSupply: "6400000", // human readable format
     // This will be deposited into the contract
-    initialCollateralSupply: "274420", // human readable format,
+    initialCollateralSupply: "250000", // human readable format,
   },
   SCAN_URL: "https://polygonscan.com/",
   tokenIssueMaxSupply:
