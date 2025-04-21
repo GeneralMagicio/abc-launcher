@@ -119,11 +119,11 @@ export const POLICY_STATEMENT_HTML = `
   </ul>
   <h3 class="font-medium text-lg mb-4">REQUESTS AND COMPLAINTS</h3>
   <ul style="list-style-type: initial; padding-left: 20px; margin-bottom: 1rem;">
-    <li>If you have complaints about how we process your personal information, please contact us at qacc@giveth.io and we will respond to your request as soon as possible.</li>
+    <li>If you have complaints about how we process your personal information, please contact us at info@qacc.xyz and we will respond to your request as soon as possible.</li>
     <li>If you think we have infringed data protection laws, you may file a claim with the data protection supervisory authority in the EEA country of your residence.</li>
   </ul>
   <h2 class="font-bold text-lg mb-4">CONTACT US</h2>
   <p class="mb-4">
-    For further information on the collection, use, disclosure, transfer or processing of personal information or the exercise of any of the rights listed above, please contact us by sending an email to qacc@giveth.io. 
+    For further information on the collection, use, disclosure, transfer or processing of personal information or the exercise of any of the rights listed above, please contact us by sending an email to info@qacc.xyz. 
   </p>
 `;

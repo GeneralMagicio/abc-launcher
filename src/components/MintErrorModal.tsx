@@ -14,10 +14,10 @@ export const MintErrorModal: FC<MintErrorModalProps> = (props) => {
           <p>
             Try again, and if there are still issues, please contact{" "}
             <Link
-              href="mailto:qacc@giveth.io"
+              href="mailto:info@qacc.xyz"
               className="text-pink-600 hover:opacity-85"
             >
-              qacc@giveth.io.
+              info@qacc.xyz.
             </Link>
           </p>
         </div>
