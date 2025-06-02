@@ -133,44 +133,8 @@ src/
 
 ## Sequence Diagram
 
-> **Rendered Diagram:**
 >
-> ![Main User Flow](public/diagram.png)
->
-> _(To update: Paste the Mermaid code below into [Mermaid Live Editor](https://mermaid.live/), download the image, and place it at `public/diagram.png`)_
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant UI
-    participant Wallet
-    participant ServerActions
-    participant Blockchain
-    participant IPFS
-
-    User->>UI: Visit Landing Page
-    UI->>Wallet: Prompt Connect Wallet
-    Wallet-->>UI: Address, Chain Info
-    UI->>ServerActions: checkWhitelist(address)
-    ServerActions-->>UI: Whitelist Info
-    alt Not Whitelisted
-        UI->>User: Show Not Whitelisted Page
-    else Whitelisted
-        UI->>ServerActions: tokenExist(address)
-        ServerActions-->>UI: Token Exists?
-        alt Token Exists
-            UI->>User: Redirect to Token Exist Page
-        else No Token
-            UI->>User: Show Token Launch Wizard
-            User->>UI: Fill Token Info, Terms, Policy
-            UI->>Blockchain: Deploy NFT, Token
-            Blockchain-->>UI: Deployment Success/Fail
-            UI->>IPFS: Upload Metadata
-            IPFS-->>UI: IPFS Hash
-            UI->>User: Show Success Page
-        end
-    end
-```
+![mermaid-ai-diagram-2025-06-02-141603](https://github.com/user-attachments/assets/3dc08930-ba54-4751-a6d4-8bca2ca9fa4e)
 
 ---
 
